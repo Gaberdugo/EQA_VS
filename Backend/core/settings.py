@@ -209,7 +209,3 @@ DJOSER = {
 
 AUTH_USER_MODEL = 'user.UserAccount'
 
-CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_DEV')
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEV')
-
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
