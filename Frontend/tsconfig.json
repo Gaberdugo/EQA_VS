@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "baseUrl": "Frontend/src",
+      "baseUrl": "src",
       "lib": [
         "dom",
         "dom.iterable",
