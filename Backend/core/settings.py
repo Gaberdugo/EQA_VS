@@ -14,13 +14,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = '=vug*sxidc^$f13!_u78)p6cs&k$ud#c4dzl#li4*@j@3-ya62'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = 'RENDER' not in os.environ
-DEBUG = os.environ.get('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS_DEV')
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -75,12 +75,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000'
+]
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'build')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -98,41 +102,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-DATABASES = {
-    'default': {
-        'ENGINE':   'django.db.backends.postgresql_psycopg2',
-        'NAME':     'db_vs',
-        'USER':     'postgres',
-        'PASSWORD': 'abc123',
-        'HOST':     'localhost',
-        'PORT':     '5432',
-    }
-}
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'miappdb',
-        'USER': 'miappuser',
-        'PASSWORD': 'miapppassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-"""
-DATABASES = {
-    'default': env.db("DATABASE_URL")
-}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -171,7 +147,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR/'staticfiles'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -237,43 +213,3 @@ CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_DEV')
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEV')
 
 EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
-
-
-if not DEBUG:
-    ALLOWED_HOSTS=env.list('ALLOWED_HOSTS_DEPLOY')
-    CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_DEPLOY')
-    CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_DEPLOY')
-
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'miappdb',
-        'USER': 'miappuser',
-        'PASSWORD': 'miapppassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        }
-    }   
-
-    """
-    AWS_QUERYSTRING_AUTH = False
-
-    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
-
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com'
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age-86400'}
-    AWS_DEFAULT_ACL = 'public-read'
-
-    STATIC_LOCATION = 'static'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s2boto3.S3Boto3Storage'
-
-    PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'core.storage_backends.MediaStorage'
-
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    """
