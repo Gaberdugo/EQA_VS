@@ -1,0 +1,24 @@
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+    padding-top: 28px; /* Espacio en la parte superior */
+    color: white; /* Color del texto */
+    background-color: #1a1a1a; /* Fondo oscuro para contraste */
+    text-align: center; /* Centra el texto */
+}
+
+.error-title {
+    font-size: 3rem; /* Tamaño de fuente para el título */
+    font-weight: bold; /* Negrita para el título */
+}
+
+.error-subtitle {
+    font-size: 2rem; /* Tamaño de fuente para el subtítulo */
+}
+
+.error-message {
+    font-size: 1.25rem; /* Tamaño de fuente para el mensaje */
+}

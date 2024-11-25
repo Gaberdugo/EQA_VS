@@ -1,0 +1,97 @@
+/* Contenedor principal del formulario de inicio de sesión */
+.login-container {
+    max-width: 400px; /* Ancho máximo del contenedor */
+    margin: 50px auto; /* Margen superior de 50px y centrado horizontal */
+    padding: 20px; /* Espaciado interno del contenedor */
+    border: 2px solid #ddd; /* Borde gris claro */
+    border-radius: 8px; /* Esquinas redondeadas */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+    background-color: #F8F8F8; /* Fondo blanco */
+}
+
+/* Estilo del título del formulario */
+.login-title {
+    text-align: center; /* Centra el texto */
+    margin-bottom: 20px; /* Espaciado debajo del título */
+    color: #666666 ; /* Color del texto */
+}
+
+/* Grupo de formularios para el espaciado entre campos */
+.form-group {
+    margin-bottom: 15px; /* Espaciado inferior entre grupos */
+}
+
+/* Estilo de las etiquetas de los campos */
+label {
+    display: block; /* Hace que la etiqueta ocupe toda la línea */
+    margin-bottom: 5px; /* Espaciado debajo de la etiqueta */
+    font-weight: bold; /* Texto en negrita */
+    color: #555; /* Color del texto de la etiqueta */
+}
+
+/* Estilo de los campos de entrada */
+.form-input {
+    width: 100%; /* Ancho completo del campo */
+    padding: 10px; /* Espaciado interno del campo */
+    border: 1px solid #ddd; /* Borde gris claro */
+    border-radius: 4px; /* Esquinas redondeadas */
+    font-size: 14px; /* Tamaño de fuente */
+}
+
+/* Estilo al enfocar el campo de entrada */
+.form-input:focus {
+    border-color: #6c63ff; /* Cambia el color del borde al enfocarse */
+    outline: none; /* Quita el contorno predeterminado del navegador */
+}
+
+/* Estilo del botón de inicio de sesión */
+.login-button {
+    width: 100%; /* Ancho completo del botón */
+    padding: 10px; /* Espaciado interno del botón */
+    background-color: #A4D7B2; /* Color de fondo del botón */
+    color: white; /* Color del texto en blanco */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Esquinas redondeadas */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
+
+/* Estilo del botón al pasar el mouse */
+.login-button:hover {
+    background-color: #1B8830; /* Cambia el color de fondo al pasar el mouse */
+}
+
+/* Estilo para el mensaje de error */
+.error-message {
+    color: red; /* Color del texto en rojo */
+    text-align: center; /* Centra el texto */
+    margin-bottom: 10px; /* Espaciado debajo del mensaje */
+}
+
+/* Estilo del botón de regreso a la página de inicio */
+.home-button {
+    display: block; /* Hace que el botón ocupe toda la línea */
+    margin-top: 20px; /* Margen superior de 20px */
+    text-align: center; /* Centra el texto dentro del botón */
+    padding: 10px; /* Espaciado interno del botón */
+    background-color: #d0d0d0; /* Color de fondo del botón */
+    color: #333; /* Color del texto */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    border-radius: 4px; /* Esquinas redondeadas */
+    transition: background-color 0.3s; /* Transición suave para el cambio de color */
+}
+
+/* Estilo del botón de regreso al pasar el mouse */
+.home-button:hover {
+    background-color: #666666; /* Cambia el color de fondo al pasar el mouse */
+    color: #d0d0d0
+}
+
+
+h1 {
+    font-weight: bold; /* Pone el texto en negrita */
+    font-size: 2rem; /* Ajusta el tamaño de fuente (puedes cambiarlo según tu preferencia) */
+    line-height: 1.2; /* Mejora la legibilidad ajustando la altura de línea */
+    color: #000; /* Color del texto */
+    margin-bottom: 20px; /* Espaciado debajo del h1 */
+}
