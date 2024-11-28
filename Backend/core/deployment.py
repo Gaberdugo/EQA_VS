@@ -1,6 +1,9 @@
 import os
-from .settings import *
-from .settings import BASE_DIR
+try:
+    from .settings import *
+    from .settings import BASE_DIR
+except:
+    print('Errores raros xd')
 
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
