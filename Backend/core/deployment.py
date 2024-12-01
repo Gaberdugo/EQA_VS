@@ -1,9 +1,7 @@
 import os
-try:
-    from .settings import *
-    from .settings import BASE_DIR
-except:
-    print('Errores raros xd')
+from .settings import *
+from .settings import BASE_DIR
+
 
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME'], 'eqa-vs.azurewebsites.net']
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
@@ -46,4 +44,4 @@ DATABASES = {
     }
 }
 
-#STATIC_ROOT = BASE_DIR/'staticfiles'
+STATIC_ROOT = BASE_DIR/'staticfiles'
