@@ -24,29 +24,23 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          cd Backend
           python -m venv venv
           source venv/bin/activate
       
       - name: Install dependencies
-        run: |
-          cd Backend
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: |
-          cd Backend
-          zip release.zip ./* -r
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            Backend/release.zip
+            release.zip
             !venv/
 
   deploy:
@@ -72,4 +66,4 @@ jobs:
         with:
           app-name: 'EQA-VS'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7C7D98AF33C147AA9C4D9A08629315FB }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E303CECA1F6049448C9B381DD661A4E1 }}
