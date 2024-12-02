@@ -29,7 +29,7 @@
         "react-locomotive-scroll": "^0.2.2",
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.4.3",
-        "react-scripts": "5.0.1",
+        "react-scripts": "^3.0.1",
         "react-scroll": "^1.8.8",
         "react-simple-typewriter": "^4.0.5",
         "react-spinners": "^0.13.6",
@@ -47,15 +47,6 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ],
-        "rules": {
-            "no-unused-expressions": "off"
-        }
-    },
     "browserslist": {
         "production": [
             ">0.2%",
@@ -70,6 +61,10 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-        "tailwindcss": "^3.4.14"
+        "react-scripts": "5.0.0",
+        "tailwindcss": "^3.4.14",
+        "webpack": "^5.96.1",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.1.0"
     }
 }

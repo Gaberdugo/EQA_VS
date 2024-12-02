@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import Layout2 from "hocs/Layouts/Layout2";
@@ -80,18 +80,6 @@ function AdminDigi() {
     borderRadius: "5px",
     transition: "border-color 0.3s",
     fontSize: "16px",
-  };
-
-  const buttonStyle = {
-    width: "100%",
-    padding: "10px",
-    backgroundColor: "#007bff",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontSize: "16px",
-    transition: "background-color 0.3s",
   };
 
   const alertStyle = (type) => ({

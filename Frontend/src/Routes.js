@@ -1,4 +1,4 @@
-import { BrowserRouter as Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 import Error404 from 'containers/errors/Error404';

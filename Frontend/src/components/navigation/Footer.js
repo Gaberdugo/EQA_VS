@@ -67,7 +67,7 @@ const navigation = {
 function Footer(){
     return (
         <footer className="bg-[#F8F8F8]" aria-labelledby="footer-heading">
-            <h2 id="footer-heading" className="sr-only"/>
+            <div id="footer-heading" className="sr-only"/>
             <div className="mx-auto max-w-full py-8 px-4 sm:px-6 lg:py-12 lg:px-8">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8 xl:col-span-1">
