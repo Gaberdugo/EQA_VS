@@ -72,13 +72,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-"""
+
 CORS_ALLOWED_ORIGINS = [
-    '*'
+    'https://witty-pebble-02fdbd70f.4.azurestaticapps.net/'
 ]
 """
-
 CORS_ALLOWED_ALL_ORIGINS = True
+"""
 
 ROOT_URLCONF = 'core.urls'
 
