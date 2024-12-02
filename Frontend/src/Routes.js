@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 import Error404 from 'containers/errors/Error404';
@@ -28,14 +28,14 @@ function AnimatedRoutes() {
         <AuthProvider>
             <AnimatePresence>
                 <Routes location={location} key={location.pathname}>
-                    // Cualquier otra ruta        
+                    {/* Cualquier otra ruta */}         
                     <Route path="*" element={<Error404 />} />
                     
-                    // Ruta de inicio y de login 
+                    {/* Ruta de inicio y de login */}
                     <Route path="/" element={<Home />} />
                     <Route path='/login' element={<Login />} />
                     
-                    // Rutas prohibidas
+                    {/* Rutas prohibidas */} 
                     <Route
                         path="/admin"
                         element={
