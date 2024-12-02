@@ -39,7 +39,7 @@ function AdminDigi() {
       });
       setMessage("Usuario creado exitosamente.");
       
-      res;
+      console.log(res);
 
       setFormData({
         email: "",
