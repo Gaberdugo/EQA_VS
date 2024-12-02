@@ -38,6 +38,9 @@ function AdminDigi() {
         },
       });
       setMessage("Usuario creado exitosamente.");
+      
+      res;
+
       setFormData({
         email: "",
         first_name: "",
@@ -79,11 +82,6 @@ function AdminDigi() {
     fontSize: "16px",
   };
 
-  const inputFocusStyle = {
-    ...inputStyle,
-    borderColor: "#007bff",
-  };
-
   const buttonStyle = {
     width: "100%",
     padding: "10px",
@@ -94,11 +92,6 @@ function AdminDigi() {
     cursor: "pointer",
     fontSize: "16px",
     transition: "background-color 0.3s",
-  };
-
-  const buttonHoverStyle = {
-    ...buttonStyle,
-    backgroundColor: "#0056b3",
   };
 
   const alertStyle = (type) => ({

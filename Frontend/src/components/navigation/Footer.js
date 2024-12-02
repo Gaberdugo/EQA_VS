@@ -1,4 +1,3 @@
-import { connect } from "react-redux"
 import logo from '../../assets/img/LogoFundacionTerpel.png'
 
 const navigation = {
