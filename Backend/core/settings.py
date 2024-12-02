@@ -5,7 +5,6 @@ from datetime import timedelta
 env = environ.Env()
 environ.Env.read_env()
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -72,7 +71,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000'
+    'https://witty-pebble-02fdbd70f.4.azurestaticapps.net'
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -104,12 +103,28 @@ WSGI_APPLICATION = 'core.wsgi.application'
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}"""
+}
 
 DATABASES = {
     'default': env.db("DATABASE_URL")
 }
 DATABASES["default"]["ATOMIC_REQUEST"] = True
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # Motor para PostgreSQL
+        'NAME': 'eqa-vs-database',                 # Nombre de la base de datos
+        'USER': 'nyatpsbuep@eqa-vs-server',        # Usuario (incluye @ y el nombre del servidor)
+        'PASSWORD': '2024visoadfa*',               # Contraseña del usuario
+        'HOST': 'eqa-vs-server.postgres.database.azure.com',  # Dirección del servidor
+        'PORT': '5432',                            # Puerto predeterminado para PostgreSQL
+        'OPTIONS': {
+            'sslmode': 'require'                   # Obligatorio para conexiones seguras con Azure
+        }
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
