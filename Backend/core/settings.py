@@ -115,8 +115,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',  # Motor para PostgreSQL
         'NAME': 'eqa-vs-database',                 # Nombre de la base de datos
-        'USER': 'nyatpsbuep@eqa-vs-server',        # Usuario (incluye @ y el nombre del servidor)
-        'PASSWORD': '2024visoadfa*',               # Contraseña del usuario
+        'USER': 'nyatpsbuep',        # Usuario (incluye @ y el nombre del servidor)
+        'PASSWORD': 'abcd1234.',               # Contraseña del usuario
         'HOST': 'eqa-vs-server.postgres.database.azure.com',  # Dirección del servidor
         'PORT': '5432',                            # Puerto predeterminado para PostgreSQL
         'OPTIONS': {
