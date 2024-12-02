@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+
 import Error404 from 'containers/errors/Error404';
+
 import Home from 'containers/pages/Home';
 import AdminPage from 'containers/pages/AdminPage';
 import AdminDigi from 'containers/pages/AdminDigi';
@@ -14,6 +16,7 @@ import ReportPage from 'containers/pages/ReportPage';
 import PruebaPage from 'containers/pages/PruebaPage';
 import ValDigi from 'containers/pages/ValDigi';
 import ValDelete from 'containers/pages/valDelete';
+
 import PrivateRoute from './components/PrivateRoute';
 import { AnimatePresence } from 'framer-motion';
 
