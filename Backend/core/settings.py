@@ -74,7 +74,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000','https://witty-pebble-02fdbd70f.4.azurestaticapps.net/'
+    '*'
 ]
 
 ROOT_URLCONF = 'core.urls'
