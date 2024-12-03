@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '=vug*sxidc^$f13!_u78)p6cs&k$ud#c4dzl#li4*@j@3-ya62'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -128,6 +128,7 @@ DATABASES = {
 
 CSRF_TRUSTED_ORIGINS = [
     'https://eqa-vs.azurewebsites.net',
+    'https://witty-pebble-02fdbd70f.4.azurestaticapps.net',
 ]
 
 
@@ -174,6 +175,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Archivos de medios (para archivos subidos)
 """
@@ -230,4 +233,3 @@ DJOSER = {
 }
 
 AUTH_USER_MODEL = 'user.UserAccount'
-
