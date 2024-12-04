@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import Layout4 from "hocs/Layouts/Layout4";
-import { connect } from "react-redux";
 import axios from "axios";
 
 function ValDelete() {
   const [mensaje, setMensaje] = useState("");
   const [pk, setPk] = useState(""); // Almacena el ID de la encuesta a eliminar
   const [loading, setLoading] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false); // Estado para confirmar la eliminación
 
   // Función para manejar la eliminación
   const eliminarEncuesta = async () => {
@@ -16,39 +14,40 @@ function ValDelete() {
       return;
     }
 
-    // Si no se ha confirmado la eliminación, preguntar
-    if (!confirmDelete) {
-      const confirm = window.confirm(
-        "¿Estás seguro de que deseas eliminar esta encuesta?"
-      );
-      if (!confirm) {
-        setPk(""); // Limpiar el ID si se cancela
-        setMensaje(""); // Limpiar el mensaje
-        return;
-      }
-      setConfirmDelete(true); // Confirmar que se puede eliminar
+    // Preguntar al usuario si desea confirmar
+    const confirm = window.confirm(
+      "¿Estás seguro de que deseas eliminar esta encuesta?"
+    );
+    if (!confirm) {
+      setMensaje("Eliminación cancelada.");
       return;
     }
 
     setLoading(true); // Mostrar el estado de carga mientras se procesa la solicitud
+    setMensaje(""); // Limpiar mensajes anteriores
 
     try {
       const res = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/res/encuesta/${pk}/`
+        `${process.env.REACT_APP_API_URL}/eliminar/${pk}/`
       );
+      // Mostrar el mensaje devuelto por Django
       if (res.status === 204) {
-        setMensaje("Encuesta eliminada con éxito.");
+        setMensaje("Encuesta eliminada con éxito."); // Mensaje estático como fallback
       } else {
-        setMensaje("Ocurrió un error al eliminar la encuesta.");
+        const data = res.data;
+        setMensaje(data.message || "Encuesta eliminada con éxito.");
       }
     } catch (err) {
-      if (err.response && err.response.status === 404) {
-        setMensaje("Encuesta no encontrada.");
+      // Manejar errores
+      if (err.response) {
+        const data = err.response.data;
+        setMensaje(data.detail || "Ocurrió un error al eliminar la encuesta.");
       } else {
         setMensaje("Error de conexión o servidor.");
       }
     } finally {
       setLoading(false); // Detener el estado de carga
+      setPk(""); // Limpiar el ID después del proceso
     }
   };
 
@@ -121,6 +120,4 @@ function ValDelete() {
   );
 }
 
-const mapStateToProps = (state) => ({});
-
-export default connect(mapStateToProps, {})(ValDelete);
+export default ValDelete;
