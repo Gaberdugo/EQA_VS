@@ -72,15 +72,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'https://witty-pebble-02fdbd70f.4.azurestaticapps.net',
-    "https://eqa-vs.azurewebsites.net",
+    '*',
 ]
 
-CORS_ALLOWED_HEADERS = [
-    'content-type',
-    'authorization',
-    'x-requested-with',
-]
 
 ROOT_URLCONF = 'core.urls'
 
