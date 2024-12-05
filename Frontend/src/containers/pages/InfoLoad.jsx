@@ -403,10 +403,10 @@ function InfoLoad({
                           style={{ width: '100%' }}
                         >
                           <option value="">Seleccione</option>
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                          <option value="C">C</option>
-                          <option value="D">D</option>
+                          <option value="A">A.</option>
+                          <option value="B">B.</option>
+                          <option value="C">C.</option>
+                          <option value="D">D.</option>
                           <option value="Blanco">Blanco</option>
                           <option value="Multi Marca">Multi Marca</option>
                         </select>
