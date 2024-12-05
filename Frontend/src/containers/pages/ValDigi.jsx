@@ -165,9 +165,10 @@ function ValDigi() {
               {encuestas.map((encuesta) => (
                 <li key={encuesta.id} style={encuestaItemStyle}>
                   <strong>ID:</strong> {encuesta.id} -{" "}
+                  <strong>Proyecto:</strong> {encuesta.nombre} -{" "}
                   <strong>Estudiante:</strong> {encuesta.nombre_estudiante} -{" "}
-                  <strong>Institución:</strong> {encuesta.nombre_institucion} -{" "}
-                  <strong>Fecha:</strong> {encuesta.fecha}
+                  <strong>Fecha:</strong> {encuesta.fecha} -{" "}
+                  <strong>Cuadernillo:</strong> {encuesta.numero_cuadernillo}
 
                   {/* Mostrar las respuestas */}
                   <div>
