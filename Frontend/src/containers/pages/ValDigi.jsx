@@ -165,6 +165,8 @@ function ValDigi() {
                   <strong>ID:</strong> {encuesta.id} -{" "}
                   <strong>Proyecto:</strong> {encuesta.nombre} -{" "}
                   <strong>Estudiante:</strong> {encuesta.nombre_estudiante} -{" "}
+                  <strong>Genero:</strong> {encuesta.genero} -{" "}
+                  <strong>Curso:</strong> {encuesta.grado} -{" "}
                   <strong>Fecha:</strong> {encuesta.fecha} -{" "}
                   <strong>Cuadernillo:</strong> {encuesta.numero_cuadernillo}
 

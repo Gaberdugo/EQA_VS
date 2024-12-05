@@ -79,7 +79,7 @@ function InfoLoad({
     const fields = [
       'nombreProyecto', 'ciudad', 'departamento', 'fechaAplicacion',
       'apli', 'prueba', 'nombreInstitucion', 'numeroCuadernillo',
-      'nombreEstudiante', 'grado', 'genero', 'edad'
+      'nombreEstudiante', 'grado', 'genero'
     ];
 
     // Verificar que todos los campos de texto estén llenos
