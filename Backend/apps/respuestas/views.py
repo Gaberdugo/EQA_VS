@@ -59,7 +59,9 @@ class EncuestaView(APIView):
         respuesta['responsable'] = request.data['responsable']
 
         # Modulo para calcular la edad
-        if int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) < 0:
+        if len(request.data['edad']) == 0:
+            edad = -1
+        elif int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) < 0:
             edad = int(request.data['fecha'].split('-')[0]) - int(request.data['edad'].split('-')[0]) - 1
         elif int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) == 0:
             if int(request.data['fecha'].split('-')[2]) - int(request.data['edad'].split('-')[2]) < 0:
@@ -105,6 +107,8 @@ class EncuestaExportView(APIView):
         for encuesta in encuestas:
             try:
                 data.append({
+                    'ID': encuesta.id,
+                    'Digitador': encuesta.responsable,
                     'Proyecto': encuesta.nombre,
                     'Fecha': encuesta.fecha,
                     'Ciudad': encuesta.ciudad,
