@@ -79,7 +79,7 @@ function InfoLoad({
     const fields = [
       'nombreProyecto', 'ciudad', 'departamento', 'fechaAplicacion',
       'apli', 'prueba', 'nombreInstitucion', 'numeroCuadernillo',
-      'nombreEstudiante', 'grado', 'genero', 'edad', 'tiEstudiante'
+      'nombreEstudiante', 'grado', 'genero', 'edad'
     ];
 
     // Verificar que todos los campos de texto estén llenos
@@ -141,7 +141,7 @@ function InfoLoad({
     const correo = localStorage.getItem('correo');
     // Crear un objeto con todos los datos del formulario, incluyendo las respuestas
     formData.tiEstudiante = Math.floor(Math.random() * 10_000_000_001).toString();
-    
+
     const proyectoData = {
       responsable: correo,
       nombre: formData.nombreProyecto,
