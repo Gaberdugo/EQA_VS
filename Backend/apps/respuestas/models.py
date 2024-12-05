@@ -25,6 +25,7 @@ class Encuesta(models.Model):
     grado = models.CharField(max_length=50)  # Grado
     edad = models.IntegerField()  # Edad
     genero = models.CharField(max_length=255, null=True, blank=True) # Genero
+    fecha_cargue = models.CharField(max_length=100)
 
     # Respuestas (20 respuestas)
     respuesta_1 = models.CharField(max_length=20, choices=OPCIONES_RESPUESTA, blank=True, null=True)
