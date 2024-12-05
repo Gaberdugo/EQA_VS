@@ -318,12 +318,24 @@ class CuadernillosNombresAPIView(APIView):
         return Response(nombres)
 
 class EncuestaDeleteView(APIView):
-    permission_classes = [AllowAny]
-    def delete(self, request, pk):
-        # Buscar el objeto por ID (o por otra clave única)
+    permission_classes = [AllowAny]  # Ajusta según tus necesidades
+
+    def post(self, request):
+        # Verificar que se envió el ID en los datos
+        pk = request.data.get("id")
+        if not pk:
+            return Response(
+                {"error": "ID de la encuesta es obligatorio."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Buscar y eliminar la encuesta
         encuesta = get_object_or_404(Encuesta, pk=pk)
         encuesta.delete()
-        return Response({"message": "Encuesta eliminada con éxito."}, status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"message": "Encuesta eliminada con éxito."},
+            status=status.HTTP_204_NO_CONTENT
+        )
 
 class EncuestasResponsableView(APIView):
     permission_classes = [AllowAny]
