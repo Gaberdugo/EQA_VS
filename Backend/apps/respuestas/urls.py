@@ -8,6 +8,6 @@ urlpatterns = [
     path('respuesta/aleatoria/', EncuestaAleatoriaView.as_view(), name='encuesta-aleatoria'),
     path("preguntas/", PreguntaView.as_view(), name="preguntas"),
     path('cuader/', CuadernillosNombresAPIView.as_view(), name='cuadernillos-nombres'),
-    path('eliminar/<int:pk>/', EncuestaDeleteView.as_view(), name='elimina-pregunta'),
+    path('eliminar/', EncuestaDeleteView.as_view(), name='elimina-pregunta'),
     path('responsable/', EncuestasResponsableView.as_view(), name='responsable-preguntas')
 ]
