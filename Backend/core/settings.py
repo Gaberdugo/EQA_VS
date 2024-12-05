@@ -16,10 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '=vug*sxidc^$f13!_u78)p6cs&k$ud#c4dzl#li4*@j@3-ya62'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -130,6 +129,7 @@ DATABASES = {
 CSRF_TRUSTED_ORIGINS = [
     'https://eqa-vs.azurewebsites.net',
     'https://witty-pebble-02fdbd70f.4.azurestaticapps.net',
+    '*',
 ]
 
 
