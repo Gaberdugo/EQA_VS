@@ -27,8 +27,14 @@ function ValDelete() {
     setMensaje(""); // Limpiar mensajes anteriores
 
     try {
-      const res = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/eliminar/${pk}/`
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/res/eliminar/`,
+        { id: pk }, // Pasar el ID en el cuerpo de la solicitud
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
       // Mostrar el mensaje devuelto por Django
       if (res.status === 204) {
