@@ -14,6 +14,7 @@ class Encuesta2Serializer(serializers.ModelSerializer):
             'nombre_estudiante',
             'nombre_institucion',
             'fecha',
+            'numero_cuadernillo',
             'respuesta_1',
             'respuesta_2',
             'respuesta_3',
