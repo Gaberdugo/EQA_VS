@@ -11,7 +11,7 @@ class Encuesta2Serializer(serializers.ModelSerializer):
         model = Encuesta
         fields = [
             'id',
-            'nombre'
+            'nombre',
             'nombre_estudiante',
             'fecha',
             'numero_cuadernillo',
