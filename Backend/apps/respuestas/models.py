@@ -21,7 +21,7 @@ class Encuesta(models.Model):
     nombre_institucion = models.CharField(max_length=255)  # Nombre de la institución
     numero_cuadernillo = models.CharField(max_length=50)  # Número de cuadernillo
     nombre_estudiante = models.CharField(max_length=255)  # Nombre del estudiante
-    documento_estudiante = models.CharField(max_length=20, unique=True, null=True, blank=True)  # Documento de identidad del estudiante
+    documento_estudiante = models.CharField(max_length=20, null=True, blank=True)  # Documento de identidad del estudiante
     grado = models.CharField(max_length=50)  # Grado
     edad = models.IntegerField()  # Edad
     genero = models.CharField(max_length=255, null=True, blank=True) # Genero
