@@ -130,7 +130,6 @@ DATABASES = {
 CSRF_TRUSTED_ORIGINS = [
     'https://eqa-vs.azurewebsites.net',
     'https://witty-pebble-02fdbd70f.4.azurestaticapps.net',
-    '*',
 ]
 
 
