@@ -22,6 +22,7 @@ function InfoLoad({
     grado: '',
     genero: '',  // Cambié 'sexo' por 'genero'
     edad: '',
+    fechacargue: '',
     respuestas: Array(20).fill(''), // Respuestas independientes
   });
 
@@ -79,7 +80,7 @@ function InfoLoad({
     const fields = [
       'nombreProyecto', 'ciudad', 'departamento', 'fechaAplicacion',
       'apli', 'prueba', 'nombreInstitucion', 'numeroCuadernillo',
-      'nombreEstudiante', 'grado', 'genero', 'edad', 'tiEstudiante'
+      'nombreEstudiante', 'grado', 'genero', 'edad'
     ];
 
     // Verificar que todos los campos de texto estén llenos
@@ -139,6 +140,7 @@ function InfoLoad({
     });
 
     const correo = localStorage.getItem('correo');
+    const fechaCargue = new Date().toISOString();
     // Crear un objeto con todos los datos del formulario, incluyendo las respuestas
     const proyectoData = {
       responsable: correo,
@@ -154,7 +156,8 @@ function InfoLoad({
       documento_estudiante: formData.tiEstudiante,
       grado: formData.grado,
       edad: formData.edad,
-      genero: formData.genero,  // Usamos 'genero' en lugar de 'sexo'
+      genero: formData.genero,
+      fecha_cargue: fechaCargue, // Agregar fecha de cargue 
       ...respuestasObj,
     };
 
