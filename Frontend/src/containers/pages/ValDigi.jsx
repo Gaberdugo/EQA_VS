@@ -24,7 +24,7 @@ function ValDigi() {
     }
   };
 
-  // Función para obtener encuestas del digitador seleccionado (por email o responsable)
+  // Función para obtener las digitaciones del digitador seleccionado (por email o responsable)
   const fetchEncuestas = async (responsable) => {
     setLoadingEncuestas(true);
     try {
@@ -32,6 +32,7 @@ function ValDigi() {
         `${process.env.REACT_APP_API_URL}/res/responsable/?responsable=${responsable}`
       );
       setEncuestas(Array.isArray(res.data) ? res.data : []); // Asegura que sea un arreglo
+      console.log(res.data)
     } catch (err) {
       alert("Error al cargar encuestas: " + err.response?.data?.error);
       setEncuestas([]); // Reinicia a un arreglo vacío en caso de error
@@ -48,13 +49,10 @@ function ValDigi() {
     const selectedEmail = e.target.value; // Obtén el email directamente desde el value del select
     setSelectedDigitador(selectedEmail);  // Establece el email seleccionado como el valor de selectedDigitador
 
-    console.log(selectedEmail);  // Verifica si el email seleccionado es el esperado
-
     if (selectedEmail) {
       // Encuentra el digitador seleccionado por email
       const selected = digitadores.find((d) => d.email === selectedEmail);
       const email = selected ? selected.email : "";
-      console.log(email);  // Verifica si el correo está siendo encontrado
       setSelectedEmail(email);
     } else {
       setSelectedEmail("");
