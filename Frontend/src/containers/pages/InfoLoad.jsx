@@ -62,6 +62,20 @@ function InfoLoad({
     fetchCuadernillos();
   }, [getProyectos]);
 
+  function formatDateToSQL(isoString) {
+    const date = new Date(isoString);
+  
+    // Obtenemos los componentes de la fecha
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+  
+    // Construimos el formato deseado
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
   // Este useEffect se activa cuando el nombre del proyecto cambia
   useEffect(() => {
     if (formData.nombreProyecto) {
@@ -133,7 +147,8 @@ function InfoLoad({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const fechaActual = new Date();
+    const isoDate = new Date();
+    const formattedDate = formatDateToSQL(isoDate);
 
     // Crear un objeto para almacenar las respuestas transformadas
     const respuestasObj = {};
@@ -160,11 +175,9 @@ function InfoLoad({
       grado: formData.grado,
       edad: formData.edad,
       genero: formData.genero,
-      fecha_cargue: fechaActual.toISOString(),
+      fecha_cargue: formattedDate,
       ...respuestasObj,
     };
-
-    console.log('Datos al Backend', proyectoData);
 
     // Enviar los datos al backend
     postProyecto(proyectoData)
