@@ -162,7 +162,7 @@ function InfoLoad({
       grado: formData.grado,
       edad: formData.edad,
       genero: formData.genero,
-      fecha_carge: fechaActual.toISOString(),
+      fecha_cargue: fechaActual.toISOString(),
       ...respuestasObj,
     };
 
