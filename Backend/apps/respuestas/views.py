@@ -35,6 +35,9 @@ class EncuestaView(APIView):
             if k[:3] == 'res':
                 res.append(v)
             
+            if k == 'fecha_cargue':
+                respuesta['fecha_cargue'] = v+" Hola es un intento "
+
             respuesta[k] = v
 
         val = [0]
