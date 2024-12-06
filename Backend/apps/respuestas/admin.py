@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua, CuadernilloLengua
 
 class EncuestaAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'responsable', 'documento_estudiante']
+    list_display = ['nombre', 'ciudad', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'responsable', 'documento_estudiante']
     search_fields = ['nombre_estudiante', 'nombre_institucion', 'ciudad', 'aplicacion', 'prueba']
-    list_filter = ['nombre', 'nombre_estudiante', 'aplicacion', 'prueba', 'fecha', 'ciudad', 'grado', 'numero_cuadernillo', 'responsable', 'documento_estudiante']
+    list_filter = ['nombre', 'nombre_institucion', 'ciudad', 'grado', 'numero_cuadernillo', 'responsable']
 
     # Personalización de campos, solo como ejemplo
     fields = ['nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'prueba', 'responsable', 'documento_estudiante']
