@@ -397,6 +397,7 @@ function InfoLoad({
             <input
               type="date"
               name="edad"
+              placeholder="DD-MM-YYYY"
               value={formData.edad}
               onChange={handleChange}
               onInput={(e) => {
@@ -431,7 +432,7 @@ function InfoLoad({
                           <option value="">Seleccione</option>
                           <option value="A">A.</option>
                           <option value="B">B.</option>
-                          <option value="C">C.</option>
+                          <option value="C">c</option>
                           <option value="D">D.</option>
                           <option value="Blanco">Blanco</option>
                           <option value="Multi Marca">Multi Marca</option>
