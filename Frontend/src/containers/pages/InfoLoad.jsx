@@ -397,7 +397,6 @@ function InfoLoad({
             <input
               type="date"
               name="edad"
-              placeholder="DD-MM-YYYY"
               value={formData.edad}
               onChange={handleChange}
               onInput={(e) => {
