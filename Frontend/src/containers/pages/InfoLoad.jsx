@@ -20,8 +20,9 @@ function InfoLoad({
     nombreEstudiante: '',
     tiEstudiante: '',
     grado: '',
-    genero: '',  // Cambié 'sexo' por 'genero'
+    genero: '', 
     edad: '',
+    fecha_carge: '',
     respuestas: Array(20).fill(''), // Respuestas independientes
   });
 
@@ -132,6 +133,8 @@ function InfoLoad({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const fechaActual = new Date();
+
     // Crear un objeto para almacenar las respuestas transformadas
     const respuestasObj = {};
     formData.respuestas.forEach((respuesta, index) => {
@@ -156,7 +159,8 @@ function InfoLoad({
       documento_estudiante: formData.tiEstudiante,
       grado: formData.grado,
       edad: formData.edad,
-      genero: formData.genero,  // Usamos 'genero' en lugar de 'sexo'
+      genero: formData.genero,
+      fecha_carge: fechaActual.toISOString(),
       ...respuestasObj,
     };
 
@@ -373,16 +377,23 @@ function InfoLoad({
               <option value="No responde">No responde</option>
             </select>
           </label>
-            <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              Fecha de nacimiento:
-              <input
-                type="date"
-                name="edad"
-                value={formData.edad}
-                onChange={handleChange}
-                style={{ flex: '1' }}
-              />
-            </label>
+          <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            Fecha de nacimiento:
+            <input
+              type="date"
+              name="edad"
+              value={formData.edad}
+              onChange={handleChange}
+              onInput={(e) => {
+                const input = e.target.value;
+                const year = input.split("-")[0]; // Extrae el año
+                if (year.length > 4) {
+                  e.target.value = input.slice(0, 4) + input.slice(5); // Limita el año a 4 caracteres
+                }
+              }}
+              style={{ flex: '1' }}
+            />
+          </label>
         </div>
 
         <h2 style={{ color: '#B3B3B3' }}>Respuestas</h2>
