@@ -145,8 +145,6 @@ function InfoLoad({
     // Crear un objeto con todos los datos del formulario, incluyendo las respuestas
     formData.tiEstudiante = Math.floor(Math.random() * 10_000_000_001).toString();
 
-    console.log(fechaActual.toISOString());
-
     const proyectoData = {
       responsable: correo,
       nombre: formData.nombreProyecto,
@@ -165,6 +163,8 @@ function InfoLoad({
       fecha_cargue: fechaActual.toISOString(),
       ...respuestasObj,
     };
+
+    console.log('Datos al Backend', proyectoData);
 
     // Enviar los datos al backend
     postProyecto(proyectoData)

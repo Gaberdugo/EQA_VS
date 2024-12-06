@@ -6,7 +6,6 @@ export const POST_PROYECTO_FAILURE = 'POST_PROYECTO_FAILURE';
 
 // Acción para hacer POST a la base de datos
 export const postProyecto = (proyectoData) => async dispatch => {
-  console.log('hola');
   // Inicia el estado de carga
   dispatch({ type: POST_PROYECTO_REQUEST });
 
