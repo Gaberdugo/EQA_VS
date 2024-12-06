@@ -109,6 +109,7 @@ class EncuestaExportView(APIView):
                 data.append({
                     'ID': encuesta.id,
                     'Digitador': encuesta.responsable,
+                    'Cargado': encuesta.fecha_cargue,
                     'Proyecto': encuesta.nombre,
                     'Fecha': encuesta.fecha,
                     'Ciudad': encuesta.ciudad,
