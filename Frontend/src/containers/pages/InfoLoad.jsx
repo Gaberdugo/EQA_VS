@@ -150,6 +150,8 @@ function InfoLoad({
     const isoDate = new Date();
     const formattedDate = formatDateToSQL(isoDate);
 
+    console.log(formattedDate);
+
     // Crear un objeto para almacenar las respuestas transformadas
     const respuestasObj = {};
     formData.respuestas.forEach((respuesta, index) => {
