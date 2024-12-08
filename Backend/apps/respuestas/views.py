@@ -37,8 +37,8 @@ class EncuestaView(APIView):
             
             if k == 'fecha_cargue':
                 respuesta['fecha_cargue'] = v+" Hola es un intento "
-
-            respuesta[k] = v
+            else:
+                respuesta[k] = v
 
         val = [0]
 
