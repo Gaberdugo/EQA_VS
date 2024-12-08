@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Encuesta, CuadernilloMate, CuadernilloLengua
-from .serializers import EncuestaSerializer, CuadernilloMateSerializer, PreguntaMateSerializer, PreguntaLenguaSerializer, CuadernilloNombreSerializer, Encuesta2Serializer
+from .serializers import EncuestaSerializer, CuadernilloMateSerializer, PreguntaMateSerializer, PreguntaLenguaSerializer, Encuesta2Serializer
 from rest_framework.permissions import AllowAny
 
 class EncuestaView(APIView):
@@ -356,3 +356,35 @@ class EncuestasResponsableView(APIView):
             return Response(serializer.data)
         else:
             return Response({"error": "Responsable no proporcionado"}, status=400)
+
+class ObtenerEncuestaAPIView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+    def get(self, request, pk):
+        try:
+            encuesta = Encuesta.objects.get(pk=pk)
+            serializer = EncuestaSerializer(encuesta)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Encuesta.DoesNotExist:
+            return Response({"detail": "Encuesta no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+
+class ModificarEncuestaAPIView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+    def post(self, request):
+        data = request.data
+        pk = data.get('id')  # ID de la encuesta
+        datos_modificados = data.get('datos')  # Datos modificados
+
+        if not pk or not datos_modificados:
+            return Response({"detail": "ID y datos son requeridos."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            encuesta = Encuesta.objects.get(pk=pk)
+        except Encuesta.DoesNotExist:
+            return Response({"detail": "Encuesta no encontrada."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Actualizar la encuesta con los nuevos datos
+        serializer = EncuestaSerializer(encuesta, data=datos_modificados, partial=True)  # Partial permite actualizar campos específicos
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Encuesta modificada con éxito."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
