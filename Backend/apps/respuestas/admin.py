@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua, CuadernilloLengua
 
 class EncuestaAdmin(admin.ModelAdmin):
-    list_display = ['nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'responsable', 'documento_estudiante']
+    list_display = ['nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'documento_estudiante', 'responsable', 'fecha_cargue']
     search_fields = ['nombre_estudiante', 'nombre_institucion', 'ciudad', 'aplicacion', 'prueba']
     list_filter = ['nombre', 'nombre_institucion', 'ciudad', 'grado', 'numero_cuadernillo', 'responsable']
 
