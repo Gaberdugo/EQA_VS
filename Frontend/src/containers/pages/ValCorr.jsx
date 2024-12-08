@@ -107,6 +107,15 @@ function ValCorr() {
     color: mensaje.includes("éxito") ? "green" : "red",
   };
 
+  const formContainerStyle = {
+    maxHeight: "400px", // Altura máxima del contenedor
+    overflowY: "auto", // Habilitar scroll vertical
+    padding: "10px",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+    backgroundColor: "#ffffff",
+  };
+
   return (
     <Layout4>
       <div style={containerStyle}>
@@ -132,22 +141,29 @@ function ValCorr() {
 
         {/* Mostrar y Editar Encuesta */}
         {datos && (
-          <form>
-            {Object.keys(datos).map((key) => (
-              <div key={key} style={{ marginBottom: "10px" }}>
-                <label htmlFor={key}>{key}:</label>
-                <input
-                  type="text"
-                  id={key}
-                  name={key}
-                  value={datos[key] || ""}
-                  onChange={handleChange}
-                  style={inputStyle}
-                />
-              </div>
-            ))}
+          <div style={formContainerStyle}>
+            <form>
+              {Object.keys(datos).map((key) => (
+                <div key={key} style={{ marginBottom: "10px" }}>
+                  <label htmlFor={key}>{key}:</label>
+                  <input
+                    type="text"
+                    id={key}
+                    name={key}
+                    value={datos[key] || ""}
+                    onChange={handleChange}
+                    style={inputStyle}
+                  />
+                </div>
+              ))}
+            </form>
+          </div>
+        )}
+
+        {/* Botones de acción */}
+        {datos && (
+          <div style={{ marginTop: "20px" }}>
             <button
-              type="button"
               onClick={guardarCambios}
               style={buttonStyle}
               disabled={loading}
@@ -155,13 +171,12 @@ function ValCorr() {
               {loading ? "Guardando..." : "Guardar Cambios"}
             </button>
             <button
-              type="button"
               onClick={() => setDatos(null)} // Resetear el estado
               style={{ ...buttonStyle, backgroundColor: "#f44336", marginLeft: "10px" }}
             >
               Cancelar
             </button>
-          </form>
+          </div>
         )}
 
         {/* Mensaje de estado */}
