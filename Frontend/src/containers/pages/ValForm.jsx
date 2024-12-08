@@ -1,10 +1,10 @@
-import Layout3 from "hocs/Layouts/Layout3";
+import Layout4 from "hocs/Layouts/Layout4";
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { getProyectos, postProyecto } from 'redux/actions/info/info';
 import axios from "axios";
 
-function InfoLoad({ 
+function ValForm({ 
   getProyectos, proyectos, loading, error, postProyecto 
 }) {
   const [formData, setFormData] = useState({
@@ -234,7 +234,7 @@ function InfoLoad({
   };
 
   return (
-    <Layout3>
+    <Layout4>
       <form onSubmit={handleSubmit} style={formContainerStyle}>
         <h1 style={{ color: '#666666' }}>Cargue Prueba EQA</h1>
 
@@ -459,7 +459,7 @@ function InfoLoad({
           <p style={{ color: 'red', marginTop: '10px' }}>Por favor, complete todos los campos antes de enviar.</p>
         )}
       </form>
-    </Layout3>
+    </Layout4>
   );
 }
 
@@ -474,4 +474,4 @@ const mapDispatchToProps = {
   postProyecto    
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(InfoLoad);
+export default connect(mapStateToProps, mapDispatchToProps)(ValForm);

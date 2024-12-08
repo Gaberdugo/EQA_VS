@@ -7,11 +7,10 @@ function ValDigi() {
   const [digitadores, setDigitadores] = useState([]);
   const [selectedDigitador, setSelectedDigitador] = useState("");
   const [selectedEmail, setSelectedEmail] = useState("");
-  const [encuestas, setEncuestas] = useState([]); // Estado para las encuestas
+  const [encuestas, setEncuestas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingEncuestas, setLoadingEncuestas] = useState(false);
 
-  // Función para obtener digitadores
   const fetchDigitadores = async () => {
     setLoading(true);
     try {
@@ -24,18 +23,17 @@ function ValDigi() {
     }
   };
 
-  // Función para obtener las digitaciones del digitador seleccionado (por email o responsable)
   const fetchEncuestas = async (responsable) => {
     setLoadingEncuestas(true);
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_API_URL}/res/responsable/?responsable=${responsable}`
       );
-      setEncuestas(Array.isArray(res.data) ? res.data : []); // Asegura que sea un arreglo
-      console.log(res.data)
+      setEncuestas(Array.isArray(res.data) ? res.data : []);
+      console.log(res.data);
     } catch (err) {
       alert("Error al cargar encuestas: " + err.response?.data?.error);
-      setEncuestas([]); // Reinicia a un arreglo vacío en caso de error
+      setEncuestas([]);
     } finally {
       setLoadingEncuestas(false);
     }
@@ -46,17 +44,15 @@ function ValDigi() {
   }, []);
 
   const handleDigitadorChange = (e) => {
-    const selectedEmail = e.target.value; // Obtén el email directamente desde el value del select
-    setSelectedDigitador(selectedEmail);  // Establece el email seleccionado como el valor de selectedDigitador
-
+    const selectedEmail = e.target.value;
+    setSelectedDigitador(selectedEmail);
     if (selectedEmail) {
-      // Encuentra el digitador seleccionado por email
       const selected = digitadores.find((d) => d.email === selectedEmail);
       const email = selected ? selected.email : "";
       setSelectedEmail(email);
     } else {
       setSelectedEmail("");
-      setEncuestas([]); // Limpia las encuestas si no hay un digitador seleccionado
+      setEncuestas([]);
     }
   };
 
@@ -68,13 +64,12 @@ function ValDigi() {
     }
     alert(`Digitador seleccionado: ${selectedEmail}`);
     if (selectedEmail) {
-      fetchEncuestas(selectedEmail); // Obtiene las encuestas solo cuando se hace clic en el botón
+      fetchEncuestas(selectedEmail);
     }
   };
 
-  // Estilos personalizados
   const containerStyle = {
-    maxWidth: "600px",
+    maxWidth: "900px",
     margin: "50px auto",
     padding: "20px",
     borderRadius: "10px",
@@ -109,21 +104,24 @@ function ValDigi() {
     fontSize: "16px",
   };
 
-  const encuestasContainerStyle = {
+  const tableStyle = {
+    width: "100%",
+    borderCollapse: "collapse",
     marginTop: "20px",
+  };
+
+  const headerStyle = {
+    backgroundColor: "#f4f4f4",
+    border: "1px solid #ccc",
+    padding: "10px",
     textAlign: "left",
-    maxHeight: "400px",   // Limita la altura del contenedor
-    overflowY: "auto",    // Activa el scroll solo en la dirección vertical
+    fontWeight: "bold",
   };
 
-  const encuestaItemStyle = {
-    borderBottom: "1px solid #ddd",
-    padding: "10px 0",
-  };
-
-  const respuestaItemStyle = {
-    marginLeft: "20px",
-    fontStyle: "italic",
+  const cellStyle = {
+    border: "1px solid #ccc",
+    padding: "10px",
+    textAlign: "left",
   };
 
   return (
@@ -153,40 +151,51 @@ function ValDigi() {
           </button>
         </form>
 
-        {/* Mostrar las encuestas del digitador seleccionado */}
-        <div style={encuestasContainerStyle}>
+        {/* Mostrar las encuestas en formato tabla */}
+        <div>
           <h2>Encuestas Asignadas</h2>
           {loadingEncuestas ? (
             <p>Cargando encuestas...</p>
           ) : encuestas.length > 0 ? (
-            <ul>
-              {encuestas.map((encuesta) => (
-                <li key={encuesta.id} style={encuestaItemStyle}>
-                  <strong>ID:</strong> {encuesta.id} -{" "}
-                  <strong>Proyecto:</strong> {encuesta.nombre} -{" "}
-                  <strong>Estudiante:</strong> {encuesta.nombre_estudiante} -{" "}
-                  <strong>Genero:</strong> {encuesta.genero} -{" "}
-                  <strong>Curso:</strong> {encuesta.grado} -{" "}
-                  <strong>Fecha:</strong> {encuesta.fecha} -{" "}
-                  <strong>Cuadernillo:</strong> {encuesta.numero_cuadernillo}
-
-                  {/* Mostrar las respuestas */}
-                  <div>
-                    <strong>Respuestas:</strong>
-                    <ul>
-                      {[...Array(20).keys()].map((index) => {
-                        const respuestaKey = `respuesta_${index + 1}`;
-                        return (
-                          <li key={respuestaKey} style={respuestaItemStyle}>
-                            {respuestaKey.replace("_", " ").toUpperCase()}: {encuesta[respuestaKey]}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <table style={tableStyle}>
+              <thead>
+                <tr>
+                  <th style={headerStyle}>ID</th>
+                  <th style={headerStyle}>Proyecto</th>
+                  <th style={headerStyle}>Estudiante</th>
+                  <th style={headerStyle}>Género</th>
+                  <th style={headerStyle}>Curso</th>
+                  <th style={headerStyle}>Fecha</th>
+                  <th style={headerStyle}>Cuadernillo</th>
+                  {[...Array(20).keys()].map((index) => (
+                    <th key={`respuesta_${index + 1}`} style={headerStyle}>
+                      Respuesta {index + 1}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {encuestas.map((encuesta) => (
+                  <tr key={encuesta.id}>
+                    <td style={cellStyle}>{encuesta.id}</td>
+                    <td style={cellStyle}>{encuesta.nombre}</td>
+                    <td style={cellStyle}>{encuesta.nombre_estudiante}</td>
+                    <td style={cellStyle}>{encuesta.genero}</td>
+                    <td style={cellStyle}>{encuesta.grado}</td>
+                    <td style={cellStyle}>{encuesta.fecha}</td>
+                    <td style={cellStyle}>{encuesta.numero_cuadernillo}</td>
+                    {[...Array(20).keys()].map((index) => {
+                      const respuestaKey = `respuesta_${index + 1}`;
+                      return (
+                        <td key={respuestaKey} style={cellStyle}>
+                          {encuesta[respuestaKey]}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             <p>No se encontraron encuestas para este digitador.</p>
           )}
