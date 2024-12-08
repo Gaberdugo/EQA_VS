@@ -30,7 +30,6 @@ function ValDigi() {
         `${process.env.REACT_APP_API_URL}/res/responsable/?responsable=${responsable}`
       );
       setEncuestas(Array.isArray(res.data) ? res.data : []);
-      console.log(res.data);
     } catch (err) {
       alert("Error al cargar encuestas: " + err.response?.data?.error);
       setEncuestas([]);
@@ -62,10 +61,7 @@ function ValDigi() {
       alert("Por favor, selecciona un digitador.");
       return;
     }
-    alert(`Digitador seleccionado: ${selectedEmail}`);
-    if (selectedEmail) {
-      fetchEncuestas(selectedEmail);
-    }
+    fetchEncuestas(selectedEmail);
   };
 
   const containerStyle = {
@@ -76,6 +72,15 @@ function ValDigi() {
     backgroundColor: "#f9f9f9",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
+  };
+
+  const scrollableContainerStyle = {
+    maxHeight: "500px",
+    overflowY: "auto",
+    overflowX: "auto",
+    border: "1px solid #ddd",
+    borderRadius: "10px",
+    marginTop: "20px",
   };
 
   const titleStyle = {
@@ -107,7 +112,6 @@ function ValDigi() {
   const tableStyle = {
     width: "100%",
     borderCollapse: "collapse",
-    marginTop: "20px",
   };
 
   const headerStyle = {
@@ -151,9 +155,8 @@ function ValDigi() {
           </button>
         </form>
 
-        {/* Mostrar las encuestas en formato tabla */}
-        <div>
-          <h2>Encuestas Asignadas</h2>
+        {/* Contenedor con scroll */}
+        <div style={scrollableContainerStyle}>
           {loadingEncuestas ? (
             <p>Cargando encuestas...</p>
           ) : encuestas.length > 0 ? (
