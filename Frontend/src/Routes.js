@@ -17,6 +17,7 @@ import PruebaPage from 'containers/pages/PruebaPage';
 import ValDigi from 'containers/pages/ValDigi';
 import ValDelete from 'containers/pages/valDelete';
 import ValForm from 'containers/pages/ValForm';
+import ValCorr from 'containers/pages/ValCorr';
 
 import PrivateRoute from './components/PrivateRoute';
 import { AnimatePresence } from 'framer-motion';
@@ -131,6 +132,15 @@ function AnimatedRoutes() {
                         element={
                             <PrivateRoute requiredRole="val">
                                 <ValForm />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/valCorr' 
+                        element={
+                            <PrivateRoute requiredRole="val">
+                                <ValCorr />
                             </PrivateRoute>
                         } 
                     />

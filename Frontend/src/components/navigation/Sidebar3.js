@@ -5,6 +5,7 @@ import {
     UsersIcon,
     TrashIcon,
     PencilIcon,
+    ArrowPathIcon,
   } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 
@@ -22,6 +23,7 @@ function Sidebar3(){
         { name: 'Reporte', href: '/reportPage', icon: ChartBarIcon, current: location.pathname==='/reportPage' ? true:false },
         { name: 'Digitadores', href: '/valDigi', icon: UsersIcon, current: location.pathname==='/valDigi' ? true:false },
         { name: 'Digitar', href: '/valForm', icon: PencilIcon, current: location.pathname==='/valForm' ? true:false },
+        { name: 'Corregir', href: '/valCorr', icon: ArrowPathIcon, current: location.pathname==='/valCorr' ? true:false },
         { name: 'Eliminar', href: '/valDelete', icon: TrashIcon, current: location.pathname==='/valDelete' ? true:false },
     ]
 
