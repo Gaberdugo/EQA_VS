@@ -19,6 +19,8 @@ import ValDelete from 'containers/pages/valDelete';
 import ValForm from 'containers/pages/ValForm';
 import ValCorr from 'containers/pages/ValCorr';
 import TerPage from 'containers/pages/TerPage';
+import TerPrueba from 'containers/pages/TerPrueba';
+import TerReport from 'containers/pages/TerReport';
 
 import PrivateRoute from './components/PrivateRoute';
 import { AnimatePresence } from 'framer-motion';
@@ -164,7 +166,24 @@ function AnimatedRoutes() {
                             </PrivateRoute>
                         } 
                     />
-                    
+
+                    <Route 
+                        path='/terPrueba' 
+                        element={
+                            <PrivateRoute requiredRole="terpel">
+                                <TerPrueba />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/terReport'
+                        element={
+                            <PrivateRoute requiredRole="terpel">
+                                <TerReport />
+                            </PrivateRoute>
+                        } 
+                    />                    
 
                 </Routes>
             </AnimatePresence>

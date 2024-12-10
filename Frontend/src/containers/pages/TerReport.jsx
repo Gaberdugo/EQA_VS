@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout5 from "hocs/Layouts/Layout5";
 import axios from 'axios';
 
-function ReportPage() {
+function TerReport() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [projects, setProjects] = useState([]); // Lista de proyectos
@@ -136,4 +136,4 @@ const styles = {
     },
 };
 
-export default ReportPage;
+export default TerReport;

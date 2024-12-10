@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout5 from "hocs/Layouts/Layout5";
 import axios from 'axios';
 
-function PruebaPage() {
+function TerPrueba() {
     const [proyectos, setProyectos] = useState([]); // Lista de proyectos
     const [selectedPrueba, setSelectedPrueba] = useState(''); // Proyecto seleccionado
     const [loading, setLoading] = useState(false); // Para mostrar el estado de carga
@@ -216,4 +216,4 @@ const styles = {
     },
 };
 
-export default PruebaPage;
+export default TerPrueba;
