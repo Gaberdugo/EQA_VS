@@ -265,6 +265,13 @@ function InfoLoad({
             name="fechaAplicacion"
             value={formData.fechaAplicacion}
             onChange={handleChange}
+            onInput={(e) => {
+              const input = e.target.value;
+              const year = input.split("-")[0]; // Extrae el año
+              if (year.length > 4) {
+                e.target.value = input.slice(0, 4) + input.slice(5); // Limita el año a 4 caracteres
+              }
+            }}
             style={{ flex: '1' }}
           />
         </div>
@@ -431,10 +438,10 @@ function InfoLoad({
                           style={{ width: '100%' }}
                         >
                           <option value="">Seleccione</option>
-                          <option value="A">a.</option>
-                          <option value="B">b.</option>
-                          <option value="C">c.</option>
-                          <option value="D">d.</option>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="C">C</option>
+                          <option value="D">D</option>
                           <option value="Blanco">Blanco</option>
                           <option value="Multi Marca">Multi Marca</option>
                         </select>
