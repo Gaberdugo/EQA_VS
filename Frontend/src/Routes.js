@@ -18,6 +18,7 @@ import ValDigi from 'containers/pages/ValDigi';
 import ValDelete from 'containers/pages/valDelete';
 import ValForm from 'containers/pages/ValForm';
 import ValCorr from 'containers/pages/ValCorr';
+import TerPage from 'containers/pages/TerPage';
 
 import PrivateRoute from './components/PrivateRoute';
 import { AnimatePresence } from 'framer-motion';
@@ -153,6 +154,17 @@ function AnimatedRoutes() {
                             </PrivateRoute>
                         } 
                     />
+
+                    
+                    <Route 
+                        path='/terPage' 
+                        element={
+                            <PrivateRoute requiredRole="terpel">
+                                <TerPage />
+                            </PrivateRoute>
+                        } 
+                    />
+                    
 
                 </Routes>
             </AnimatePresence>

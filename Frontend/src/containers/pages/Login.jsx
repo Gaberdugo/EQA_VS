@@ -37,6 +37,8 @@ function Login({
             return <Navigate to='/digi' />;
         } else if (role === 'val') {
             return <Navigate to='/valPage' />
+        } else if (role === 'terpel') {
+            return <Navigate to='/terPage' />
         }
     }
 
