@@ -51,6 +51,8 @@ class UserProfileView(APIView):
             return 'admin'
         elif user.is_digi:
             return 'digitador'
+        elif user.is_terpel:
+            return 'terpel'
         else:
             return 'user'
 
