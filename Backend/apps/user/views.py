@@ -22,6 +22,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
                 response.data['role'] = 'digitador'
             elif (user.is_val):
                 response.data['role'] = 'val'
+            elif (user.is_terpel):
+                response.data['role'] = 'terpel'
             else:
                 response.data['role'] = 'SIN'
         except UserAccount.DoesNotExist:
