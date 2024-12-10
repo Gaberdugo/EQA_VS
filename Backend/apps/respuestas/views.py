@@ -60,7 +60,7 @@ class EncuestaView(APIView):
 
         # Modulo para calcular la edad
         if len(request.data['edad']) == 0:
-            edad = -1
+            edad = 0
         elif int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) < 0:
             edad = int(request.data['fecha'].split('-')[0]) - int(request.data['edad'].split('-')[0]) - 1
         elif int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) == 0:
@@ -94,7 +94,8 @@ class EncuestaExportView(APIView):
             return Response({"error": "Se debe proporcionar el nombre del proyecto."}, status=400)
 
         # Filtrar las encuestas por el nombre del proyecto
-        encuestas = Encuesta.objects.filter(nombre=nombre_proyecto)
+        encuestas = Encuesta.objects.filter(nombre=nombre_proyecto).order_by('id')
+
 
         # Si no hay encuestas para el proyecto proporcionado
         if not encuestas:

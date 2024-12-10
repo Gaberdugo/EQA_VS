@@ -4,7 +4,7 @@ from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua, Cua
 class EncuestaAdmin(admin.ModelAdmin):
     list_display = ['id', 'nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'documento_estudiante', 'responsable', 'fecha_cargue']
     search_fields = ['nombre_estudiante', 'nombre_institucion', 'ciudad', 'aplicacion', 'prueba']
-    list_filter = ['nombre', 'nombre_institucion', 'ciudad', 'grado', 'numero_cuadernillo', 'responsable']
+    list_filter = ['nombre', 'nombre_institucion', 'ciudad', 'edad', 'grado', 'numero_cuadernillo', 'responsable']
 
     # Personalización de campos, solo como ejemplo
     fields = ['nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'prueba', 'responsable', 'documento_estudiante']
