@@ -80,6 +80,8 @@ export const login = (email, password) => async dispatch => {
             localStorage.setItem('role', role);
             localStorage.setItem('correo', correo)
 
+            console.log(role)
+
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: {access, role}
