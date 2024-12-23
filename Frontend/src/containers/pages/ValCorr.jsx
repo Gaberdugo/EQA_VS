@@ -52,7 +52,7 @@ function ValCorr() {
         `${process.env.REACT_APP_API_URL}/res/modificar/`,
         {
           id: pk,
-          datos, // Enviar todos los datos actualizados
+          datos,
         },
         {
           headers: {
@@ -61,6 +61,8 @@ function ValCorr() {
         }
       );
       setMensaje(res.data.message || "Encuesta modificada con éxito.");
+      setDatos(null);
+      setPk(""); // Resetear el ID de la encuesta
     } catch (err) {
       if (err.response) {
         setMensaje(err.response.data.detail || "Error al guardar los cambios.");
@@ -72,53 +74,64 @@ function ValCorr() {
     }
   };
 
-  // Estilos personalizados
-  const containerStyle = {
-    maxWidth: "800px",
-    margin: "50px auto",
-    padding: "20px",
-    borderRadius: "10px",
-    backgroundColor: "#f9f9f9",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    textAlign: "center",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ddd",
-    fontSize: "16px",
-    marginBottom: "20px",
-  };
-
-  const buttonStyle = {
-    padding: "10px 20px",
-    backgroundColor: "#1B8830",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontSize: "16px",
-  };
-
-  const mensajeStyle = {
-    marginTop: "20px",
-    color: mensaje.includes("éxito") ? "green" : "red",
-  };
-
-  const formContainerStyle = {
-    maxHeight: "400px", // Altura máxima del contenedor
-    overflowY: "auto", // Habilitar scroll vertical
-    padding: "10px",
-    border: "1px solid #ddd",
-    borderRadius: "5px",
-    backgroundColor: "#ffffff",
+  // Estilos
+  const styles = {
+    container: {
+      maxWidth: "800px",
+      margin: "50px auto",
+      padding: "20px",
+      borderRadius: "10px",
+      backgroundColor: "#f4f4f9",
+      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+      textAlign: "center",
+    },
+    input: {
+      width: "100%",
+      padding: "12px",
+      borderRadius: "5px",
+      border: "1px solid #ccc",
+      fontSize: "16px",
+      marginBottom: "20px",
+    },
+    button: {
+      padding: "10px 20px",
+      backgroundColor: "#1b8830",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer",
+      fontSize: "16px",
+      transition: "background-color 0.3s",
+    },
+    buttonCancel: {
+      backgroundColor: "#f44336",
+      marginLeft: "10px",
+    },
+    buttonHover: {
+      backgroundColor: "#145d24",
+    },
+    mensaje: {
+      marginTop: "20px",
+      fontSize: "16px",
+      color: mensaje.includes("éxito") ? "#2e7d32" : "#d32f2f",
+    },
+    formContainer: {
+      maxHeight: "400px",
+      overflowY: "auto",
+      padding: "15px",
+      border: "1px solid #ddd",
+      borderRadius: "5px",
+      backgroundColor: "#fff",
+    },
+    formField: {
+      marginBottom: "15px",
+      textAlign: "left",
+    },
   };
 
   return (
     <Layout4>
-      <div style={containerStyle}>
+      <div style={styles.container}>
         <h2>Modificar Encuesta</h2>
 
         {/* Buscar Encuesta */}
@@ -131,9 +144,13 @@ function ValCorr() {
               value={pk}
               onChange={(e) => setPk(e.target.value)}
               placeholder="Ingrese el ID"
-              style={inputStyle}
+              style={styles.input}
             />
-            <button onClick={buscarEncuesta} style={buttonStyle} disabled={loading}>
+            <button
+              onClick={buscarEncuesta}
+              style={{ ...styles.button }}
+              disabled={loading}
+            >
               {loading ? "Buscando..." : "Buscar Encuesta"}
             </button>
           </>
@@ -141,10 +158,10 @@ function ValCorr() {
 
         {/* Mostrar y Editar Encuesta */}
         {datos && (
-          <div style={formContainerStyle}>
+          <div style={styles.formContainer}>
             <form>
               {Object.keys(datos).map((key) => (
-                <div key={key} style={{ marginBottom: "10px" }}>
+                <div key={key} style={styles.formField}>
                   <label htmlFor={key}>{key}:</label>
                   <input
                     type="text"
@@ -152,7 +169,7 @@ function ValCorr() {
                     name={key}
                     value={datos[key] || ""}
                     onChange={handleChange}
-                    style={inputStyle}
+                    style={styles.input}
                   />
                 </div>
               ))}
@@ -165,14 +182,14 @@ function ValCorr() {
           <div style={{ marginTop: "20px" }}>
             <button
               onClick={guardarCambios}
-              style={buttonStyle}
+              style={styles.button}
               disabled={loading}
             >
               {loading ? "Guardando..." : "Guardar Cambios"}
             </button>
             <button
-              onClick={() => setDatos(null)} // Resetear el estado
-              style={{ ...buttonStyle, backgroundColor: "#f44336", marginLeft: "10px" }}
+              onClick={() => setDatos(null)}
+              style={{ ...styles.button, ...styles.buttonCancel }}
             >
               Cancelar
             </button>
@@ -180,7 +197,7 @@ function ValCorr() {
         )}
 
         {/* Mensaje de estado */}
-        {mensaje && <p style={mensajeStyle}>{mensaje}</p>}
+        {mensaje && <p style={styles.mensaje}>{mensaje}</p>}
       </div>
     </Layout4>
   );

@@ -438,12 +438,12 @@ function ValForm({
                           style={{ width: '100%' }}
                         >
                           <option value="">Seleccione</option>
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                          <option value="C">C</option>
-                          <option value="D">D</option>
-                          <option value="Blanco">Blanco</option>
-                          <option value="Multi Marca">Multi Marca</option>
+                          <option value="A" translate="no">A</option>
+                          <option value="B" translate="no">B</option>
+                          <option value="C" translate="no">C</option>
+                          <option value="D" translate="no">D</option>
+                          <option value="Blanco" translate="no">Blanco</option>
+                          <option value="Multi Marca" translate="no">Multi Marca</option>
                         </select>
                       </label>
                     </td>
