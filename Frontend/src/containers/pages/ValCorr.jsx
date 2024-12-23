@@ -191,7 +191,7 @@ function ValCorr() {
               onClick={() => setDatos(null)}
               style={{ ...styles.button, ...styles.buttonCancel }}
             >
-              Cancelar
+              Nueva Búsqueda
             </button>
           </div>
         )}
