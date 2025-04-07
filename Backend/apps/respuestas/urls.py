@@ -1,10 +1,11 @@
 from django.urls import path
 from .views import EncuestaView, EncuestaExportView, CuadernilloMateAPIView, EncuestaAleatoriaView, PreguntaView, CuadernillosNombresAPIView, EncuestaDeleteView, EncuestasResponsableView
-from .views import ObtenerEncuestaAPIView, ModificarEncuestaAPIView
+from .views import ObtenerEncuestaAPIView, ModificarEncuestaAPIView, ObtenerInstitucionesAPIView
 
 urlpatterns = [
     path('respuesta/', EncuestaView.as_view(), name='repuesta_create'),  # Endpoint para crear la encuesta
     path('respuesta/exportar/', EncuestaExportView.as_view(), name='encuestas_export'),  # Endpoint para exportar encuestas a Excel
+    path('auth/instituciones/', ObtenerInstitucionesAPIView.as_view(), name='obtener_instituciones'),
     path('cuadernillos/', CuadernilloMateAPIView.as_view(), name='cuadernillo_list'), 
     path('respuesta/aleatoria/', EncuestaAleatoriaView.as_view(), name='encuesta-aleatoria'),
     path("preguntas/", PreguntaView.as_view(), name="preguntas"),

@@ -274,8 +274,6 @@ class PreguntaView(APIView):
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
 
     def post(self, request):
-        
-        print('Hola')
 
         data = request.data
         tipo = data.get("tipo")  # Determina el tipo de pregunta
@@ -389,3 +387,22 @@ class ModificarEncuestaAPIView(APIView):
             serializer.save()
             return Response({"message": "Encuesta modificada con éxito."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ObtenerInstitucionesAPIView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+    def get(self, request):
+        # Obtener el parámetro 'proyecto_id' de la solicitud GET
+        proyecto_id = request.GET.get('proyecto_id')
+
+        # Si no se recibe el parámetro 'proyecto_id', retornar un error
+        if not proyecto_id:
+            return Response({'error': 'El parámetro proyecto_id es requerido'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Filtrar las encuestas para obtener las instituciones asociadas a ese proyecto
+        encuestas = Encuesta.objects.filter(nombre=proyecto_id)  # Suponiendo que 'nombre' corresponde al nombre del proyecto
+
+        # Extraer las instituciones asociadas al proyecto
+        instituciones = set(encuestas.values_list('nombre_institucion', flat=True))
+
+        # Retornar las instituciones en formato JSON (Response ya maneja esto por defecto)
+        return Response(list(instituciones), status=status.HTTP_200_OK)
