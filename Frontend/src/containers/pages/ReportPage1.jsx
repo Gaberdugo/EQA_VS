@@ -25,7 +25,7 @@ function ReportPage() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectId}`);
             setInstitutions(response.data);
-            console.log(response.data);
+            console.log(projectId);
         } catch (error) {
             setError("Hubo un error al obtener las instituciones educativas");
         }
