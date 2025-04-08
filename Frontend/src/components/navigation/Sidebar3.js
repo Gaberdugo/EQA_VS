@@ -6,6 +6,7 @@ import {
   TrashIcon,
   PencilIcon,
   ArrowUturnUpIcon,
+  WalletIcon,
   ChartPieIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -21,8 +22,8 @@ function Sidebar3(){
   const navigation = [
       { name: 'Validador', href: '/valPage', icon: HomeIcon, current: location.pathname==='/valPage' ? true:false },
       { name: 'Pruebas', href: '/pruebaPage', icon: RssIcon, current: location.pathname==='/pruebaPage' ? true:false },
-      { name: 'Reporte G', href: '/reportPage', icon: ChartBarIcon, current: location.pathname==='/reportPage' ? true:false },
-      { name: 'Reporte 1', href: '/reportPage1', icon: ChartPieIcon, current: location.pathname==='/reportPage1' ? true:false },
+      { name: 'Reporte G', href: '/reportPage', icon: WalletIcon, current: location.pathname==='/reportPage' ? true:false },
+      { name: 'Reporte 1', href: '/reportPage1', icon: ChartBarIcon, current: location.pathname==='/reportPage1' ? true:false },
       { name: 'Reporte 2', href: '/reportPage2', icon: ChartPieIcon, current: location.pathname==='/reportPage2' ? true:false },
       { name: 'Digitadores', href: '/valDigi', icon: UsersIcon, current: location.pathname==='/valDigi' ? true:false },
       { name: 'Digitar', href: '/valForm', icon: PencilIcon, current: location.pathname==='/valForm' ? true:false },
