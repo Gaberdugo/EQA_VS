@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Layout4 from "hocs/Layouts/Layout4";
 import axios from 'axios';
 
-function ReportPage() {
+function ReportPage1() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [projects, setProjects] = useState([]); // Lista de proyectos
-    const [selectedProject, setSelectedProject] = useState(''); // Proyecto seleccionado
-    const [institutions, setInstitutions] = useState([]); // Lista de instituciones educativas
-    const [selectedInstitution, setSelectedInstitution] = useState(''); // Institución educativa seleccionada
+    const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState('');
+    const [institutions, setInstitutions] = useState([]);
+    const [selectedInstitution, setSelectedInstitution] = useState('');
+    const [applicationType, setApplicationType] = useState(''); // Nueva variable para Entrada o Salida
 
-    // Función para obtener la lista de proyectos
     const fetchProjects = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`);
@@ -20,7 +20,6 @@ function ReportPage() {
         }
     };
 
-    // Función para obtener las instituciones educativas basadas en el nombre del proyecto seleccionado
     const fetchInstitutions = async (projectName) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectName}`);
@@ -30,38 +29,34 @@ function ReportPage() {
         }
     };
 
-    // Llamada a la API para obtener los proyectos cuando el componente se monta
     useEffect(() => {
         fetchProjects();
     }, []);
 
-    // Efecto para obtener las instituciones educativas cuando se selecciona un proyecto
     useEffect(() => {
         if (selectedProject) {
-            fetchInstitutions(selectedProject); // Llamada con el nombre del proyecto
+            fetchInstitutions(selectedProject);
         }
     }, [selectedProject]);
 
-    // Función para manejar el click en el botón y hacer la solicitud GET para el reporte
     const fetchData = async () => {
-        if (!selectedProject || !selectedInstitution) {
-            setError("Por favor, selecciona un proyecto y una institución educativa");
+        if (!selectedProject || !selectedInstitution || !applicationType) {
+            setError("Por favor, selecciona un proyecto, una institución educativa y el tipo de aplicación");
             return;
         }
 
         setLoading(true);
-        setError(null); // Limpiar cualquier error previo
+        setError(null);
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/respuesta/exportar/?nombre_proyecto=${selectedProject}&nombre_institucion=${selectedInstitution}`, {
-                responseType: 'blob', // Esto es lo que cambia para manejar un archivo binario
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/respuesta/exportar/?nombre_proyecto=${selectedProject}&nombre_institucion=${selectedInstitution}&tipo_aplicacion=${applicationType}`, {
+                responseType: 'blob',
             });
 
-            // Crear un enlace temporal para descargar el archivo
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `reporte_general.xlsx`); // El nombre que quieres para el archivo descargado
+            link.setAttribute('download', `reporte_general.xlsx`);
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -77,37 +72,42 @@ function ReportPage() {
             <div style={styles.container}>
                 <h1 style={styles.title}>Generador de Reportes por Institución</h1>
 
-                {/* Selector de proyectos */}
                 <div style={styles.selectContainer}>
                     <label htmlFor="proyecto" style={styles.selectLabel}>Selecciona un Proyecto</label>
                     <select
                         id="proyecto"
                         value={selectedProject}
-                        onChange={(e) => setSelectedProject(e.target.value)} 
+                        onChange={(e) => {
+                            setSelectedProject(e.target.value);
+                            setSelectedInstitution('');
+                            setApplicationType('');
+                        }}
                         style={styles.select}
                     >
                         <option value="">-- Selecciona un proyecto --</option>
                         {projects.map((project) => (
-                            <option key={project.id} value={project.nombre}> {/* Usamos el nombre del proyecto aquí */}
+                            <option key={project.id} value={project.nombre}>
                                 {project.nombre}
                             </option>
                         ))}
                     </select>
                 </div>
 
-                {/* Selector de instituciones educativas */}
                 {selectedProject && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="institucion" style={styles.selectLabel}>Selecciona una Institución Educativa</label>
                         <select
                             id="institucion"
                             value={selectedInstitution}
-                            onChange={(e) => setSelectedInstitution(e.target.value)} 
+                            onChange={(e) => {
+                                setSelectedInstitution(e.target.value);
+                                setApplicationType('');
+                            }}
                             style={styles.select}
                         >
                             <option value="">-- Selecciona una institución --</option>
                             {institutions.map((institution, index) => (
-                                <option key={index} value={institution}> {/* Usamos el índice aquí */}
+                                <option key={index} value={institution}>
                                     {institution}
                                 </option>
                             ))}
@@ -115,19 +115,33 @@ function ReportPage() {
                     </div>
                 )}
 
-                {/* Botón para hacer la solicitud GET */}
-                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedInstitution} style={styles.button}>
+                {/* Nuevo selector para tipo de aplicación */}
+                {selectedInstitution && (
+                    <div style={styles.selectContainer}>
+                        <label htmlFor="tipoAplicacion" style={styles.selectLabel}>Selecciona el Tipo de Aplicación</label>
+                        <select
+                            id="tipoAplicacion"
+                            value={applicationType}
+                            onChange={(e) => setApplicationType(e.target.value)}
+                            style={styles.select}
+                        >
+                            <option value="">-- Selecciona un tipo --</option>
+                            <option value="Entrada">Entrada</option>
+                            <option value="Salida">Salida</option>
+                        </select>
+                    </div>
+                )}
+
+                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedInstitution || !applicationType} style={styles.button}>
                     {loading ? "Cargando..." : "Obtener Reporte"}
                 </button>
 
-                {/* Mostrar error si ocurre alguno */}
                 {error && <p style={styles.errorText}>{error}</p>}
             </div>
         </Layout4>
     );
 }
 
-// Estilos en línea para centrado y colores personalizados
 const styles = {
     container: {
         display: 'flex',
@@ -174,4 +188,4 @@ const styles = {
     },
 };
 
-export default ReportPage;
+export default ReportPage1;
