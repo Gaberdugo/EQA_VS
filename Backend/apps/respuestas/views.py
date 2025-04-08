@@ -403,6 +403,6 @@ class ObtenerInstitucionesAPIView(APIView):
 
         # Extraer las instituciones asociadas al proyecto
         instituciones = set(encuestas.values_list('nombre_institucion', flat=True))
-        instituciones = ['hola', 'adios', proyecto_id, instituciones]
+        
         # Retornar las instituciones en formato JSON (Response ya maneja esto por defecto)
-        return Response(list(instituciones), status=status.HTTP_200_OK)
+        return Response(instituciones, status=status.HTTP_200_OK)
