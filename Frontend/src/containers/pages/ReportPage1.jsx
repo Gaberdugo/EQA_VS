@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout4 from "hocs/Layouts/Layout4";
 import axios from 'axios';
 
-function ReportPage1() {
+function ReportPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [projects, setProjects] = useState([]); // Lista de proyectos
@@ -13,7 +13,7 @@ function ReportPage1() {
     // Función para obtener la lista de proyectos
     const fetchProjects = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`); 
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`);
             setProjects(response.data);
         } catch (error) {
             setError("Hubo un error al obtener los proyectos");
@@ -75,7 +75,7 @@ function ReportPage1() {
     return (
         <Layout4>
             <div style={styles.container}>
-                <h1 style={styles.title}>Generador de Reportes por Instituciones</h1>
+                <h1 style={styles.title}>Generador de Reportes por Institución</h1>
 
                 {/* Selector de proyectos */}
                 <div style={styles.selectContainer}>
@@ -106,9 +106,9 @@ function ReportPage1() {
                             style={styles.select}
                         >
                             <option value="">-- Selecciona una institución --</option>
-                            {institutions.map((institution) => (
-                                <option key={institution.id} value={institution.nombre}>
-                                    {institution.nombre}
+                            {institutions.map((institution, index) => (
+                                <option key={index} value={institution}> {/* Usamos el índice aquí */}
+                                    {institution}
                                 </option>
                             ))}
                         </select>
@@ -174,4 +174,4 @@ const styles = {
     },
 };
 
-export default ReportPage1;
+export default ReportPage;
