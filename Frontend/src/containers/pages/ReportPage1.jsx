@@ -20,12 +20,11 @@ function ReportPage() {
         }
     };
 
-    // Función para obtener las instituciones educativas basadas en el proyecto seleccionado
-    const fetchInstitutions = async (projectId) => {
+    // Función para obtener las instituciones educativas basadas en el nombre del proyecto seleccionado
+    const fetchInstitutions = async (projectName) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectName}`);
             setInstitutions(response.data);
-            console.log(projectId);
         } catch (error) {
             setError("Hubo un error al obtener las instituciones educativas");
         }
@@ -39,7 +38,7 @@ function ReportPage() {
     // Efecto para obtener las instituciones educativas cuando se selecciona un proyecto
     useEffect(() => {
         if (selectedProject) {
-            fetchInstitutions(selectedProject);
+            fetchInstitutions(selectedProject); // Llamada con el nombre del proyecto
         }
     }, [selectedProject]);
 
@@ -89,7 +88,7 @@ function ReportPage() {
                     >
                         <option value="">-- Selecciona un proyecto --</option>
                         {projects.map((project) => (
-                            <option key={project.id} value={project.id}> {/* Usamos el id aquí */}
+                            <option key={project.id} value={project.nombre}> {/* Usamos el nombre del proyecto aquí */}
                                 {project.nombre}
                             </option>
                         ))}
