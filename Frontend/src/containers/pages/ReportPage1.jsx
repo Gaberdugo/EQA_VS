@@ -23,7 +23,7 @@ function ReportPage1() {
     // Función para obtener las instituciones educativas basadas en el proyecto seleccionado
     const fetchInstitutions = async (projectId) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/instituciones/?proyecto_id=${projectId}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectId}`);
             setInstitutions(response.data);
         } catch (error) {
             setError("Hubo un error al obtener las instituciones educativas");
