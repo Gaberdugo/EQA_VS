@@ -1,5 +1,15 @@
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
+from io import BytesIO
+import tempfile
+from PIL import Image
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Table, TableStyle
+import os
+
 from rest_framework import permissions
 from django.http import HttpResponse
 from rest_framework import status
@@ -411,3 +421,23 @@ class ObtenerInstitucionesAPIView(APIView):
 
         # Retornar las instituciones en formato JSON (Response ya maneja esto por defecto)
         return Response(x, status=status.HTTP_200_OK)
+
+class GenerarReporte1APIIew(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+    def get(self, request):
+        # Recibir parámetros
+        institucion = request.GET.get('institucion')
+        proyecto = request.GET.get('proyecto')
+        aplicacion = request.GET.get('aplicaion')
+
+        if not institucion or not proyecto or not aplicacion:
+            return Response({"error": "Faltan parámetros: aplicación, institucion y proyecto son requeridos"}, status=400)
+        
+        encuestas = Encuesta.objects.filter(aplicacion=aplicacion, nombre_institucion=institucion, nombre=proyecto)
+
+        total = 0
+
+        for encuesta in encuestas:
+            total += 1
+
+            
