@@ -22,6 +22,8 @@ function Sidebar3(){
       { name: 'Reporte 1', href: '/reportPage1', icon: ChartBarIcon, current: location.pathname==='/reportPage1' ? true:false },
       { name: 'Reporte 2', href: '/reportPage2', icon: ChartBarIcon, current: location.pathname==='/reportPage2' ? true:false },
       { name: 'Digitadores', href: '/valDigi', icon: UsersIcon, current: location.pathname==='/valDigi' ? true:false },
+      { name: 'Digitar', href: '/valForm', icon: UsersIcon, current: location.pathname==='/valForm' ? true:false },
+      { name: 'Corregir', href: '/valCorr', icon: UsersIcon, current: location.pathname==='/valCorr' ? true:false },
       { name: 'Eliminar', href: '/valDelete', icon: TrashIcon, current: location.pathname==='/valDelete' ? true:false },
   ]
 
