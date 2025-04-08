@@ -13,6 +13,8 @@ import DigiPage from 'containers/pages/DigiPage';
 import InfoLoad from 'containers/pages/InfoLoad';
 import ValPage from 'containers/pages/ValPage';
 import ReportPage from 'containers/pages/ReportPage';
+import ReportPage1 from 'containers/pages/ReportPage1';
+import ReportPage2 from 'containers/pages/ReportPage2';
 import PruebaPage from 'containers/pages/PruebaPage';
 import ValDigi from 'containers/pages/ValDigi';
 import ValDelete from 'containers/pages/valDelete';
@@ -108,6 +110,24 @@ function AnimatedRoutes() {
                         element={
                             <PrivateRoute requiredRole="val">
                                 <ReportPage />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/reportPage1' 
+                        element={
+                            <PrivateRoute requiredRole="val">
+                                <ReportPage1 />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/reportPage2' 
+                        element={
+                            <PrivateRoute requiredRole="val">
+                                <ReportPage2 />
                             </PrivateRoute>
                         } 
                     />
