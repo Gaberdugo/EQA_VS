@@ -72,19 +72,19 @@ function ReportPage1() {
         setError(null);
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/respuesta/exportar/?nombre_proyecto=${selectedProject}&nombre_municipio=${selectedMunicipality}&nombre_institucion=${selectedInstitution}&tipo_aplicacion=${applicationType}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/reporte1/?institucion=${selectedInstitution}&proyecto=${selectedProject}&aplicacion=${applicationType}`, {
                 responseType: 'blob',
             });
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `reporte_general.xlsx`);
+            link.setAttribute('download', `reporte_${selectedInstitution}_${selectedProject}.pdf`);
             document.body.appendChild(link);
             link.click();
             link.remove();
         } catch (error) {
-            setError("Hubo un error al obtener los datos");
+            setError("Hubo un error al generar el reporte PDF");
         } finally {
             setLoading(false);
         }
