@@ -399,28 +399,51 @@ class ModificarEncuestaAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ObtenerInstitucionesAPIView(APIView):
-    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+    permission_classes = [AllowAny]
+
     def get(self, request):
-        # Obtener el parámetro 'proyecto_id' de la solicitud GET
+        # Obtener parámetros
+        proyecto_id = request.GET.get('proyecto_id')
+        municipio = request.GET.get('municipio')
+
+        # Validar parámetros
+        if not proyecto_id or not municipio:
+            return Response({'error': 'Los parámetros proyecto_id y municipio son requeridos'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Filtrar encuestas por proyecto y municipio
+        encuestas = Encuesta.objects.filter(nombre=proyecto_id, ciudad=municipio)
+
+        # Extraer instituciones únicas
+        instituciones = set(encuestas.values_list('nombre_institucion', flat=True))
+
+        # Convertir el set a lista
+        instituciones_list = list(instituciones)
+
+        # Retornar respuesta
+        return Response(instituciones_list, status=status.HTTP_200_OK)
+
+
+class ObtenerMunicipiosAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
         proyecto_id = request.GET.get('proyecto_id')
 
-        # Si no se recibe el parámetro 'proyecto_id', retornar un error
         if not proyecto_id:
             return Response({'error': 'El parámetro proyecto_id es requerido'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Filtrar las encuestas para obtener las instituciones asociadas a ese proyecto
-        encuestas = Encuesta.objects.filter(nombre=proyecto_id)  # Suponiendo que 'nombre' corresponde al nombre del proyecto
+        # Filtrar las encuestas asociadas al proyecto
+        encuestas = Encuesta.objects.filter(nombre=proyecto_id)
 
-        # Extraer las instituciones asociadas al proyecto
-        instituciones = set(encuestas.values_list('nombre_institucion', flat=True))
-        
-        x = []
+        # Extraer los municipios únicos
+        municipios = set(encuestas.values_list('ciudad', flat=True))  # O usa 'municipio' si tienes ese campo
 
-        for i in instituciones:
-            x.append(i)
+        resultado = []
+        for municipio in municipios:
+            resultado.append(municipio)
 
-        # Retornar las instituciones en formato JSON (Response ya maneja esto por defecto)
-        return Response(x, status=status.HTTP_200_OK)
+        return Response(resultado, status=status.HTTP_200_OK)
+
 
 class GenerarReporte1APIIew(APIView):
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
@@ -428,7 +451,7 @@ class GenerarReporte1APIIew(APIView):
         # Recibir parámetros
         institucion = request.GET.get('institucion')
         proyecto = request.GET.get('proyecto')
-        aplicacion = request.GET.get('aplicaion')
+        aplicacion = request.GET.get('aplicacion')
 
         if not institucion or not proyecto or not aplicacion:
             return Response({"error": "Faltan parámetros: aplicación, institucion y proyecto son requeridos"}, status=400)
