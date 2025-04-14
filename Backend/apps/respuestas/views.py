@@ -463,4 +463,3 @@ class GenerarReporte1APIIew(APIView):
         for encuesta in encuestas:
             total += 1
 
-            
