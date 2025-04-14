@@ -72,7 +72,7 @@ function ReportPage1() {
         setError(null);
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/reporte1/?institucion=${selectedInstitution}&proyecto=${selectedProject}&aplicacion=${applicationType}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${selectedInstitution}&proyecto=${selectedProject}&aplicacion=${applicationType}`, {
                 responseType: 'blob',
             });
 
