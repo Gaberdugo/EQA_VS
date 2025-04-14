@@ -26,6 +26,7 @@ function ReportPage1() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/municipios/?proyecto_id=${projectName}`);
             setMunicipalities(response.data);
+            console.log(projectName);
         } catch (error) {
             setError("Hubo un error al obtener los municipios");
         }
