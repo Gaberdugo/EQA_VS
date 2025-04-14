@@ -7,9 +7,11 @@ function ReportPage1() {
     const [error, setError] = useState(null);
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState('');
+    const [municipalities, setMunicipalities] = useState([]);
+    const [selectedMunicipality, setSelectedMunicipality] = useState('');
     const [institutions, setInstitutions] = useState([]);
     const [selectedInstitution, setSelectedInstitution] = useState('');
-    const [applicationType, setApplicationType] = useState(''); // Nueva variable para Entrada o Salida
+    const [applicationType, setApplicationType] = useState('');
 
     const fetchProjects = async () => {
         try {
@@ -20,9 +22,18 @@ function ReportPage1() {
         }
     };
 
-    const fetchInstitutions = async (projectName) => {
+    const fetchMunicipalities = async (projectName) => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectName}`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/municipios/?proyecto_id=${projectName}`);
+            setMunicipalities(response.data);
+        } catch (error) {
+            setError("Hubo un error al obtener los municipios");
+        }
+    };
+
+    const fetchInstitutions = async (projectName, municipalityName) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/instituciones/?proyecto_id=${projectName}&municipio=${municipalityName}`);
             setInstitutions(response.data);
         } catch (error) {
             setError("Hubo un error al obtener las instituciones educativas");
@@ -35,13 +46,24 @@ function ReportPage1() {
 
     useEffect(() => {
         if (selectedProject) {
-            fetchInstitutions(selectedProject);
+            fetchMunicipalities(selectedProject);
+            setSelectedMunicipality('');
+            setSelectedInstitution('');
+            setApplicationType('');
         }
     }, [selectedProject]);
 
+    useEffect(() => {
+        if (selectedProject && selectedMunicipality) {
+            fetchInstitutions(selectedProject, selectedMunicipality);
+            setSelectedInstitution('');
+            setApplicationType('');
+        }
+    }, [selectedMunicipality]);
+
     const fetchData = async () => {
-        if (!selectedProject || !selectedInstitution || !applicationType) {
-            setError("Por favor, selecciona un proyecto, una institución educativa y el tipo de aplicación");
+        if (!selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType) {
+            setError("Por favor, completa todas las selecciones");
             return;
         }
 
@@ -49,7 +71,7 @@ function ReportPage1() {
         setError(null);
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/respuesta/exportar/?nombre_proyecto=${selectedProject}&nombre_institucion=${selectedInstitution}&tipo_aplicacion=${applicationType}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/respuesta/exportar/?nombre_proyecto=${selectedProject}&nombre_municipio=${selectedMunicipality}&nombre_institucion=${selectedInstitution}&tipo_aplicacion=${applicationType}`, {
                 responseType: 'blob',
             });
 
@@ -77,11 +99,7 @@ function ReportPage1() {
                     <select
                         id="proyecto"
                         value={selectedProject}
-                        onChange={(e) => {
-                            setSelectedProject(e.target.value);
-                            setSelectedInstitution('');
-                            setApplicationType('');
-                        }}
+                        onChange={(e) => setSelectedProject(e.target.value)}
                         style={styles.select}
                     >
                         <option value="">-- Selecciona un proyecto --</option>
@@ -95,14 +113,30 @@ function ReportPage1() {
 
                 {selectedProject && (
                     <div style={styles.selectContainer}>
+                        <label htmlFor="municipio" style={styles.selectLabel}>Selecciona un Municipio</label>
+                        <select
+                            id="municipio"
+                            value={selectedMunicipality}
+                            onChange={(e) => setSelectedMunicipality(e.target.value)}
+                            style={styles.select}
+                        >
+                            <option value="">-- Selecciona un municipio --</option>
+                            {municipalities.map((municipio, index) => (
+                                <option key={index} value={municipio}>
+                                    {municipio}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                {selectedMunicipality && (
+                    <div style={styles.selectContainer}>
                         <label htmlFor="institucion" style={styles.selectLabel}>Selecciona una Institución Educativa</label>
                         <select
                             id="institucion"
                             value={selectedInstitution}
-                            onChange={(e) => {
-                                setSelectedInstitution(e.target.value);
-                                setApplicationType('');
-                            }}
+                            onChange={(e) => setSelectedInstitution(e.target.value)}
                             style={styles.select}
                         >
                             <option value="">-- Selecciona una institución --</option>
@@ -115,7 +149,6 @@ function ReportPage1() {
                     </div>
                 )}
 
-                {/* Nuevo selector para tipo de aplicación */}
                 {selectedInstitution && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="tipoAplicacion" style={styles.selectLabel}>Selecciona el Tipo de Aplicación</label>
@@ -132,7 +165,7 @@ function ReportPage1() {
                     </div>
                 )}
 
-                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedInstitution || !applicationType} style={styles.button}>
+                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType} style={styles.button}>
                     {loading ? "Cargando..." : "Obtener Reporte"}
                 </button>
 

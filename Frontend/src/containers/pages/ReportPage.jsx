@@ -57,7 +57,7 @@ function ReportPage() {
     return (
         <Layout4>
             <div style={styles.container}>
-                <h1 style={styles.title}>Generador de Reportes Generales</h1>
+                <h1 style={styles.title}>Generador de Reportes Tabulación y Calificación</h1>
 
                 {/* Selector de proyectos */}
                 <div style={styles.selectContainer}>
