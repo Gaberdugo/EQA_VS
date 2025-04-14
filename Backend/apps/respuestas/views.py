@@ -447,19 +447,74 @@ class ObtenerMunicipiosAPIView(APIView):
 
 class GenerarReporte1APIIew(APIView):
     permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+
     def get(self, request):
-        # Recibir parámetros
         institucion = request.GET.get('institucion')
         proyecto = request.GET.get('proyecto')
         aplicacion = request.GET.get('aplicacion')
 
         if not institucion or not proyecto or not aplicacion:
-            return Response({"error": "Faltan parámetros: aplicación, institucion y proyecto son requeridos"}, status=400)
-        
-        encuestas = Encuesta.objects.filter(aplicacion=aplicacion, nombre_institucion=institucion, nombre=proyecto)
+            return Response({"error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"}, status=400)
 
-        total = 0
+        encuestas = Encuesta.objects.filter(
+            aplicacion=aplicacion,
+            nombre_institucion=institucion,
+            nombre=proyecto
+        )
 
+        if not encuestas.exists():
+            return Response({"error": "No se encontraron encuestas para los filtros proporcionados."}, status=404)
+
+        # Crear un DataFrame para simplificar la tabla
+        data = []
         for encuesta in encuestas:
-            total += 1
+            data.append([
+                encuesta.nombre_estudiante,
+                encuesta.grado,
+                encuesta.correctos
+            ])
 
+        df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
+
+        # Crear PDF en memoria
+        buffer = BytesIO()
+        pdf = canvas.Canvas(buffer, pagesize=letter)
+        width, height = letter
+
+        # Marca de agua
+        pdf.saveState()
+        pdf.setFont("Helvetica-Bold", 60)
+        pdf.setFillColorRGB(0.85, 0.85, 0.85)
+        pdf.translate(width / 2, height / 2)
+        pdf.rotate(45)
+        pdf.drawCentredString(0, 0, "CONFIDENCIAL")
+        pdf.restoreState()
+
+        # Título
+        pdf.setFont("Helvetica-Bold", 16)
+        pdf.setFillColor(colors.black)
+        pdf.drawCentredString(width / 2, height - 50, f"Reporte Institución: {institucion}")
+        pdf.drawCentredString(width / 2, height - 70, f"Proyecto: {proyecto} - Aplicación: {aplicacion}")
+
+        # Crear tabla
+        table_data = [df.columns.tolist()] + df.values.tolist()
+        table = Table(table_data)
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+        table.wrapOn(pdf, width, height)
+        table.drawOn(pdf, 50, height - 300)
+
+        pdf.showPage()
+        pdf.save()
+
+        buffer.seek(0)
+        response = HttpResponse(buffer, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="reporte_{institucion}_{proyecto}.pdf"'
+        return response
