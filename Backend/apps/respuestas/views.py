@@ -469,8 +469,8 @@ class GenerarReporte1APIIew(APIView):
                 }, status=404)
 
             return Response({
-                "error": f"Error interno al generar el PDF. {len(encuestas)}",
-                "detalle": str(e)
+                "error": "Error interno al generar el PDF.",
+                "detalle": (type(encuestas), len(encuestas))
             }, status=500)
 
             # Preparar los datos
