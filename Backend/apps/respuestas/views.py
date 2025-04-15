@@ -495,7 +495,7 @@ class GenerarReporte1APIIew(APIView):
         pdf.setFillColor(colors.black)
         pdf.drawCentredString(width / 2, height - 50, f"Reporte Institución: {institucion}")
         pdf.drawCentredString(width / 2, height - 70, f"Proyecto: {proyecto} - Aplicación: {aplicacion}")
-
+        """
         # Crear tabla
         table_data = [df.columns.tolist()] + df.values.tolist()
         table = Table(table_data)
@@ -510,7 +510,7 @@ class GenerarReporte1APIIew(APIView):
         ]))
         table.wrapOn(pdf, width, height)
         table.drawOn(pdf, 50, height - 300)
-
+        """
         pdf.showPage()
         pdf.save()
 
