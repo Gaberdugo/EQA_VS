@@ -9,6 +9,7 @@ from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 import os
+from traceback import format_exc
 
 from rest_framework import permissions
 from django.http import HttpResponse
@@ -446,75 +447,77 @@ class ObtenerMunicipiosAPIView(APIView):
 
 
 class GenerarReporte1APIIew(APIView):
-    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
+    permission_classes = [AllowAny]
 
     def get(self, request):
-        institucion = request.GET.get('institucion')
-        proyecto = request.GET.get('proyecto')
-        aplicacion = request.GET.get('aplicacion')
+        try:
+            institucion = request.GET.get('institucion')
+            proyecto = request.GET.get('proyecto')
+            aplicacion = request.GET.get('aplicacion')
 
-        if not institucion or not proyecto or not aplicacion:
-            return Response({"error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"}, status=400)
+            if not institucion or not proyecto or not aplicacion:
+                return Response({"error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"}, status=400)
 
-        encuestas = Encuesta.objects.filter(
-            aplicacion=aplicacion,
-            nombre_institucion=institucion,
-            nombre=proyecto
-        )
+            encuestas = Encuesta.objects.filter(
+                aplicacion=aplicacion,
+                nombre_institucion=institucion,
+                nombre=proyecto
+            )
 
-        if not encuestas.exists():
-            return Response({"error": "No se encontraron encuestas para los filtros proporcionados."}, status=404)
+            if not encuestas.exists():
+                return Response({"error": "No se encontraron encuestas para los filtros proporcionados."}, status=404)
 
-        # Crear un DataFrame para simplificar la tabla
-        data = []
-        for encuesta in encuestas:
-            estudiante = encuesta.nombre_estudiante or "N/A"
-            grado = encuesta.grado or "N/A"
-            correctos = encuesta.correctos if encuesta.correctos is not None else 0
+            data = []
+            for encuesta in encuestas:
+                estudiante = encuesta.nombre_estudiante or "N/A"
+                grado = encuesta.grado or "N/A"
+                correctos = encuesta.correctos if encuesta.correctos is not None else 0
+                data.append([estudiante, grado, correctos])
 
-            data.append([estudiante, grado, correctos])
+            df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
-        df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
+            buffer = BytesIO()
+            pdf = canvas.Canvas(buffer, pagesize=letter)
+            width, height = letter
 
-        # Crear PDF en memoria
-        buffer = BytesIO()
-        pdf = canvas.Canvas(buffer, pagesize=letter)
-        width, height = letter
+            pdf.saveState()
+            pdf.setFont("Helvetica-Bold", 80)
+            pdf.setFillColorRGB(0.93, 0.93, 0.93)
+            pdf.translate(width / 2, height / 2)
+            pdf.rotate(45)
+            pdf.drawCentredString(0, 0, "CONFIDENCIAL")
+            pdf.restoreState()
 
-        # Marca de agua (más grande y más transparente)
-        pdf.saveState()
-        pdf.setFont("Helvetica-Bold", 80)
-        pdf.setFillColorRGB(0.83, 0.83, 0.83)  # Gris muy claro
-        pdf.translate(width / 2, height / 2)
-        pdf.rotate(45)
-        pdf.drawCentredString(0, 0, "CONFIDENCIAL")
-        pdf.restoreState()
+            pdf.setFont("Helvetica-Bold", 16)
+            pdf.setFillColor(colors.black)
+            pdf.drawCentredString(width / 2, height - 50, f"Reporte Institución: {institucion}")
+            pdf.drawCentredString(width / 2, height - 70, f"Proyecto: {proyecto} - Aplicación: {aplicacion}")
 
-        # Título
-        pdf.setFont("Helvetica-Bold", 16)
-        pdf.setFillColor(colors.black)
-        pdf.drawCentredString(width / 2, height - 50, f"Reporte Institución: {institucion}")
-        pdf.drawCentredString(width / 2, height - 70, f"Proyecto: {proyecto} - Aplicación: {aplicacion}")
-        """
-        # Crear tabla
-        table_data = [df.columns.tolist()] + df.values.tolist()
-        table = Table(table_data)
-        table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-            ('FONTSIZE', (0, 0), (-1, 0), 12),
-            ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ]))
-        table.wrapOn(pdf, width, height)
-        table.drawOn(pdf, 50, height - 300)
-        """
-        pdf.showPage()
-        pdf.save()
+            table_data = [df.columns.tolist()] + df.values.tolist()
+            table = Table(table_data)
+            table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 12),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
+            table.wrapOn(pdf, width, height)
+            table.drawOn(pdf, 50, height - 300)
 
-        buffer.seek(0)
-        response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename=\"reporte_{institucion}_{proyecto}.pdf\"'
-        return response
+            pdf.showPage()
+            pdf.save()
+
+            buffer.seek(0)
+            response = HttpResponse(buffer, content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename=\"reporte_{institucion}_{proyecto}.pdf\"'
+            return response
+
+        except Exception as e:
+            print('🔴 ERROR:', format_exc())  # Imprime todo el traceback en consola
+            return Response({
+                "error": "Error interno al generar el PDF.",
+                "detalle": str(e)
+            }, status=500)
