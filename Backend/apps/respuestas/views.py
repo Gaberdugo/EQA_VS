@@ -457,9 +457,9 @@ class GenerarReporte1APIIew(APIView):
             return Response({"error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"}, status=400)
 
         encuestas = Encuesta.objects.filter(
-            aplicacion="entrada",
-            nombre_institucion="IED La Paz",
-            nombre="Prueba Piloto 2024"
+            aplicacion=aplicacion,
+            nombre_institucion=institucion,
+            nombre=proyecto
         )
 
         if not encuestas.exists():
@@ -481,10 +481,10 @@ class GenerarReporte1APIIew(APIView):
         pdf = canvas.Canvas(buffer, pagesize=letter)
         width, height = letter
 
-        # Marca de agua
+        # Marca de agua (más grande y más transparente)
         pdf.saveState()
-        pdf.setFont("Helvetica-Bold", 60)
-        pdf.setFillColorRGB(0.85, 0.85, 0.85)
+        pdf.setFont("Helvetica-Bold", 80)
+        pdf.setFillColorRGB(0.93, 0.93, 0.93)  # Gris muy claro
         pdf.translate(width / 2, height / 2)
         pdf.rotate(45)
         pdf.drawCentredString(0, 0, "CONFIDENCIAL")
@@ -516,5 +516,5 @@ class GenerarReporte1APIIew(APIView):
 
         buffer.seek(0)
         response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="reporte_{institucion}_{proyecto}.pdf"'
+        response['Content-Disposition'] = f'attachment; filename=\"reporte_{institucion}_{proyecto}.pdf\"'
         return response
