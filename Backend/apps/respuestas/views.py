@@ -1,14 +1,11 @@
 import random
 import pandas as pd
-import matplotlib.pyplot as plt
 from io import BytesIO
-import tempfile
-from PIL import Image
 from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, TableStyle
-import os
 from traceback import format_exc
 
 from rest_framework import permissions
@@ -456,7 +453,9 @@ class GenerarReporte1APIIew(APIView):
             aplicacion = request.GET.get('aplicacion')
 
             if not institucion or not proyecto or not aplicacion:
-                return Response({"error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"}, status=400)
+                return Response({
+                    "error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"
+                }, status=400)
 
             encuestas = Encuesta.objects.filter(
                 aplicacion=aplicacion,
@@ -465,8 +464,11 @@ class GenerarReporte1APIIew(APIView):
             )
 
             if not encuestas.exists():
-                return Response({"error": "No se encontraron encuestas para los filtros proporcionados."}, status=404)
+                return Response({
+                    "error": "No se encontraron encuestas para los filtros proporcionados."
+                }, status=404)
 
+            # Preparar los datos
             data = []
             for encuesta in encuestas:
                 estudiante = encuesta.nombre_estudiante or "N/A"
@@ -477,25 +479,21 @@ class GenerarReporte1APIIew(APIView):
             df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
             buffer = BytesIO()
-            pdf = canvas.Canvas(buffer, pagesize=letter)
-            width, height = letter
 
-            pdf.saveState()
-            pdf.setFont("Helvetica-Bold", 80)
-            pdf.setFillColorRGB(0.93, 0.93, 0.93)
-            pdf.translate(width / 2, height / 2)
-            pdf.rotate(45)
-            pdf.drawCentredString(0, 0, "CONFIDENCIAL")
-            pdf.restoreState()
+            # Crear el documento
+            doc = SimpleDocTemplate(buffer, pagesize=letter)
+            elements = []
 
-            pdf.setFont("Helvetica-Bold", 16)
-            pdf.setFillColor(colors.black)
-            pdf.drawCentredString(width / 2, height - 50, f"Reporte Institución: {institucion}")
-            pdf.drawCentredString(width / 2, height - 70, f"Proyecto: {proyecto} - Aplicación: {aplicacion}")
+            # Estilos
+            styles = getSampleStyleSheet()
+            title = Paragraph(f"<b>Reporte Institución:</b> {institucion}<br/><b>Proyecto:</b> {proyecto} | <b>Aplicación:</b> {aplicacion}", styles['Title'])
+            elements.append(title)
+            elements.append(Spacer(1, 20))
 
+            # Tabla
             table_data = [df.columns.tolist()] + df.values.tolist()
-            table = Table(table_data)
-            table.setStyle(TableStyle([
+            tabla = Table(table_data)
+            tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                 ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -504,11 +502,10 @@ class GenerarReporte1APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
                 ('GRID', (0, 0), (-1, -1), 1, colors.black),
             ]))
-            table.wrapOn(pdf, width, height)
-            table.drawOn(pdf, 50, height - 300)
+            elements.append(tabla)
 
-            pdf.showPage()
-            pdf.save()
+            # Crear documento base
+            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
@@ -516,8 +513,18 @@ class GenerarReporte1APIIew(APIView):
             return response
 
         except Exception as e:
-            print('🔴 ERROR:', format_exc())  # Imprime todo el traceback en consola
+            print("🔴 ERROR:", format_exc())
             return Response({
                 "error": "Error interno al generar el PDF.",
                 "detalle": str(e)
             }, status=500)
+
+    def agregar_marca_agua(self, canvas_obj, doc):
+        width, height = letter
+        canvas_obj.saveState()
+        canvas_obj.setFont("Helvetica-Bold", 80)
+        canvas_obj.setFillColorRGB(0.83, 0.83, 0.83)
+        canvas_obj.translate(width / 2, height / 2)
+        canvas_obj.rotate(45)
+        canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
+        canvas_obj.restoreState()
