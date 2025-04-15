@@ -468,6 +468,11 @@ class GenerarReporte1APIIew(APIView):
                     "error": "No se encontraron encuestas para los filtros proporcionados."
                 }, status=404)
 
+            return Response({
+                "error": f"Error interno al generar el PDF. {len(encuestas)}",
+                "detalle": str(e)
+            }, status=500)
+
             # Preparar los datos
             data = []
             for encuesta in encuestas:
