@@ -160,8 +160,8 @@ function ReportPage1() {
                             style={styles.select}
                         >
                             <option value="">-- Selecciona un tipo --</option>
-                            <option value="Entrada">Entrada</option>
-                            <option value="Salida">Salida</option>
+                            <option value="entrada">Entrada</option>
+                            <option value="salida">Salida</option>
                         </select>
                     </div>
                 )}
