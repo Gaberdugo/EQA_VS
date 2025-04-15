@@ -468,11 +468,11 @@ class GenerarReporte1APIIew(APIView):
         # Crear un DataFrame para simplificar la tabla
         data = []
         for encuesta in encuestas:
-            data.append([
-                encuesta.nombre_estudiante,
-                encuesta.grado,
-                encuesta.correctos
-            ])
+            estudiante = encuesta.nombre_estudiante or "N/A"
+            grado = encuesta.grado or "N/A"
+            correctos = encuesta.correctos if encuesta.correctos is not None else 0
+
+            data.append([estudiante, grado, correctos])
 
         df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
@@ -484,7 +484,7 @@ class GenerarReporte1APIIew(APIView):
         # Marca de agua (más grande y más transparente)
         pdf.saveState()
         pdf.setFont("Helvetica-Bold", 80)
-        pdf.setFillColorRGB(0.93, 0.93, 0.93)  # Gris muy claro
+        pdf.setFillColorRGB(0.83, 0.83, 0.83)  # Gris muy claro
         pdf.translate(width / 2, height / 2)
         pdf.rotate(45)
         pdf.drawCentredString(0, 0, "CONFIDENCIAL")
