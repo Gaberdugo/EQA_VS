@@ -457,7 +457,7 @@ class GenerarReporte1APIIew(APIView):
             return Response({"error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"}, status=400)
 
         encuestas = Encuesta.objects.filter(
-            aplicacion="Entrada",
+            aplicacion="entrada",
             nombre_institucion="IED La Paz",
             nombre="Prueba Piloto 2024"
         )
