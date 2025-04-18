@@ -556,7 +556,7 @@ class GenerarReporte1APIIew(APIView):
             )
 
             elements.append(Spacer(1, 12))
-            elements.append(Paragraph(parrafo_intro))    
+            elements.append(parrafo_intro)    
 
             descripcion_texto = '1.\tDatos de identificación de la institución educativa'
 
@@ -588,7 +588,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_resumen)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = '2.\t2.	Ficha técnica: número de estudiantes matriculados y evaluados'
+            descripcion_texto = '2.\tFicha técnica: número de estudiantes matriculados y evaluados'
 
             elements.append(Paragraph(descripcion_texto, descripcion_style))
 
