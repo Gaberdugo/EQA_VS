@@ -692,8 +692,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'L', 5)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'L', 13)
+            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'L', 5, 13)
+            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'L', 5, 13)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -821,8 +821,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'L', 7)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'L', 14)
+            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
+            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -901,12 +901,12 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_niveles)
 
             #-----------------------------------------------------------------------------------------------------------------------
-            """
+            
             descripcion_texto = '4.\tResultados en la prueba de Matemáticas'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = ""
+            contenido = """
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
@@ -919,7 +919,7 @@ class GenerarReporte1APIIew(APIView):
             • Númerico - variacional<br/>
             • Espacial - métrico<br/>
             • Aleatorio<br/><br/>
-            ""
+            """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -979,8 +979,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'M', 7)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'M', 14)
+            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'M', 7, 14)
+            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'M', 7, 14)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -1108,8 +1108,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'M', 6)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'M', 12)
+            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'M', 6, 12)
+            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'M', 6, 12)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -1186,7 +1186,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-            """
+            
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
