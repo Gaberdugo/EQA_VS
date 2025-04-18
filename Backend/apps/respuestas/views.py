@@ -605,7 +605,7 @@ class GenerarReporte1APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 4),
                 # Optional borders:
-                # ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
             ]))
 
             # Añadir a los elementos después del texto introductorio
@@ -763,6 +763,7 @@ class GenerarReporte1APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
             ]))
 
             elements.append(Spacer(1, 12))
@@ -891,6 +892,7 @@ class GenerarReporte1APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
             ]))
 
             elements.append(Spacer(1, 12))
