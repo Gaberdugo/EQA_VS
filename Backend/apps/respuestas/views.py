@@ -2,7 +2,10 @@ import random
 import pandas as pd
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
@@ -420,7 +423,6 @@ class ObtenerInstitucionesAPIView(APIView):
         # Retornar respuesta
         return Response(instituciones_list, status=status.HTTP_200_OK)
 
-
 class ObtenerMunicipiosAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -441,7 +443,6 @@ class ObtenerMunicipiosAPIView(APIView):
             resultado.append(municipio)
 
         return Response(resultado, status=status.HTTP_200_OK)
-
 
 class GenerarReporte1APIIew(APIView):
     permission_classes = [AllowAny]
@@ -468,6 +469,8 @@ class GenerarReporte1APIIew(APIView):
                     "error": "No se encontraron encuestas para los filtros proporcionados."
                 }, status=404)
 
+            ciudad = ''
+            fecha_aplicacion = ''
             # Preparar los datos
             data = []
             for encuesta in encuestas:
@@ -475,6 +478,8 @@ class GenerarReporte1APIIew(APIView):
                 grado = encuesta.grado or "N/A"
                 correctos = encuesta.correctos if encuesta.correctos is not None else 0
                 data.append([estudiante, grado, correctos])
+                ciudad = encuesta.ciudad
+                fecha_aplicacion = encuesta.fecha
 
             df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
@@ -484,25 +489,93 @@ class GenerarReporte1APIIew(APIView):
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
 
-            # Estilos
-            styles = getSampleStyleSheet()
-            title = Paragraph(f"<b>Reporte Institución:</b> {institucion}<br/><b>Proyecto:</b> {proyecto} | <b>Aplicación:</b> {aplicacion}", styles['Title'])
-            elements.append(title)
-            elements.append(Spacer(1, 20))
+            # Estilo verde centrado
+            titulo_style = ParagraphStyle(
+                name="TituloVerdeCentrado",
+                alignment=TA_CENTER,
+                fontSize=18,
+                textColor=HexColor("#1B8830"),
+                leading=22,
+                spaceAfter=12
+            )
 
-            # Tabla
-            table_data = [df.columns.tolist()] + df.values.tolist()
-            tabla = Table(table_data)
-            tabla.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, 0), 12),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            subtitulo_style = ParagraphStyle(
+                name="SubtituloVerdeCentrado",
+                alignment=TA_CENTER,
+                fontSize=14,
+                textColor=HexColor("#1B8830"),
+                leading=20,
+                spaceAfter=6
+            )
+
+            descripcion_style = ParagraphStyle(
+                name="DescripcionVerdeCentrada",
+                alignment=TA_CENTER,
+                fontSize=12,
+                textColor=HexColor("#1B8830"),
+                leading=16
+            )
+
+            intro_style = ParagraphStyle(
+                name="IntroPequeñoNegro",
+                alignment=TA_LEFT,
+                fontSize=10,
+                textColor=colors.black,
+                leading=14,
+                spaceAfter=20,
+                leftIndent=40,
+                rightIndent=40
+            )
+
+            # Contenido
+            titulo_texto = f"""
+            <b>Reporte Institución:</b> {institucion}<br/>
+            <b>Proyecto:</b> {proyecto}<br/>
+            <b>Aplicación:</b> {aplicacion}
+            """
+
+            subtitulo_texto = "Programa Escuelas que Aprenden®"
+            descripcion_texto = f"Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}"
+            
+            # Insertar en elementos
+            elements.append(Spacer(1, 200))  # Centrar verticalmente
+            elements.append(Paragraph(titulo_texto, titulo_style))
+            elements.append(Spacer(1, 12))
+            elements.append(PageBreak())  #Inicia nueva página para la tabla
+            elements.append(Paragraph(subtitulo_texto, subtitulo_style))
+            elements.append(Paragraph(descripcion_texto, descripcion_style))
+            
+            intro_texto = f"""
+            Este informe presenta los resultados obtenidos por los estudiantes de la institución {institucion}, correspondientes a la aplicación de {aplicacion} del programa educativo. Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer los procesos de enseñanza y aprendizaje.
+            """
+            
+            elements.append(Paragraph(intro_texto, intro_style))    
+
+            # Datos de la tabla
+            resumen_data = [
+                ['Ciudad:', ciudad],
+                ['Institución educativa:', institucion],
+                ['Fecha de aplicación:', fecha_aplicacion],
+                ['Tipo de aplicación:', aplicacion],
+            ]
+
+            # Crear tabla de resumen
+            tabla_resumen = Table(resumen_data, colWidths=[200, 300])
+            tabla_resumen.setStyle(TableStyle([
+                ('TEXTCOLOR', (0, 0), (0, -1), HexColor("#1B8830")),  # columna izquierda verde
+                ('TEXTCOLOR', (1, 0), (1, -1), colors.black),         # columna derecha negra
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 11),
+                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 4),
+                # Optional borders:
+                # ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
             ]))
-            elements.append(tabla)
+
+            # Añadir a los elementos después del texto introductorio
+            elements.append(tabla_resumen)
+            elements.append(Spacer(1, 20))
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
