@@ -1,5 +1,6 @@
 import random
 import pandas as pd
+import math
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
@@ -645,10 +646,10 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
-
+            t = self.tabla(institucion, aplicacion, proyecto, 3, 'L')
             tabla_datos = [
                 ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, len(data), 0.5, 2.5, 1, 5],  # Fila 1
+                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
                 [ciudad, "47", "3.5", "0.6", "1.8", "4.2"],  # Fila 2 
             ]
 
@@ -693,3 +694,42 @@ class GenerarReporte1APIIew(APIView):
         canvas_obj.rotate(45)
         canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
         canvas_obj.restoreState()
+
+    def tabla(self, institucion, aplicacion, proyecto, grado, materia):
+        if grado == 3:
+            grado = 'Tercero'
+        else:
+            grado = 'Quinto'
+        
+        if materia == 'M':
+            grado = 'Matemáticas'
+        else:
+            grado = 'Lenguaje'
+        
+        encuestas = Encuesta.objects.filter(
+            aplicacion=aplicacion,
+            nombre_institucion=institucion,
+            nombre=proyecto,
+            grado=grado,
+            prueba=materia
+        )
+
+        data = []
+        maxi = 0
+        mini = 20
+        for encuesta in encuestas:
+            if maxi < encuesta.correctos:
+                maxi = encuesta.correctos
+            if mini > encuesta.correctos:
+                mini = encuesta.correctos
+            data.append(encuesta.correctos)
+
+        media = sum(data)/len(data)
+
+        suma_cuadrados = sum((x - media) ** 2 for x in data)
+        desviacion_estandar = math.sqrt(suma_cuadrados / (len(data) - 1))
+
+        res = [len(data), media, desviacion_estandar, mini, maxi]
+
+        return res
+            
