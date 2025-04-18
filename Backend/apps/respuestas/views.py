@@ -618,7 +618,10 @@ class GenerarReporte1APIIew(APIView):
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
-            Las pruebas abordan tres niveles de comprensión textual:
+            Las pruebas abordan tres niveles de comprensión textual:.<br/><br/>
+            • <b>Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
+            • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
+            • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.
             """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
@@ -630,6 +633,16 @@ class GenerarReporte1APIIew(APIView):
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
 
+            descripcion_texto = '3.1.\t3.1.	Tercer grado\n\t\ta. Lenguaje'
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+            parrafo_intro = Paragraph(
+                "Espacio estático para incluir un texto, pendiente de construir, para explicar que el puntaje se presenta en una escala de 0 a 20 puntos, qué es el promedio y la desviación estándar (dos párrafos cortos como máximo).",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro)   
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
@@ -650,7 +663,7 @@ class GenerarReporte1APIIew(APIView):
         width, height = letter
         canvas_obj.saveState()
         canvas_obj.setFont("Helvetica-Bold", 80)
-        canvas_obj.setFillColorRGB(0.83, 0.83, 0.83)
+        canvas_obj.setFillColorRGB(0.9, 0.9, 0.9)
         canvas_obj.translate(width / 2, height / 2)
         canvas_obj.rotate(45)
         canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
