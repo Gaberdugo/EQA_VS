@@ -695,8 +695,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Crear gráfico
             plt.figure(figsize=(6, 4))
-            plt.bar([i - bar_width/2 for i in x], institucion, width=bar_width, label='Institución', color='#1B8830')
-            plt.bar([i + bar_width/2 for i in x], ciudad, width=bar_width, label='Ciudad', color='#6FBF73')
+            plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
+            plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
             plt.xticks(x, niveles)
             plt.ylabel('Porcentaje (%)')
             plt.title('Distribución por Niveles de Desempeño')
@@ -714,6 +714,10 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(grafico)
             elements.append(Spacer(1, 20))
+
+
+
+
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
