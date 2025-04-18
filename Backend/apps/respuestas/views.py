@@ -636,7 +636,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = '3.1.\t3.1.	Tercer grado\n\t\ta. Lenguaje'
+            descripcion_texto = '3.1.	Tercer grado \n \t \ta. Puntaje'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -646,11 +646,12 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
-            t = self.tabla(institucion, aplicacion, proyecto, 3, 'L')
+            t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'L')
+            c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
             tabla_datos = [
                 ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, "47", "3.5", "0.6", "1.8", "4.2"],  # Fila 2 
+                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
             ]
 
             # Crear la tabla
@@ -669,6 +670,9 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
+
+            descripcion_texto = '\t \tb. Descripción'
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
@@ -695,7 +699,8 @@ class GenerarReporte1APIIew(APIView):
         canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
         canvas_obj.restoreState()
 
-    def tabla(self, institucion, aplicacion, proyecto, grado, materia):
+    def tabla(self, modo, institucion, aplicacion, proyecto, grado, materia):
+        
         if grado == 3:
             grado_str = 'Tercero'
         else:
@@ -705,14 +710,22 @@ class GenerarReporte1APIIew(APIView):
             prueba = 'Matemáticas'
         else:
             prueba = 'Lenguaje'
-        
-        encuestas = Encuesta.objects.filter(
-            aplicacion=aplicacion,
-            nombre_institucion=institucion,
-            nombre=proyecto,
-            grado=grado_str,
-            prueba=prueba
-        )
+
+        if modo == 0:   
+            encuestas = Encuesta.objects.filter(
+                aplicacion=aplicacion,
+                nombre_institucion=institucion,
+                nombre=proyecto,
+                grado=grado_str,
+                prueba=prueba
+            )
+        else:
+            encuestas = Encuesta.objects.filter(
+                aplicacion=aplicacion,
+                nombre=proyecto,
+                grado=grado_str,
+                prueba=prueba
+            )
 
         data = []
         maxi = 0
