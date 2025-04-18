@@ -867,17 +867,17 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo),
                     Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
-                    Paragraph("<b>Medio<br/>(entre 5 y 12 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Medio<br/>(entre 7 y 13 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
-                    Paragraph("<b>Alto<br/>(entre 13 y 20 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Alto<br/>(entre 14 y 20 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
@@ -1025,17 +1025,17 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo),
                     Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
-                    Paragraph("<b>Medio<br/>(entre 5 y 12 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Medio<br/>(entre 7 y 13 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
-                    Paragraph("<b>Alto<br/>(entre 13 y 20 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Alto<br/>(entre 14 y 20 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
@@ -1057,7 +1057,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-
+            """
             #-----------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '4.2.	Quinto grado <br/>a. Puntaje'
@@ -1154,17 +1154,17 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Bajo<br/>(entre 1 y 5 puntos)</b>", parrafo_estilo),
                     Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
-                    Paragraph("<b>Medio<br/>(entre 5 y 12 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Medio<br/>(entre 6 y 10 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
-                    Paragraph("<b>Alto<br/>(entre 13 y 20 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Alto<br/>(entre 11 y 20 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
                             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
@@ -1186,12 +1186,8 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-
+            """
             #-----------------------------------------------------------------------------------------------------------------------
-
-
-
-
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
