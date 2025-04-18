@@ -686,46 +686,28 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
 
-            # Datos del gráfico
-            niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'L')
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'L')
+            # Tabla de porcentajes arriba del gráfico
+            porcentajes_data = [
+                ['Nivel', 'Institución (%)', 'Ciudad (%)'],
+                ['Bajo', f'{round(t[0])}%', f'{round(c[0])}%'],
+                ['Medio', f'{round(t[1])}%', f'{round(c[1])}%'],
+                ['Alto', f'{round(t[2])}%', f'{round(c[2])}%'],
+            ]
 
-            # Posiciones para barras
-            x = range(len(niveles))
-            bar_width = 0.35
+            tabla_porcentajes = Table(porcentajes_data, colWidths=[100, 130, 130])
+            tabla_porcentajes.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 6),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
+            ]))
 
-            # Crear gráfico
-            plt.figure(figsize=(6, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
-
-            # Agregar etiquetas encima de las barras
-            for i, bar in enumerate(bars1):
-                height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
-
-            for i, bar in enumerate(bars2):
-                height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
-
-            # Ajustes del gráfico
-            plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño')
-            plt.legend()
-            plt.tight_layout()
-
-            # Guardar a un archivo temporal en memoria
-            img_buffer = BytesIO()
-            plt.savefig(img_buffer, format='png')
-            plt.close()
-            img_buffer.seek(0)
-
-            # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
             elements.append(Spacer(1, 12))
-            elements.append(grafico)
+            elements.append(tabla_porcentajes)
             elements.append(Spacer(1, 20))
 
             descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, tercer grado'
@@ -736,20 +718,17 @@ class GenerarReporte1APIIew(APIView):
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo),
                     Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
-                            "Identifica información explícita en textos simples, con vocabulario cotidiano. "
-                            "Tiene dificultades para hacer inferencias o emitir juicios sobre los contenidos.", parrafo_estilo)
+                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Medio<br/>(entre 5 y 12 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
-                            "Puede hacer inferencias básicas y reconocer relaciones dentro del texto, "
-                            "aunque aún presenta dificultades al enfrentar textos más complejos.", parrafo_estilo)
+                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Alto<br/>(entre 13 y 20 puntos)</b>", parrafo_estilo),
                     Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
-                            "Comprende textos complejos, realiza inferencias elaboradas y emite juicios críticos "
-                            "con base en el contenido y la estructura de los textos.", parrafo_estilo)
+                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
                 ],
             ]
 
@@ -769,7 +748,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
 
-            
+
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
@@ -896,4 +875,4 @@ class GenerarReporte1APIIew(APIView):
         
         total = bajo + medio + alto
 
-        return [bajo/total, medio/total, alto/total]
+        return [(bajo/total)*100, (medio/total)*100, (alto/total)*100]
