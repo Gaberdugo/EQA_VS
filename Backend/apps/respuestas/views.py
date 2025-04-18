@@ -480,6 +480,8 @@ class GenerarReporte1APIIew(APIView):
                 data.append([estudiante, grado, correctos])
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
+                if encuesta.prueba.lower() == 'lenguaje' and encuesta.grado.lower() == 'tercero':
+                    pass
 
             df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
@@ -621,12 +623,12 @@ class GenerarReporte1APIIew(APIView):
             Las pruebas abordan tres niveles de comprensión textual:.<br/><br/>
             • <b>Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
             • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
-            • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.
+            • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/><br/>
+            Los puntajes en esta prueba se presentan en una escala de 0 a 20 puntos. 
             """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
-
 
             # Añádelo a la lista de elementos
             elements.append(Spacer(1, 12))
@@ -643,6 +645,29 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
+
+            tabla_datos = [
+                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                [institucion, len(data), 0.5, 2.5, 1, 5],  # Fila 1
+                [ciudad, "47", "3.5", "0.6", "1.8", "4.2"],  # Fila 2 
+            ]
+
+            # Crear la tabla
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
+            tabla_estadistica.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 6),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),          # Líneas de tabla
+            ]))
+
+            elements.append(Spacer(1, 12))
+            elements.append(tabla_estadistica)
+            elements.append(Spacer(1, 20))
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
