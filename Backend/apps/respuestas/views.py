@@ -1,7 +1,9 @@
 import random
 import pandas as pd
 import math
+import matplotlib as plt
 from io import BytesIO
+from reportlab.platypus import Image as RLImage
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import ParagraphStyle
@@ -636,7 +638,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = '3.1.	Tercer grado \n \t \ta. Puntaje'
+            descripcion_texto = '3.1.	Tercer grado <br/>a. Puntaje'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -671,8 +673,47 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = '\t \tb. Descripción'
+            descripcion_texto = 'b. Descripción'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+            parrafo_intro = Paragraph(
+                "Espacio estático para incluir un texto, pendiente de construir, para explicar qué es y cómo interpretar los niveles de desempeño (dos párrafos cortos como máximo)."
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro)   
+
+            # Datos del gráfico
+            niveles = ['Bajo', 'Medio', 'Alto']
+            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'L')
+            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'L')
+
+            
+            # Posiciones para barras
+            x = range(len(niveles))
+            bar_width = 0.35
+
+            # Crear gráfico
+            plt.figure(figsize=(6, 4))
+            plt.bar([i - bar_width/2 for i in x], institucion, width=bar_width, label='Institución', color='#1B8830')
+            plt.bar([i + bar_width/2 for i in x], ciudad, width=bar_width, label='Ciudad', color='#6FBF73')
+            plt.xticks(x, niveles)
+            plt.ylabel('Porcentaje (%)')
+            plt.title('Distribución por Niveles de Desempeño')
+            plt.legend()
+            plt.tight_layout()
+
+            # Guardar a un archivo temporal en memoria
+            img_buffer = BytesIO()
+            plt.savefig(img_buffer, format='png')
+            plt.close()
+            img_buffer.seek(0)
+
+            # Insertar imagen en el PDF (usando ReportLab Image)
+            grafico = RLImage(img_buffer, width=400, height=300)
+            elements.append(Spacer(1, 12))
+            elements.append(grafico)
+            elements.append(Spacer(1, 20))
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
@@ -752,4 +793,43 @@ class GenerarReporte1APIIew(APIView):
             mini,
             maxi
         ]
-            
+    
+    def desempeño(self, modo, institucion, aplicacion, proyecto, grado, materia):
+        bajo = 0
+        medio = 0
+        alto = 0
+        if grado == 3:
+            grado_str = 'Tercero'
+        else:
+            grado_str = 'Quinto'
+        
+        if materia == 'M':
+            prueba = 'Matemáticas'
+        else:
+            prueba = 'Lenguaje'
+
+        if modo == 0:   
+            encuestas = Encuesta.objects.filter(
+                aplicacion=aplicacion,
+                nombre_institucion=institucion,
+                nombre=proyecto,
+                grado=grado_str,
+                prueba=prueba
+            )
+        else:
+            encuestas = Encuesta.objects.filter(
+                aplicacion=aplicacion,
+                nombre=proyecto,
+                grado=grado_str,
+                prueba=prueba
+            )
+        
+        for encuesta in encuestas:
+            if encuesta.correctos < 5:
+                bajo+=1
+            elif encuesta.correctos < 13:
+                medio+=1
+            else:
+                alto+=1
+        
+        return [bajo, medio, alto]
