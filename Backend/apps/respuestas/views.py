@@ -621,16 +621,9 @@ class GenerarReporte1APIIew(APIView):
             Las pruebas abordan tres niveles de comprensión textual:
             """
 
-            # Tabla de una sola celda para simular el recuadro
+            contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
-            recuadro_tabla.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#E6F4E6")),  # fondo verde claro
-                ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#1B8830")),       # borde verde
-                ('LEFTPADDING', (0, 0), (-1, -1), 12),
-                ('RIGHTPADDING', (0, 0), (-1, -1), 12),
-                ('TOPPADDING', (0, 0), (-1, -1), 10),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
-            ]))
+
 
             # Añádelo a la lista de elementos
             elements.append(Spacer(1, 12))
