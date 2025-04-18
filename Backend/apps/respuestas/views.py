@@ -1,7 +1,9 @@
 import random
 import pandas as pd
 import math
-import matplotlib as plt
+import matplotlib
+matplotlib.use('Agg')  # Usar backend sin GUI
+import matplotlib.pyplot as plt
 from io import BytesIO
 from reportlab.platypus import Image as RLImage
 from reportlab.lib.pagesizes import letter
@@ -829,7 +831,13 @@ class GenerarReporte1APIIew(APIView):
                 prueba=prueba
             )
         
+        total = encuestas.count()
+        if total == 0:
+            return [0, 0, 0]  # Evita división por cero
+
         for encuesta in encuestas:
+            if encuesta.correctos is None:
+                continue
             if encuesta.correctos < 5:
                 bajo+=1
             elif encuesta.correctos < 13:
