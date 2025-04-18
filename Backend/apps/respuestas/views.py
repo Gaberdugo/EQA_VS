@@ -528,11 +528,28 @@ class GenerarReporte1APIIew(APIView):
                 rightIndent=10,
             )
 
+            descripcion_izq_style = ParagraphStyle(
+                name="DescripcionIzquierda",
+                alignment=TA_LEFT,
+                fontSize=12,
+                textColor=HexColor("#1B8830"),
+                leading=16,
+                spaceBefore=12,
+                spaceAfter=8,
+            )
+
+            recuadro_style = ParagraphStyle(
+                name="RecuadroJustificado",
+                fontSize=10.5,
+                leading=14,
+                alignment=4,  # Justificado
+                textColor=colors.black,
+            )
 
             # Contenido
             titulo_texto = f"""
             <b>Reporte de resultados para la</b><br/>
-            <b>{institucion} - Aplicación: {str(aplicacion).title}</b>
+            <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
             """
 
             subtitulo_texto = "Programa Escuelas que Aprenden®"
@@ -548,7 +565,7 @@ class GenerarReporte1APIIew(APIView):
             
             parrafo_intro = Paragraph(
                 f"""Este informe presenta los resultados obtenidos por los estudiantes de la institución
-                <b>{institucion}</b>, correspondientes a la aplicación de entrada del programa educativo. 
+                {institucion}, correspondientes a la aplicación de entrada del programa educativo. 
                 Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, 
                 y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer 
                 los procesos de enseñanza y aprendizaje.""",
@@ -560,14 +577,14 @@ class GenerarReporte1APIIew(APIView):
 
             descripcion_texto = '1.\tDatos de identificación de la institución educativa'
 
-            elements.append(Paragraph(descripcion_texto, descripcion_style))
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             # Datos de la tabla
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
                 ['Fecha de aplicación:', fecha_aplicacion],
-                ['Tipo de aplicación:', str(aplicacion).title],
+                ['Tipo de aplicación:', str(aplicacion).title()],
             ]
 
             # Crear tabla de resumen
@@ -590,7 +607,36 @@ class GenerarReporte1APIIew(APIView):
 
             descripcion_texto = '2.\tFicha técnica: número de estudiantes matriculados y evaluados'
 
-            elements.append(Paragraph(descripcion_texto, descripcion_style))
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+            descripcion_texto = '3.\tResultados en la prueba de Lenguaje '
+
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+            contenido = """
+            <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
+            Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
+            Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
+            Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
+            Las pruebas abordan tres niveles de comprensión textual:
+            """
+
+            # Tabla de una sola celda para simular el recuadro
+            recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
+            recuadro_tabla.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor("#E6F4E6")),  # fondo verde claro
+                ('BOX', (0, 0), (-1, -1), 1, colors.HexColor("#1B8830")),       # borde verde
+                ('LEFTPADDING', (0, 0), (-1, -1), 12),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 12),
+                ('TOPPADDING', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+            ]))
+
+            # Añádelo a la lista de elementos
+            elements.append(Spacer(1, 12))
+            elements.append(recuadro_tabla)
+            elements.append(Spacer(1, 20))
+
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
