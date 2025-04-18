@@ -697,21 +697,21 @@ class GenerarReporte1APIIew(APIView):
 
     def tabla(self, institucion, aplicacion, proyecto, grado, materia):
         if grado == 3:
-            grado = 'Tercero'
+            grado_str = 'Tercero'
         else:
-            grado = 'Quinto'
+            grado_str = 'Quinto'
         
         if materia == 'M':
-            grado = 'Matemáticas'
+            prueba = 'Matemáticas'
         else:
-            grado = 'Lenguaje'
+            prueba = 'Lenguaje'
         
         encuestas = Encuesta.objects.filter(
             aplicacion=aplicacion,
             nombre_institucion=institucion,
             nombre=proyecto,
-            grado=grado,
-            prueba=materia
+            grado=grado_str,
+            prueba=prueba
         )
 
         data = []
@@ -724,12 +724,19 @@ class GenerarReporte1APIIew(APIView):
                 mini = encuesta.correctos
             data.append(encuesta.correctos)
 
+        if not data:
+            return [0, 0, 0, 0, 0]
+
         media = sum(data)/len(data)
 
         suma_cuadrados = sum((x - media) ** 2 for x in data)
         desviacion_estandar = math.sqrt(suma_cuadrados / (len(data) - 1))
 
-        res = [len(data), media, desviacion_estandar, mini, maxi]
-
-        return res
+        return [
+            len(data),
+            round(media, 2),
+            round(desviacion_estandar, 2),
+            mini,
+            maxi
+        ]
             
