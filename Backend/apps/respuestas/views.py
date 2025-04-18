@@ -928,7 +928,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
-
+            """
             #-----------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '4.1.	Tercer grado <br/>a. Puntaje'
@@ -1057,7 +1057,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-            """
+            
             #-----------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '4.2.	Quinto grado <br/>a. Puntaje'
