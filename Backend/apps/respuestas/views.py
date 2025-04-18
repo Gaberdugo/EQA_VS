@@ -516,22 +516,23 @@ class GenerarReporte1APIIew(APIView):
                 leading=16
             )
 
-            intro_style = ParagraphStyle(
-                name="IntroPequeñoNegro",
-                alignment=TA_LEFT,
-                fontSize=10,
-                textColor=colors.black,
+            parrafo_estilo = ParagraphStyle(
+                name='IntroJustificado',
+                fontName='Helvetica',
+                fontSize=10.5,
                 leading=14,
+                textColor=colors.black,
+                alignment=4,  # Justificado
                 spaceAfter=20,
-                leftIndent=40,
-                rightIndent=40
+                leftIndent=10,
+                rightIndent=10,
             )
+
 
             # Contenido
             titulo_texto = f"""
-            <b>Reporte Institución:</b> {institucion}<br/>
-            <b>Proyecto:</b> {proyecto}<br/>
-            <b>Aplicación:</b> {aplicacion}
+            <b>Reporte de resultados para la</b><br/>
+            <b>{institucion} - Aplicación: {str(aplicacion).title}</b>
             """
 
             subtitulo_texto = "Programa Escuelas que Aprenden®"
@@ -545,18 +546,28 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(subtitulo_texto, subtitulo_style))
             elements.append(Paragraph(descripcion_texto, descripcion_style))
             
-            intro_texto = f"""
-            Este informe presenta los resultados obtenidos por los estudiantes de la institución {institucion}, correspondientes a la aplicación de {aplicacion} del programa educativo. Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer los procesos de enseñanza y aprendizaje.
-            """
-            
-            elements.append(Paragraph(intro_texto, intro_style))    
+            parrafo_intro = Paragraph(
+                f"""Este informe presenta los resultados obtenidos por los estudiantes de la institución
+                <b>{institucion}</b>, correspondientes a la aplicación de entrada del programa educativo. 
+                Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, 
+                y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer 
+                los procesos de enseñanza y aprendizaje.""",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(Paragraph(parrafo_intro))    
+
+            descripcion_texto = '1.\tDatos de identificación de la institución educativa'
+
+            elements.append(Paragraph(descripcion_texto, descripcion_style))
 
             # Datos de la tabla
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
                 ['Fecha de aplicación:', fecha_aplicacion],
-                ['Tipo de aplicación:', aplicacion],
+                ['Tipo de aplicación:', str(aplicacion).title],
             ]
 
             # Crear tabla de resumen
@@ -576,6 +587,10 @@ class GenerarReporte1APIIew(APIView):
             # Añadir a los elementos después del texto introductorio
             elements.append(tabla_resumen)
             elements.append(Spacer(1, 20))
+
+            descripcion_texto = '2.\t2.	Ficha técnica: número de estudiantes matriculados y evaluados'
+
+            elements.append(Paragraph(descripcion_texto, descripcion_style))
 
             # Crear documento base
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
