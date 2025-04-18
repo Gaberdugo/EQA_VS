@@ -640,6 +640,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
 
+            #-----------------------------------------------------------------------------------------------------------------------
+
             descripcion_texto = '3.1.	Tercer grado <br/>a. Puntaje'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -728,8 +730,6 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-        
-
             descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, tercer grado'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
@@ -767,6 +767,137 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
+
+            #-----------------------------------------------------------------------------------------------------------------------
+
+            descripcion_texto = '3.2.	Quinto grado <br/>a. Puntaje'
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+            parrafo_intro = Paragraph(
+                "Espacio estático para incluir un texto, pendiente de construir, para explicar que el puntaje se presenta en una escala de 0 a 20 puntos, qué es el promedio y la desviación estándar (dos párrafos cortos como máximo).",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro)   
+            t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'L')
+            c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'L')
+            tabla_datos = [
+                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+            ]
+
+            # Crear la tabla
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
+            tabla_estadistica.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 6),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),          # Líneas de tabla
+            ]))
+
+            elements.append(Spacer(1, 12))
+            elements.append(tabla_estadistica)
+            elements.append(Spacer(1, 20))
+
+            descripcion_texto = 'b. Descripción'
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+            parrafo_intro = Paragraph(
+                "Espacio estático para incluir un texto, pendiente de construir, para explicar qué es y cómo interpretar los niveles de desempeño (dos párrafos cortos como máximo).",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro)   
+
+            # Datos del gráfico
+            niveles = ['Bajo', 'Medio', 'Alto']
+            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'L')
+            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'L')
+
+            # Posiciones para barras
+            x = range(len(niveles))
+            bar_width = 0.35
+
+            # Crear gráfico
+            plt.figure(figsize=(6, 5))
+            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+
+            # Agregar etiquetas encima de las barras
+            for i, bar in enumerate(bars1):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+
+            for i, bar in enumerate(bars2):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+
+            # Ajustes del gráfico
+            plt.xticks(x, niveles)
+            plt.ylabel('Porcentaje (%)')
+            plt.title('Distribución por Niveles de Desempeño')
+            plt.legend()
+            plt.tight_layout()
+
+            # Guardar a un archivo temporal en memoria
+            img_buffer = BytesIO()
+            plt.savefig(img_buffer, format='png')
+            plt.close()
+            img_buffer.seek(0)
+
+            # Insertar imagen en el PDF (usando ReportLab Image)
+            grafico = RLImage(img_buffer, width=400, height=300)
+            elements.append(Spacer(1, 12))
+            elements.append(grafico)
+            elements.append(Spacer(1, 20))
+
+            descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, quinto grado'
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
+
+            # Tabla descriptiva de niveles de desempeño
+            niveles_data = [
+                [
+                    Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo),
+                    Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
+                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                ],
+                [
+                    Paragraph("<b>Medio<br/>(entre 5 y 12 puntos)</b>", parrafo_estilo),
+                    Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
+                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                ],
+                [
+                    Paragraph("<b>Alto<br/>(entre 13 y 20 puntos)</b>", parrafo_estilo),
+                    Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
+                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                ],
+            ]
+
+            tabla_niveles = Table(niveles_data, colWidths=[180, 300])
+            tabla_niveles.setStyle(TableStyle([
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10.5),
+                ('LEFTPADDING', (0, 0), (-1, -1), 6),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 6),
+                ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
+            ]))
+
+            elements.append(Spacer(1, 12))
+            elements.append(tabla_niveles)
+
+            #-----------------------------------------------------------------------------------------------------------------------
+
 
 
 
@@ -895,4 +1026,4 @@ class GenerarReporte1APIIew(APIView):
         
         total = bajo + medio + alto
 
-        return [(bajo/total)*100, (medio/total)*100, (alto/total)*100]
+        return [round((bajo/total)*100,2), round((medio/total)*100,2), round((alto/total)*100,2)]
