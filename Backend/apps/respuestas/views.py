@@ -1556,7 +1556,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
-
+            """
             descripcion_texto = 'b. Descripción'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -1848,7 +1848,7 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = """
+            contenido = ""
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
@@ -1861,7 +1861,7 @@ class GenerarReporte2APIIew(APIView):
             • Númerico - variacional<br/>
             • Espacial - métrico<br/>
             • Aleatorio<br/><br/>
-            """
+            ""
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -2204,7 +2204,7 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-            
+            """
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
