@@ -1455,7 +1455,7 @@ class GenerarReporte2APIIew(APIView):
                 ['Institución educativa:', institucion],
                 ['Fecha de aplicación:', fecha_aplicacion],
             ]
-            """
+
             # Crear tabla de resumen
             tabla_resumen = Table(resumen_data, colWidths=[200, 300])
             tabla_resumen.setStyle(TableStyle([
@@ -1486,7 +1486,7 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = ""
+            contenido = """
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
@@ -1496,7 +1496,7 @@ class GenerarReporte2APIIew(APIView):
             • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
             • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/><br/>
             Los puntajes en esta prueba se presentan en una escala de 0 a 20 puntos. 
-            ""
+            """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -1556,7 +1556,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
-            
+            """
             descripcion_texto = 'b. Descripción'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
