@@ -1556,7 +1556,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
-            """
+            
             descripcion_texto = 'b. Descripción'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -1843,7 +1843,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_niveles)
 
             #-----------------------------------------------------------------------------------------------------------------------
-            
+            """
             descripcion_texto = '4.\tResultados en la prueba de Matemáticas'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
@@ -2212,7 +2212,7 @@ class GenerarReporte2APIIew(APIView):
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename=\"reporte_{institucion}_{proyecto}.pdf\"'
+            response['Content-Disposition'] = f'attachment; filename=\"reporte_comparativo_{institucion}_{proyecto}.pdf\"'
             return response
 
         except Exception as e:
