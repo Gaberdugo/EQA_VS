@@ -69,7 +69,7 @@ function ReportPage2() {
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${selectedInstitution}&proyecto=${selectedProject}`,
+                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${selectedInstitution}&proyecto=${selectedProject}`,
                 { responseType: 'blob' }
             );
 
