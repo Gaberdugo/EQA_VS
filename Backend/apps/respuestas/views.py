@@ -1323,15 +1323,13 @@ class GenerarReporte2APIIew(APIView):
         try:
             institucion = request.GET.get('institucion')
             proyecto = request.GET.get('proyecto')
-            aplicacion = request.GET.get('aplicacion')
 
-            if not institucion or not proyecto or not aplicacion:
+            if not institucion or not proyecto:
                 return Response({
-                    "error": "Faltan parámetros: aplicacion, institucion y proyecto son requeridos"
+                    "error": "Faltan parámetros: institucion y proyecto son requeridos"
                 }, status=400)
 
             encuestas = Encuesta.objects.filter(
-                aplicacion=aplicacion,
                 nombre_institucion=institucion,
                 nombre=proyecto
             )
@@ -1352,8 +1350,6 @@ class GenerarReporte2APIIew(APIView):
                 data.append([estudiante, grado, correctos])
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
-                if encuesta.prueba.lower() == 'lenguaje' and encuesta.grado.lower() == 'tercero':
-                    pass
 
             df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
@@ -1423,11 +1419,11 @@ class GenerarReporte2APIIew(APIView):
             # Contenido
             titulo_texto = f"""
             <b>Reporte de resultados para la</b><br/>
-            <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
+            <b>{institucion} - Comparativo de las aplicaciones de entrada y de salida</b>
             """
 
             subtitulo_texto = "Programa Escuelas que Aprenden®"
-            descripcion_texto = f"Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}"
+            descripcion_texto = f"Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – comparación de resultados entrada y de salida"
             
             # Insertar en elementos
             elements.append(Spacer(1, 200))  # Centrar verticalmente
@@ -1439,7 +1435,7 @@ class GenerarReporte2APIIew(APIView):
             
             parrafo_intro = Paragraph(
                 f"""Este informe presenta los resultados obtenidos por los estudiantes de la institución
-                {institucion}, correspondientes a la aplicación de entrada del programa educativo. 
+                {institucion}, correspondientes a la aplicación de entrada y salida del programa educativo. 
                 Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, 
                 y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer 
                 los procesos de enseñanza y aprendizaje.""",
@@ -1458,7 +1454,6 @@ class GenerarReporte2APIIew(APIView):
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
                 ['Fecha de aplicación:', fecha_aplicacion],
-                ['Tipo de aplicación:', str(aplicacion).title()],
             ]
 
             # Crear tabla de resumen
@@ -1482,6 +1477,8 @@ class GenerarReporte2APIIew(APIView):
             descripcion_texto = '2.\tFicha técnica: número de estudiantes matriculados y evaluados'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
+
+
 
             #----------------------------------------------------------------------------------------------------------------------------
 
@@ -1520,17 +1517,22 @@ class GenerarReporte2APIIew(APIView):
             )
 
             elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
-            t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'L')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
+            elements.append(parrafo_intro) 
+              
+            t = self.tabla(0, institucion, 'entrada',proyecto, 3, 'L')
+            c = self.tabla(1, ciudad, 'entrada',proyecto, 3, 'L')
+            t2 = self.tabla(0, institucion, 'salida',proyecto, 3, 'L')
+            c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'L')
             tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
+                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -1540,6 +1542,15 @@ class GenerarReporte2APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),          # Líneas de tabla
+                # Unir columna 0 de fila 1 y 2 (índices 1 y 2)
+                ('SPAN', (0, 1), (0, 2)),
+
+                # Unir columna 0 de fila 3 y 4 (índices 3 y 4)
+                ('SPAN', (0, 3), (0, 4)),
+
+                # Alineación vertical centrada en las celdas unidas
+                ('VALIGN', (0, 1), (0, 2), 'MIDDLE'),
+                ('VALIGN', (0, 3), (0, 4), 'MIDDLE'),
             ]))
 
             elements.append(Spacer(1, 12))
@@ -1559,19 +1570,19 @@ class GenerarReporte2APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'L', 5, 13)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'L', 5, 13)
+            t = self.desempeño(0, institucion, "entrada", proyecto, 3, 'L', 5, 13)
+            t2 = self.desempeño(0, institucion, "salida", proyecto, 3, 'L', 5, 13)
+            c = self.desempeño(1, ciudad, "entrada", proyecto, 3, 'L', 5, 13)
+            c2 = self.desempeño(1, ciudad, "salida", proyecto, 3, 'L', 5, 13)
 
-            # Posiciones para barras
+            # ================== GRÁFICO ENTRADA ==================
             x = range(len(niveles))
             bar_width = 0.35
 
-            # Crear gráfico
-            plt.figure(figsize=(6, 5))
+            plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
             bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
 
-            # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
@@ -1580,24 +1591,50 @@ class GenerarReporte2APIIew(APIView):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
-            # Ajustes del gráfico
             plt.xticks(x, niveles)
             plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño')
+            plt.title('Distribución por Niveles de Desempeño - Entrada')
             plt.legend()
             plt.tight_layout()
 
-            # Guardar a un archivo temporal en memoria
-            img_buffer = BytesIO()
-            plt.savefig(img_buffer, format='png')
+            img_buffer1 = BytesIO()
+            plt.savefig(img_buffer1, format='png')
             plt.close()
-            img_buffer.seek(0)
+            img_buffer1.seek(0)
+            grafico_entrada = RLImage(img_buffer1, width=260, height=200)
 
-            # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            # ================== GRÁFICO SALIDA ==================
+            plt.figure(figsize=(5, 4))
+            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+
+            for i, bar in enumerate(bars1):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            for i, bar in enumerate(bars2):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            plt.xticks(x, niveles)
+            plt.ylabel('Porcentaje (%)')
+            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.legend()
+            plt.tight_layout()
+
+            img_buffer2 = BytesIO()
+            plt.savefig(img_buffer2, format='png')
+            plt.close()
+            img_buffer2.seek(0)
+            grafico_salida = RLImage(img_buffer2, width=260, height=200)
+
+            # ================== AGREGAR AMBOS AL PDF ==================
+            tabla_graficos = Table([[grafico_entrada, grafico_salida]], colWidths=[270, 270])
             elements.append(Spacer(1, 12))
-            elements.append(grafico)
+            elements.append(tabla_graficos)
             elements.append(Spacer(1, 20))
+
+
 
             descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, tercer grado'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -1650,16 +1687,21 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
-            t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'L')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'L')
+            
+            t = self.tabla(0, institucion, 'entrada',proyecto, 5, 'L')
+            c = self.tabla(1, ciudad, 'entrada',proyecto, 5, 'L')
+            t2 = self.tabla(0, institucion, 'salida',proyecto, 5, 'L')
+            c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'L')
             tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
+                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -1669,6 +1711,15 @@ class GenerarReporte2APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),          # Líneas de tabla
+                # Unir columna 0 de fila 1 y 2 (índices 1 y 2)
+                ('SPAN', (0, 1), (0, 2)),
+
+                # Unir columna 0 de fila 3 y 4 (índices 3 y 4)
+                ('SPAN', (0, 3), (0, 4)),
+
+                # Alineación vertical centrada en las celdas unidas
+                ('VALIGN', (0, 1), (0, 2), 'MIDDLE'),
+                ('VALIGN', (0, 3), (0, 4), 'MIDDLE'),
             ]))
 
             elements.append(Spacer(1, 12))
@@ -1688,19 +1739,19 @@ class GenerarReporte2APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
+            t = self.desempeño(0, institucion, "entrada", proyecto, 5, 'L', 5, 13)
+            t2 = self.desempeño(0, institucion, "salida", proyecto, 5, 'L', 5, 13)
+            c = self.desempeño(1, institucion, "entrada", proyecto, 5, 'L', 5, 13)
+            c2 = self.desempeño(1, institucion, "salida", proyecto, 5, 'L', 5, 13)
 
-            # Posiciones para barras
+            # ================== GRÁFICO ENTRADA ==================
             x = range(len(niveles))
             bar_width = 0.35
 
-            # Crear gráfico
-            plt.figure(figsize=(6, 5))
+            plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
             bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
 
-            # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
@@ -1709,23 +1760,47 @@ class GenerarReporte2APIIew(APIView):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
-            # Ajustes del gráfico
             plt.xticks(x, niveles)
             plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño')
+            plt.title('Distribución por Niveles de Desempeño - Entrada')
             plt.legend()
             plt.tight_layout()
 
-            # Guardar a un archivo temporal en memoria
-            img_buffer = BytesIO()
-            plt.savefig(img_buffer, format='png')
+            img_buffer1 = BytesIO()
+            plt.savefig(img_buffer1, format='png')
             plt.close()
-            img_buffer.seek(0)
+            img_buffer1.seek(0)
+            grafico_entrada = RLImage(img_buffer1, width=260, height=200)
 
-            # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            # ================== GRÁFICO SALIDA ==================
+            plt.figure(figsize=(5, 4))
+            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+
+            for i, bar in enumerate(bars1):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            for i, bar in enumerate(bars2):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            plt.xticks(x, niveles)
+            plt.ylabel('Porcentaje (%)')
+            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.legend()
+            plt.tight_layout()
+
+            img_buffer2 = BytesIO()
+            plt.savefig(img_buffer2, format='png')
+            plt.close()
+            img_buffer2.seek(0)
+            grafico_salida = RLImage(img_buffer2, width=260, height=200)
+
+            # ================== AGREGAR AMBOS AL PDF ==================
+            tabla_graficos = Table([[grafico_entrada, grafico_salida]], colWidths=[270, 270])
             elements.append(Spacer(1, 12))
-            elements.append(grafico)
+            elements.append(tabla_graficos)
             elements.append(Spacer(1, 20))
 
             descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, quinto grado'
@@ -1808,16 +1883,21 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
-            t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'M')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'M')
+            
+            t = self.tabla(0, institucion, 'entrada',proyecto, 3, 'M')
+            c = self.tabla(1, ciudad, 'entrada',proyecto, 3, 'M')
+            t2 = self.tabla(0, institucion, 'salida',proyecto, 3, 'M')
+            c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'M')
             tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
+                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -1827,6 +1907,15 @@ class GenerarReporte2APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),          # Líneas de tabla
+                # Unir columna 0 de fila 1 y 2 (índices 1 y 2)
+                ('SPAN', (0, 1), (0, 2)),
+
+                # Unir columna 0 de fila 3 y 4 (índices 3 y 4)
+                ('SPAN', (0, 3), (0, 4)),
+
+                # Alineación vertical centrada en las celdas unidas
+                ('VALIGN', (0, 1), (0, 2), 'MIDDLE'),
+                ('VALIGN', (0, 3), (0, 4), 'MIDDLE'),
             ]))
 
             elements.append(Spacer(1, 12))
@@ -1846,19 +1935,19 @@ class GenerarReporte2APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'M', 7, 14)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'M', 7, 14)
+            t = self.desempeño(0, institucion, "entrada", proyecto, 3, 'M', 5, 13)
+            t2 = self.desempeño(0, institucion, "salida", proyecto, 3, 'M', 5, 13)
+            c = self.desempeño(1, institucion, "entrada", proyecto, 3, 'M', 5, 13)
+            c2 = self.desempeño(1, institucion, "salida", proyecto, 3, 'M', 5, 13)
 
-            # Posiciones para barras
+            # ================== GRÁFICO ENTRADA ==================
             x = range(len(niveles))
             bar_width = 0.35
 
-            # Crear gráfico
-            plt.figure(figsize=(6, 5))
+            plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
             bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
 
-            # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
@@ -1867,24 +1956,48 @@ class GenerarReporte2APIIew(APIView):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
-            # Ajustes del gráfico
             plt.xticks(x, niveles)
             plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño')
+            plt.title('Distribución por Niveles de Desempeño - Entrada')
             plt.legend()
             plt.tight_layout()
 
-            # Guardar a un archivo temporal en memoria
-            img_buffer = BytesIO()
-            plt.savefig(img_buffer, format='png')
+            img_buffer1 = BytesIO()
+            plt.savefig(img_buffer1, format='png')
             plt.close()
-            img_buffer.seek(0)
+            img_buffer1.seek(0)
+            grafico_entrada = RLImage(img_buffer1, width=260, height=200)
 
-            # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            # ================== GRÁFICO SALIDA ==================
+            plt.figure(figsize=(5, 4))
+            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+
+            for i, bar in enumerate(bars1):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            for i, bar in enumerate(bars2):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            plt.xticks(x, niveles)
+            plt.ylabel('Porcentaje (%)')
+            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.legend()
+            plt.tight_layout()
+
+            img_buffer2 = BytesIO()
+            plt.savefig(img_buffer2, format='png')
+            plt.close()
+            img_buffer2.seek(0)
+            grafico_salida = RLImage(img_buffer2, width=260, height=200)
+
+            # ================== AGREGAR AMBOS AL PDF ==================
+            tabla_graficos = Table([[grafico_entrada, grafico_salida]], colWidths=[270, 270])
             elements.append(Spacer(1, 12))
-            elements.append(grafico)
-            elements.append(Spacer(1, 20))
+            elements.append(tabla_graficos)
+            elements.append(Spacer(1, 20))           
 
             descripcion_texto = 'Significado de los niveles de desempeño – Matemáticas, tercer grado'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -1937,16 +2050,21 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)   
-            t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'M')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'M')
+            
+            t = self.tabla(0, institucion, 'entrada',proyecto, 5, 'M')
+            c = self.tabla(1, ciudad, 'entrada',proyecto, 5, 'M')
+            t2 = self.tabla(0, institucion, 'salida',proyecto, 5, 'M')
+            c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'M')
             tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
+                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -1956,6 +2074,15 @@ class GenerarReporte2APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),          # Líneas de tabla
+                # Unir columna 0 de fila 1 y 2 (índices 1 y 2)
+                ('SPAN', (0, 1), (0, 2)),
+
+                # Unir columna 0 de fila 3 y 4 (índices 3 y 4)
+                ('SPAN', (0, 3), (0, 4)),
+
+                # Alineación vertical centrada en las celdas unidas
+                ('VALIGN', (0, 1), (0, 2), 'MIDDLE'),
+                ('VALIGN', (0, 3), (0, 4), 'MIDDLE'),
             ]))
 
             elements.append(Spacer(1, 12))
@@ -1975,19 +2102,19 @@ class GenerarReporte2APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'M', 6, 12)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'M', 6, 12)
+            t = self.desempeño(0, institucion, "entrada", proyecto, 3, 'M', 5, 13)
+            t2 = self.desempeño(0, institucion, "salida", proyecto, 3, 'M', 5, 13)
+            c = self.desempeño(1, institucion, "entrada", proyecto, 3, 'M', 5, 13)
+            c2 = self.desempeño(1, institucion, "salida", proyecto, 3, 'M', 5, 13)
 
-            # Posiciones para barras
+            # ================== GRÁFICO ENTRADA ==================
             x = range(len(niveles))
             bar_width = 0.35
 
-            # Crear gráfico
-            plt.figure(figsize=(6, 5))
+            plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
             bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
 
-            # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
@@ -1996,24 +2123,48 @@ class GenerarReporte2APIIew(APIView):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
-            # Ajustes del gráfico
             plt.xticks(x, niveles)
             plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño')
+            plt.title('Distribución por Niveles de Desempeño - Entrada')
             plt.legend()
             plt.tight_layout()
 
-            # Guardar a un archivo temporal en memoria
-            img_buffer = BytesIO()
-            plt.savefig(img_buffer, format='png')
+            img_buffer1 = BytesIO()
+            plt.savefig(img_buffer1, format='png')
             plt.close()
-            img_buffer.seek(0)
+            img_buffer1.seek(0)
+            grafico_entrada = RLImage(img_buffer1, width=260, height=200)
 
-            # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            # ================== GRÁFICO SALIDA ==================
+            plt.figure(figsize=(5, 4))
+            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+
+            for i, bar in enumerate(bars1):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            for i, bar in enumerate(bars2):
+                height = bar.get_height()
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+
+            plt.xticks(x, niveles)
+            plt.ylabel('Porcentaje (%)')
+            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.legend()
+            plt.tight_layout()
+
+            img_buffer2 = BytesIO()
+            plt.savefig(img_buffer2, format='png')
+            plt.close()
+            img_buffer2.seek(0)
+            grafico_salida = RLImage(img_buffer2, width=260, height=200)
+
+            # ================== AGREGAR AMBOS AL PDF ==================
+            tabla_graficos = Table([[grafico_entrada, grafico_salida]], colWidths=[270, 270])
             elements.append(Spacer(1, 12))
-            elements.append(grafico)
-            elements.append(Spacer(1, 20))
+            elements.append(tabla_graficos)
+            elements.append(Spacer(1, 20))    
 
             descripcion_texto = 'Significado de los niveles de desempeño – Matemáticas, quinto grado'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
