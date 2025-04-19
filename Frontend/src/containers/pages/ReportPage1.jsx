@@ -72,9 +72,12 @@ function ReportPage1() {
         setError(null);
 
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${selectedInstitution}&proyecto=${selectedProject}&aplicacion=${applicationType}`, {
-                responseType: 'blob',
-            });
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&aplicacion=${encodeURIComponent(applicationType)}`,
+                {
+                  responseType: 'blob',
+                }
+              );
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');

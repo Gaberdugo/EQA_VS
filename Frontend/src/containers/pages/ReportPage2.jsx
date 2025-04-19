@@ -69,8 +69,10 @@ function ReportPage2() {
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${selectedInstitution}&proyecto=${selectedProject}`,
-                { responseType: 'blob' }
+                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}`,
+                {
+                  responseType: 'blob',
+                }
             );
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
