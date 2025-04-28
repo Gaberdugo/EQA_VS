@@ -562,14 +562,14 @@ class GenerarReporte1APIIew(APIView):
             <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
             """
 
-            subtitulo_texto = "Programa Escuelas que Aprenden®"
-            descripcion_texto = f"Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}"
+            subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
+            descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}</b>"
             
             # Insertar en elementos
             elements.append(Spacer(1, 200))  # Centrar verticalmente
             elements.append(Paragraph(titulo_texto, titulo_style))
             elements.append(Spacer(1, 12))
-            elements.append(PageBreak())  #Inicia nueva página para la tabla
+            elements.append(PageBreak())
             elements.append(Paragraph(subtitulo_texto, subtitulo_style))
             elements.append(Paragraph(descripcion_texto, descripcion_style))
             
@@ -585,7 +585,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)    
 
-            descripcion_texto = '1.\tDatos de identificación de la institución educativa'
+            descripcion_texto = '</b>1. Datos de identificación de la institución educativa</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -593,6 +593,7 @@ class GenerarReporte1APIIew(APIView):
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
+                ['Código DANE:', 1111],
                 ['Fecha de aplicación:', fecha_aplicacion],
                 ['Tipo de aplicación:', str(aplicacion).title()],
             ]
@@ -615,13 +616,17 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_resumen)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = '2.\tFicha técnica: número de estudiantes matriculados y evaluados'
+            descripcion_texto = '<b>2. Ficha técnica: número de estudiantes matriculados y evaluados</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
+
+
+            elements.append(PageBreak())
+
             #----------------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '3.\tResultados en la prueba de Lenguaje '
+            descripcion_texto = '<b>3. Resultados en la prueba de Lenguaje</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -647,7 +652,7 @@ class GenerarReporte1APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '3.1.	Tercer grado <br/>a. Puntaje'
+            descripcion_texto = '<b>3.1.	Tercer grado <br/>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -682,7 +687,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -718,10 +723,16 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
             plt.title('Distribución por Niveles de Desempeño')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             # Guardar a un archivo temporal en memoria
             img_buffer = BytesIO()
@@ -735,7 +746,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, tercer grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -776,7 +787,7 @@ class GenerarReporte1APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '3.2.	Quinto grado <br/>a. Puntaje'
+            descripcion_texto = '<b>3.2.	Quinto grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -811,7 +822,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -847,10 +858,16 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
             plt.title('Distribución por Niveles de Desempeño')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             # Guardar a un archivo temporal en memoria
             img_buffer = BytesIO()
@@ -864,7 +881,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, quinto grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, quinto grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -905,7 +922,7 @@ class GenerarReporte1APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
             
-            descripcion_texto = '4.\tResultados en la prueba de Matemáticas'
+            descripcion_texto = '<b>4. Resultados en la prueba de Matemáticas</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -934,7 +951,7 @@ class GenerarReporte1APIIew(APIView):
             
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '4.1.	Tercer grado <br/>a. Puntaje'
+            descripcion_texto = '<b>4.1.	Tercer grado</b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1005,10 +1022,16 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
             plt.title('Distribución por Niveles de Desempeño')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             # Guardar a un archivo temporal en memoria
             img_buffer = BytesIO()
@@ -1022,7 +1045,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Matemáticas, tercer grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Matemáticas, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -1063,7 +1086,7 @@ class GenerarReporte1APIIew(APIView):
             
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '4.2.	Quinto grado <br/>a. Puntaje'
+            descripcion_texto = '<b>4.2.	Quinto grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1098,7 +1121,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1134,10 +1157,16 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
             plt.title('Distribución por Niveles de Desempeño')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             # Guardar a un archivo temporal en memoria
             img_buffer = BytesIO()
@@ -1151,7 +1180,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Matemáticas, quinto grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Matemáticas, quinto grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -1193,11 +1222,11 @@ class GenerarReporte1APIIew(APIView):
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
-            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
+            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename=\"reporte_{institucion}_{proyecto}.pdf\"'
+            response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
             return response
 
         except Exception as e:
@@ -1318,6 +1347,21 @@ class GenerarReporte1APIIew(APIView):
         total = bajo + medio + alto
 
         return [round((bajo/total)*100,2), round((medio/total)*100,2), round((alto/total)*100,2)]
+
+    def agregar_numero_pagina(self, canvas, doc):
+        page_num = canvas.getPageNumber()
+        text = f"{page_num}"
+        canvas.setFont('Helvetica', 9)
+
+        # Obtiene el ancho de la página para posicionar a la derecha
+        width, height = letter
+
+        # Ajusta la posición: derecha (margen derecho - ancho del texto)
+        text_width = canvas.stringWidth(text, 'Helvetica', 9)
+        x = width - inch * 0.5 # Una pulgada del borde derecho
+        y = 0.5 * inch  # Desde el borde inferior
+
+        canvas.drawString(x, y, text)
 
 class GenerarReporte2APIIew(APIView):
     permission_classes = [AllowAny]
@@ -2435,8 +2479,6 @@ class GenerarReporte2APIIew(APIView):
 
         return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
     
-
-
     def agregar_numero_pagina(self, canvas, doc):
         page_num = canvas.getPageNumber()
         text = f"{page_num}"
