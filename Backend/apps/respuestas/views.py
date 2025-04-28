@@ -1498,12 +1498,14 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
+            c = self.tabla_inicial(tercero_entrada, len(ter1), tercero_salida, len(ter2), quinto_entrada, len(quin1), quinto_salida, len(quin2))
+
             tabla_datos = [
                 ["Grado", "Entrada", "", "", "Salida", "", ""],  # Encabezados
                 ["", "Total\nmatriculados", "Total\nevaluados", "%", "Total\nmatriculados", "Total\nevaluados", "%"], # Encabezados 2
-                ["Tercero", tercero_entrada, len(ter1), f"{(len(ter1)/tercero_entrada)*100}%", tercero_salida, len(ter2), f"{(len(ter2)/tercero_salida)*100}%"],  # Fila 1
-                ["Quinto ", quinto_entrada, len(quin1), f"{(len(quin1)/quinto_entrada)*100}%", quinto_salida, len(quin2), f"{(len(quin2)/quinto_entrada)*100}%"],  # Fila 2
-                ["Total", tercero_entrada+quinto_entrada , len(ter1)+len(quin1), f"{((len(ter1)+len(quin1))/(tercero_entrada+quinto_entrada))*100}%", tercero_salida+quinto_salida, len(ter2)+len(quin2), f"{((len(ter2)+len(quin2))/(tercero_salida+quinto_salida))*100}%"],  # Fila 3
+                ["Tercero", tercero_entrada, len(ter1), f"{c[0]}%", tercero_salida, len(ter2), f"{c[3]}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin1), f"{c[1]}%", quinto_salida, len(quin2), f"{c[4]}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , len(ter1)+len(quin1), f"{c[2]}%", tercero_salida+quinto_salida, len(ter2)+len(quin2), f"{c[5]}%"],  # Fila 3
             ]
 
             # Crear la tabla
@@ -2438,3 +2440,15 @@ class GenerarReporte2APIIew(APIView):
         text = f"{page_num}"
         canvas.setFont('Helvetica', 9)
         canvas.drawString(9 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
+
+    def tabla_inicial(self, M3_E, E3_E, M3_S, E3_S, M5_E, E5_E, M5_S, E5_S):
+        p = []
+
+        p.append(round(E3_E/M3_E, 1))
+        p.append(round(E5_E/M5_E, 1))
+        p.append(round((E3_E + E5_E)/(M3_E + M5_E), 1))
+        p.append(round(E3_S/M3_S, 1))
+        p.append(round(E5_S/M5_S, 1))
+        p.append(round((E3_S + E5_S)/(M3_S + M5_S), 1))
+
+        return p
