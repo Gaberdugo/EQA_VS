@@ -687,7 +687,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 20))
 
             
-            
+
             descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -747,7 +747,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
             
-            """
+            
 
             descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -787,6 +787,8 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
+
+            """
 
             #-----------------------------------------------------------------------------------------------------------------------
 
@@ -1349,7 +1351,7 @@ class GenerarReporte1APIIew(APIView):
         
         total = bajo + medio + alto
 
-        return [round((bajo/total)*100,2), round((medio/total)*100,2), round((alto/total)*100,2)]
+        return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
 
     def agregar_numero_pagina(self, canvas, doc):
         page_num = canvas.getPageNumber()
