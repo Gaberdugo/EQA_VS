@@ -585,7 +585,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)    
 
-            descripcion_texto = '</b>1. Datos de identificación de la institución educativa</b>'
+            descripcion_texto = '<b>1. Datos de identificación de la institución educativa</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
