@@ -1423,8 +1423,8 @@ class GenerarReporte2APIIew(APIView):
             <b>{institucion} - Comparativo de las aplicaciones de entrada y de salida</b>
             """
 
-            subtitulo_texto = "Programa Escuelas que Aprenden®"
-            descripcion_texto = f"Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – comparación de resultados entrada y de salida"
+            subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
+            descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – comparación de resultados entrada y de salida</b>"
             
             # Insertar en elementos
             elements.append(Spacer(1, 200))  # Centrar verticalmente
@@ -1446,7 +1446,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)    
 
-            descripcion_texto = '1.\tDatos de identificación de la institución educativa'
+            descripcion_texto = '<b>1. Datos de identificación de la institución educativa</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -1475,7 +1475,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_resumen)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = '2.\tFicha técnica: número de estudiantes matriculados y evaluados'
+            descripcion_texto = '<b>2. Ficha técnica: número de estudiantes matriculados y evaluados</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -1483,7 +1483,7 @@ class GenerarReporte2APIIew(APIView):
 
             #----------------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '3.\tResultados en la prueba de Lenguaje '
+            descripcion_texto = '<b>3. Resultados en la prueba de Lenguaje</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -1509,7 +1509,7 @@ class GenerarReporte2APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '3.1.	Tercer grado <br/>a. Puntaje'
+            descripcion_texto = '<b>3.1.	Tercer grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1558,7 +1558,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
             
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1581,8 +1581,8 @@ class GenerarReporte2APIIew(APIView):
             bar_width = 0.35
 
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x],  t, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -1590,13 +1590,19 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño - Entrada')
+            plt.title('Distribución por Niveles de Desempeño - Institución\n')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer1 = BytesIO()
             plt.savefig(img_buffer1, format='png')
@@ -1606,22 +1612,28 @@ class GenerarReporte2APIIew(APIView):
 
             # ================== GRÁFICO SALIDA ==================
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x],  c, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('')
-            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer2 = BytesIO()
             plt.savefig(img_buffer2, format='png')
@@ -1637,7 +1649,7 @@ class GenerarReporte2APIIew(APIView):
 
 
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, tercer grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -1678,7 +1690,7 @@ class GenerarReporte2APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '3.2.	Quinto grado <br/>a. Puntaje'
+            descripcion_texto = '<b>3.2.	Quinto grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1727,7 +1739,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1750,8 +1762,8 @@ class GenerarReporte2APIIew(APIView):
             bar_width = 0.35
 
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -1759,13 +1771,19 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño - Entrada')
+            plt.title('Distribución por Niveles de Desempeño - Institución\n')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer1 = BytesIO()
             plt.savefig(img_buffer1, format='png')
@@ -1773,24 +1791,30 @@ class GenerarReporte2APIIew(APIView):
             img_buffer1.seek(0)
             grafico_entrada = RLImage(img_buffer1, width=260, height=200)
 
-            # ================== GRÁFICO SALIDA ==================
+            # ================== GRÁFICO CIUDAD ==================
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x], c, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer2 = BytesIO()
             plt.savefig(img_buffer2, format='png')
@@ -1804,7 +1828,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_graficos)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Lenguaje, quinto grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, quinto grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -1874,7 +1898,7 @@ class GenerarReporte2APIIew(APIView):
             
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '4.1.	Tercer grado <br/>a. Puntaje'
+            descripcion_texto = '<b>4.1.	Tercer grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1923,7 +1947,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1946,8 +1970,8 @@ class GenerarReporte2APIIew(APIView):
             bar_width = 0.35
 
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -1955,13 +1979,19 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño - Entrada')
+            plt.title('Distribución por Niveles de Desempeño - Institución')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer1 = BytesIO()
             plt.savefig(img_buffer1, format='png')
@@ -1969,24 +1999,30 @@ class GenerarReporte2APIIew(APIView):
             img_buffer1.seek(0)
             grafico_entrada = RLImage(img_buffer1, width=260, height=200)
 
-            # ================== GRÁFICO SALIDA ==================
+            # ================== GRÁFICO CIUDAD ==================
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x], c, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('')
-            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.title('Distribución por Niveles de Desempeño - Ciudad')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer2 = BytesIO()
             plt.savefig(img_buffer2, format='png')
@@ -2041,7 +2077,7 @@ class GenerarReporte2APIIew(APIView):
             
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '4.2.	Quinto grado <br/>a. Puntaje'
+            descripcion_texto = '<b>4.2.	Quinto grado</b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -2090,7 +2126,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            descripcion_texto = 'b. Descripción'
+            descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -2125,7 +2161,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Institución')
+            plt.title('Distribución por Niveles de Desempeño - Institución\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2157,9 +2193,16 @@ class GenerarReporte2APIIew(APIView):
 
             plt.xticks(x, niveles)
             plt.ylabel('')
-            plt.title('Distribución por Niveles de Desempeño - Ciudad')
+            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer2 = BytesIO()
             plt.savefig(img_buffer2, format='png')
@@ -2173,7 +2216,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_graficos)
             elements.append(Spacer(1, 20))    
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Matemáticas, quinto grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Matemáticas, quinto grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
