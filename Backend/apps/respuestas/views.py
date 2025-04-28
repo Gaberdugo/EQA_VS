@@ -2435,20 +2435,32 @@ class GenerarReporte2APIIew(APIView):
 
         return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
     
+
+
     def agregar_numero_pagina(self, canvas, doc):
         page_num = canvas.getPageNumber()
         text = f"{page_num}"
         canvas.setFont('Helvetica', 9)
-        canvas.drawString(9 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
+
+        # Obtiene el ancho de la página para posicionar a la derecha
+        width, height = letter
+
+        # Ajusta la posición: derecha (margen derecho - ancho del texto)
+        text_width = canvas.stringWidth(text, 'Helvetica', 9)
+        x = width - inch - text_width  # Una pulgada del borde derecho
+        y = 0.5 * inch  # Desde el borde inferior
+
+        canvas.drawString(x, y, text)
+
 
     def tabla_inicial(self, M3_E, E3_E, M3_S, E3_S, M5_E, E5_E, M5_S, E5_S):
         p = []
 
-        p.append(round(E3_E/M3_E, 1))
-        p.append(round(E5_E/M5_E, 1))
-        p.append(round((E3_E + E5_E)/(M3_E + M5_E), 1))
-        p.append(round(E3_S/M3_S, 1))
-        p.append(round(E5_S/M5_S, 1))
-        p.append(round((E3_S + E5_S)/(M3_S + M5_S), 1))
+        p.append(round((E3_E/M3_E)*100, 1))
+        p.append(round((E5_E/M5_E)*100, 1))
+        p.append(round(((E3_E + E5_E)/(M3_E + M5_E))*100, 1))
+        p.append(round((E3_S/M3_S)*100, 1))
+        p.append(round((E5_S/M5_S)*100, 1))
+        p.append(round(((E3_S + E5_S)/(M3_S + M5_S))*100, 1))
 
         return p
