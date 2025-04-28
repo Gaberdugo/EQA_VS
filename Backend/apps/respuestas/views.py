@@ -686,8 +686,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            """
-
+            
+            
             descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -746,6 +746,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(grafico)
             elements.append(Spacer(1, 20))
+            
+            """
 
             descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
