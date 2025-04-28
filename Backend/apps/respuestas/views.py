@@ -1374,12 +1374,9 @@ class GenerarReporte2APIIew(APIView):
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
 
-            pdfmetrics.registerFont(TTFont('TerpelSans', 'TerpelSans-Regular.ttf'))
-
             # Estilo verde centrado
             titulo_style = ParagraphStyle(
                 name="TituloVerdeCentrado",
-                fontName="TerpelSans",
                 alignment=TA_CENTER,
                 fontSize=18,
                 textColor=HexColor("#1B8830"),
