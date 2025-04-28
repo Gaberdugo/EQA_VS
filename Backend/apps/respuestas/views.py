@@ -1326,6 +1326,10 @@ class GenerarReporte2APIIew(APIView):
         try:
             institucion = request.GET.get('institucion')
             proyecto = request.GET.get('proyecto')
+            tercero_entrada = int(request.GET.get('tercero_entrada'))
+            quinto_entrada = int(request.GET.get('quinto_entrada'))
+            tercero_salida = int(request.GET.get('tercero_salida'))
+            quinto_salida = int(request.GET.get('quinto_salida'))
 
             if not institucion or not proyecto:
                 return Response({
@@ -1497,9 +1501,9 @@ class GenerarReporte2APIIew(APIView):
             tabla_datos = [
                 ["Grado", "Entrada", "", "", "Salida", "", ""],  # Encabezados
                 ["", "Total\nmatriculados", "Total\nevaluados", "%", "Total\nmatriculados", "Total\nevaluados", "%"], # Encabezados 2
-                ["Tercero", 111, len(ter1), f"{111}%", 111, len(ter2), f"{111}%"],  # Fila 1
-                ["Quinto ", 111, len(quin1), f"{111}%", 111, len(quin2), f"{111}%"],  # Fila 2
-                ["Total", 111, len(ter1)+len(quin1), f"{111}%", 111, len(ter2)+len(quin2), f"{111}%"],  # Fila 3
+                ["Tercero", tercero_entrada, len(ter1), f"{(len(ter1)/tercero_entrada)*100}%", tercero_salida, len(ter2), f"{(len(ter2)/tercero_salida)*100}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin1), f"{(len(quin1)/quinto_entrada)*100}%", quinto_salida, len(quin2), f"{(len(quin2)/quinto_entrada)*100}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , len(ter1)+len(quin1), f"{((len(ter1)+len(quin1))/(tercero_entrada+quinto_entrada))*100}%", tercero_salida+quinto_salida, len(ter2)+len(quin2), f"{((len(ter2)+len(quin2))/(tercero_salida+quinto_salida))*100}%"],  # Fila 3
             ]
 
             # Crear la tabla
