@@ -2108,13 +2108,13 @@ class GenerarReporte2APIIew(APIView):
             c = self.desempeño(1, institucion, "entrada", proyecto, 3, 'M', 5, 13)
             c2 = self.desempeño(1, institucion, "salida", proyecto, 3, 'M', 5, 13)
 
-            # ================== GRÁFICO ENTRADA ==================
+            # ================== GRÁFICO CIUDAD ==================
             x = range(len(niveles))
             bar_width = 0.35
 
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -2122,13 +2122,19 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.ylabel('Porcentaje (%)')
-            plt.title('Distribución por Niveles de Desempeño - Entrada')
+            plt.title('Distribución por Niveles de Desempeño - Institución')
             plt.legend()
             plt.tight_layout()
+
+            # QUITAR eje Y
+            plt.gca().axes.get_yaxis().set_visible(False)
+
+            # QUITAR TODOS LOS BORDES, excepto abajo
+            for spine in ['top', 'right', 'left']:
+                plt.gca().spines[spine].set_visible(False)
 
             img_buffer1 = BytesIO()
             plt.savefig(img_buffer1, format='png')
@@ -2138,12 +2144,12 @@ class GenerarReporte2APIIew(APIView):
 
             # ================== GRÁFICO SALIDA ==================
             plt.figure(figsize=(5, 4))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t2, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars1 = plt.bar([i - bar_width/2 for i in x], c, width=bar_width, label='Entrada', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
@@ -2151,7 +2157,7 @@ class GenerarReporte2APIIew(APIView):
 
             plt.xticks(x, niveles)
             plt.ylabel('')
-            plt.title('Distribución por Niveles de Desempeño - Salida')
+            plt.title('Distribución por Niveles de Desempeño - Ciudad')
             plt.legend()
             plt.tight_layout()
 
@@ -2333,10 +2339,10 @@ class GenerarReporte2APIIew(APIView):
         
         total = bajo + medio + alto
 
-        return [round((bajo/total)*100,2), round((medio/total)*100,2), round((alto/total)*100,2)]
+        return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
     
     def agregar_numero_pagina(self, canvas, doc):
         page_num = canvas.getPageNumber()
-        text = f"Página {page_num}"
+        text = f"{page_num}"
         canvas.setFont('Helvetica', 9)
-        canvas.drawString(0.75 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
+        canvas.drawString(0.2 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
