@@ -1454,6 +1454,7 @@ class GenerarReporte2APIIew(APIView):
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
+                ['Código DANE:', 1111],
                 ['Fecha de aplicación:', fecha_aplicacion],
             ]
 
@@ -1869,7 +1870,7 @@ class GenerarReporte2APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
             
-            descripcion_texto = '4.\tResultados en la prueba de Matemáticas'
+            descripcion_texto = '<b>4. Resultados en la prueba de Matemáticas</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -2036,7 +2037,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_graficos)
             elements.append(Spacer(1, 20))           
 
-            descripcion_texto = 'Significado de los niveles de desempeño – Matemáticas, tercer grado'
+            descripcion_texto = '<b>Significado de los niveles de desempeño – Matemáticas, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Tabla descriptiva de niveles de desempeño
@@ -2258,6 +2259,7 @@ class GenerarReporte2APIIew(APIView):
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
+            doc.title('Reporte')
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
 
             buffer.seek(0)
@@ -2388,4 +2390,4 @@ class GenerarReporte2APIIew(APIView):
         page_num = canvas.getPageNumber()
         text = f"{page_num}"
         canvas.setFont('Helvetica', 9)
-        canvas.drawString(0.2 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
+        canvas.drawString(9 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
