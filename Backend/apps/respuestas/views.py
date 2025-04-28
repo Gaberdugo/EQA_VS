@@ -1344,11 +1344,23 @@ class GenerarReporte2APIIew(APIView):
             fecha_aplicacion = ''
             # Preparar los datos
             data = []
+            ter1 = []
+            ter2 = []
+            quin1 = []
+            quin2 = []
             for encuesta in encuestas:
                 estudiante = encuesta.nombre_estudiante or "N/A"
                 grado = encuesta.grado or "N/A"
                 correctos = encuesta.correctos if encuesta.correctos is not None else 0
                 data.append([estudiante, grado, correctos])
+                if grado == 'Tercero' and encuesta.aplicacion == 'Entrada':
+                    ter1.append(grado)
+                elif grado == 'Tercero' and encuesta.aplicacion == 'Salida':
+                    ter2.append(grado)
+                elif grado == 'Quinto' and encuesta.aplicacion == 'Entrada':
+                    quin1.append(grado)
+                else:
+                    quin2.append(grado)
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
 
@@ -1480,7 +1492,29 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
+            tabla_datos = [
+                ["Grado", "Entrada", "", "%", "Salida", "", "%"],  # Encabezados
+                ["", "Total\nmatriculados", "Total\nevaluados", "", "Total\nmatriculados", "Total\nevaluados"], # Encabezados 2
+                ["Tercero", 111, len(ter1), f"{111}%", 111, len(ter2), f"{111}%"],  # Fila 1
+                ["Quinto ", 111, len(quin1), f"{111}%", 111, len(quin2), f"{111}%"],  # Fila 2
+                ["Total", 111, len(ter1)+len(quin1), f"{111}%", 111, len(ter2)+len(quin2), f"{111}%"],  # Fila 3
+            ]
 
+            # Crear la tabla
+            tabla_estadistica = Table(tabla_datos, colWidths=[100, 80, 80, 60, 80, 80, 60])
+            tabla_estadistica.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 6),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
+                ('SPAN', (0, 0), (0, 1)),  # Unir "Grado" de encabezado principal y subencabezado
+                ('SPAN', (1, 0), (3, 0)),  # Unir "Entrada" (total matriculados, evaluados, %)
+                ('SPAN', (4, 0), (6, 0)),  # Unir "Salida" (total matriculados, evaluados, %)
+            ]))
 
             #----------------------------------------------------------------------------------------------------------------------------
 
