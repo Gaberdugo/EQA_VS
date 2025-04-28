@@ -2259,7 +2259,6 @@ class GenerarReporte2APIIew(APIView):
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
-            doc.title('Reporte')
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
 
             buffer.seek(0)
