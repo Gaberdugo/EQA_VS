@@ -107,7 +107,7 @@ function ReportPage2() {
     return (
         <Layout4>
             <div style={styles.container}>
-                <h1 style={styles.title}>Generador de Reportes por Nodo</h1>
+                <h1 style={styles.title}>Generador de Reportes Comparativos</h1>
 
                 {/* Proyecto */}
                 <div style={styles.selectContainer}>
