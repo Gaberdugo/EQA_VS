@@ -2447,7 +2447,7 @@ class GenerarReporte2APIIew(APIView):
 
         # Ajusta la posición: derecha (margen derecho - ancho del texto)
         text_width = canvas.stringWidth(text, 'Helvetica', 9)
-        x = width - inch  # Una pulgada del borde derecho
+        x = width - inch * 0.5 # Una pulgada del borde derecho
         y = 0.5 * inch  # Desde el borde inferior
 
         canvas.drawString(x, y, text)
