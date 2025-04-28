@@ -10,6 +10,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
@@ -2208,7 +2209,7 @@ class GenerarReporte2APIIew(APIView):
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
-            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_marca_agua)
+            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
@@ -2226,7 +2227,7 @@ class GenerarReporte2APIIew(APIView):
         width, height = letter
         canvas_obj.saveState()
         canvas_obj.setFont("Helvetica-Bold", 80)
-        canvas_obj.setFillColorRGB(0.9, 0.9, 0.9)
+        canvas_obj.setFillColorRGB(1, 1, 1)
         canvas_obj.translate(width / 2, height / 2)
         canvas_obj.rotate(45)
         canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
@@ -2333,3 +2334,9 @@ class GenerarReporte2APIIew(APIView):
         total = bajo + medio + alto
 
         return [round((bajo/total)*100,2), round((medio/total)*100,2), round((alto/total)*100,2)]
+    
+    def agregar_numero_pagina(self, canvas, doc):
+        page_num = canvas.getPageNumber()
+        text = f"Página {page_num}"
+        canvas.setFont('Helvetica', 9)
+        canvas.drawString(0.75 * inch, 0.5 * inch, text)  # Ajusta posición horizontal y vertical
