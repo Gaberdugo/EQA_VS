@@ -1516,6 +1516,11 @@ class GenerarReporte2APIIew(APIView):
                 ('SPAN', (4, 0), (6, 0)),  # Unir "Salida" (total matriculados, evaluados, %)
             ]))
 
+            elements.append(Spacer(1, 12))
+            elements.append(tabla_estadistica)
+            elements.append(Spacer(1, 20))
+            elements.append(PageBreak())  #Inicia nueva página para la tabla
+            
             #----------------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '<b>3. Resultados en la prueba de Lenguaje</b>'
