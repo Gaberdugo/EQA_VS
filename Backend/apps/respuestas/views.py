@@ -623,15 +623,13 @@ class GenerarReporte1APIIew(APIView):
             
             elements.append(PageBreak())
 
-            """
-
             #----------------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '<b>3. Resultados en la prueba de Lenguaje</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = ""
+            contenido = """
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
@@ -641,7 +639,7 @@ class GenerarReporte1APIIew(APIView):
             • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
             • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/><br/>
             Los puntajes en esta prueba se presentan en una escala de 0 a 20 puntos. 
-            ""
+            """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -650,6 +648,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
+
+            """
 
             #-----------------------------------------------------------------------------------------------------------------------
 
@@ -1241,7 +1241,7 @@ class GenerarReporte1APIIew(APIView):
         width, height = letter
         canvas_obj.saveState()
         canvas_obj.setFont("Helvetica-Bold", 80)
-        canvas_obj.setFillColorRGB(0.9, 0.9, 0.9)
+        canvas_obj.setFillColorRGB(1, 1, 1)
         canvas_obj.translate(width / 2, height / 2)
         canvas_obj.rotate(45)
         canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
