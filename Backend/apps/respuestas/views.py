@@ -16,6 +16,8 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from traceback import format_exc
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 from rest_framework import permissions
 from django.http import HttpResponse
@@ -1353,11 +1355,11 @@ class GenerarReporte2APIIew(APIView):
                 grado = encuesta.grado or "N/A"
                 correctos = encuesta.correctos if encuesta.correctos is not None else 0
                 data.append([estudiante, grado, correctos])
-                if grado == 'Tercero' and encuesta.aplicacion == 'Entrada':
+                if grado == 'Tercero' and encuesta.aplicacion == 'entrada':
                     ter1.append(grado)
-                elif grado == 'Tercero' and encuesta.aplicacion == 'Salida':
+                elif grado == 'Tercero' and encuesta.aplicacion == 'salida':
                     ter2.append(grado)
-                elif grado == 'Quinto' and encuesta.aplicacion == 'Entrada':
+                elif grado == 'Quinto' and encuesta.aplicacion == 'entrada':
                     quin1.append(grado)
                 else:
                     quin2.append(grado)
@@ -1372,9 +1374,12 @@ class GenerarReporte2APIIew(APIView):
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
 
+            pdfmetrics.registerFont(TTFont('TerpelSans', 'TerpelSans-Regular.ttf'))
+
             # Estilo verde centrado
             titulo_style = ParagraphStyle(
                 name="TituloVerdeCentrado",
+                fontName="TerpelSans",
                 alignment=TA_CENTER,
                 fontSize=18,
                 textColor=HexColor("#1B8830"),
