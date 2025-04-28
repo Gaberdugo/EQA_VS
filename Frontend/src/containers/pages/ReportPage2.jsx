@@ -83,11 +83,12 @@ function ReportPage2() {
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}`,
+                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&tercero_entrada=${matriculadosTerceroEntrada}&quinto_entrada=${matriculadosQuintoEntrada}&tercero_salida=${matriculadosTerceroSalida}&quinto_salida=${matriculadosQuintoSalida}`,
                 {
-                    responseType: 'blob',
+                  responseType: 'blob',
                 }
-            );
+              );
+              
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
