@@ -652,7 +652,7 @@ class GenerarReporte1APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '<b>3.1.	Tercer grado <br/>a. Puntaje</b>'
+            descripcion_texto = '<b>3.1. Tercer grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -787,7 +787,7 @@ class GenerarReporte1APIIew(APIView):
 
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '<b>3.2.	Quinto grado </b><br/><b>a. Puntaje</b>'
+            descripcion_texto = '<b>3.2. Quinto grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -951,7 +951,7 @@ class GenerarReporte1APIIew(APIView):
             
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '<b>4.1.	Tercer grado</b><br/><b>a. Puntaje</b>'
+            descripcion_texto = '<b>4.1. Tercer grado</b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
