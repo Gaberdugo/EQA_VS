@@ -13,12 +13,6 @@ function ReportPage1() {
     const [selectedInstitution, setSelectedInstitution] = useState('');
     const [applicationType, setApplicationType] = useState('');
 
-    // Nuevos estados para matriculados
-    const [matriculadosTerceroEntrada, setMatriculadosTerceroEntrada] = useState('');
-    const [matriculadosQuintoEntrada, setMatriculadosQuintoEntrada] = useState('');
-    const [matriculadosTerceroSalida, setMatriculadosTerceroSalida] = useState('');
-    const [matriculadosQuintoSalida, setMatriculadosQuintoSalida] = useState('');
-
     const fetchProjects = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`);
@@ -32,6 +26,7 @@ function ReportPage1() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/municipios/?proyecto_id=${projectName}`);
             setMunicipalities(response.data);
+            console.log(projectName);
         } catch (error) {
             setError("Hubo un error al obtener los municipios");
         }
@@ -68,17 +63,8 @@ function ReportPage1() {
     }, [selectedMunicipality]);
 
     const fetchData = async () => {
-        if (
-            !selectedProject || 
-            !selectedMunicipality || 
-            !selectedInstitution || 
-            !applicationType || 
-            matriculadosTerceroEntrada === '' ||
-            matriculadosQuintoEntrada === '' ||
-            matriculadosTerceroSalida === '' ||
-            matriculadosQuintoSalida === ''
-        ) {
-            setError("Por favor, completa todas las selecciones y los campos de matrícula");
+        if (!selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType) {
+            setError("Por favor, completa todas las selecciones");
             return;
         }
 
@@ -89,9 +75,9 @@ function ReportPage1() {
             const response = await axios.get(
                 `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&aplicacion=${encodeURIComponent(applicationType)}`,
                 {
-                    responseType: 'blob',
+                  responseType: 'blob',
                 }
-            );
+              );
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -112,7 +98,6 @@ function ReportPage1() {
             <div style={styles.container}>
                 <h1 style={styles.title}>Generador de Reportes por Institución</h1>
 
-                {/* Proyecto */}
                 <div style={styles.selectContainer}>
                     <label htmlFor="proyecto" style={styles.selectLabel}>Selecciona un Proyecto</label>
                     <select
@@ -130,7 +115,6 @@ function ReportPage1() {
                     </select>
                 </div>
 
-                {/* Municipio */}
                 {selectedProject && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="municipio" style={styles.selectLabel}>Selecciona un Municipio</label>
@@ -150,7 +134,6 @@ function ReportPage1() {
                     </div>
                 )}
 
-                {/* Institución */}
                 {selectedMunicipality && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="institucion" style={styles.selectLabel}>Selecciona una Institución Educativa</label>
@@ -170,7 +153,6 @@ function ReportPage1() {
                     </div>
                 )}
 
-                {/* Tipo de aplicación */}
                 {selectedInstitution && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="tipoAplicacion" style={styles.selectLabel}>Selecciona el Tipo de Aplicación</label>
@@ -187,48 +169,7 @@ function ReportPage1() {
                     </div>
                 )}
 
-                {/* Campos de matrícula */}
-                {selectedInstitution && (
-                    <div style={styles.selectContainer}>
-                        <label style={styles.selectLabel}>Matriculados Tercero Entrada</label>
-                        <input
-                            type="number"
-                            value={matriculadosTerceroEntrada}
-                            onChange={(e) => setMatriculadosTerceroEntrada(e.target.value)}
-                            style={styles.select}
-                        />
-
-                        <label style={styles.selectLabel}>Matriculados Quinto Entrada</label>
-                        <input
-                            type="number"
-                            value={matriculadosQuintoEntrada}
-                            onChange={(e) => setMatriculadosQuintoEntrada(e.target.value)}
-                            style={styles.select}
-                        />
-
-                        <label style={styles.selectLabel}>Matriculados Tercero Salida</label>
-                        <input
-                            type="number"
-                            value={matriculadosTerceroSalida}
-                            onChange={(e) => setMatriculadosTerceroSalida(e.target.value)}
-                            style={styles.select}
-                        />
-
-                        <label style={styles.selectLabel}>Matriculados Quinto Salida</label>
-                        <input
-                            type="number"
-                            value={matriculadosQuintoSalida}
-                            onChange={(e) => setMatriculadosQuintoSalida(e.target.value)}
-                            style={styles.select}
-                        />
-                    </div>
-                )}
-
-                <button 
-                    onClick={fetchData} 
-                    disabled={loading || !selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType}
-                    style={styles.button}
-                >
+                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType} style={styles.button}>
                     {loading ? "Cargando..." : "Obtener Reporte"}
                 </button>
 
@@ -255,14 +196,11 @@ const styles = {
     },
     selectContainer: {
         marginBottom: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        width: '300px',
     },
     selectLabel: {
         color: '#1B8830',
         fontSize: '1rem',
-        marginBottom: '5px',
+        marginBottom: '10px',
     },
     select: {
         padding: '10px',

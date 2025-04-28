@@ -12,6 +12,12 @@ function ReportPage2() {
     const [institutions, setInstitutions] = useState([]);
     const [selectedInstitution, setSelectedInstitution] = useState('');
 
+    // Nuevos estados
+    const [matriculadosTerceroEntrada, setMatriculadosTerceroEntrada] = useState('');
+    const [matriculadosQuintoEntrada, setMatriculadosQuintoEntrada] = useState('');
+    const [matriculadosTerceroSalida, setMatriculadosTerceroSalida] = useState('');
+    const [matriculadosQuintoSalida, setMatriculadosQuintoSalida] = useState('');
+
     const fetchProjects = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`);
@@ -59,8 +65,16 @@ function ReportPage2() {
     }, [selectedMunicipality]);
 
     const fetchData = async () => {
-        if (!selectedProject || !selectedMunicipality || !selectedInstitution) {
-            setError("Por favor, completa todas las selecciones");
+        if (
+            !selectedProject ||
+            !selectedMunicipality ||
+            !selectedInstitution ||
+            matriculadosTerceroEntrada === '' ||
+            matriculadosQuintoEntrada === '' ||
+            matriculadosTerceroSalida === '' ||
+            matriculadosQuintoSalida === ''
+        ) {
+            setError("Por favor, completa todas las selecciones y los campos de matrícula");
             return;
         }
 
@@ -71,7 +85,7 @@ function ReportPage2() {
             const response = await axios.get(
                 `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}`,
                 {
-                  responseType: 'blob',
+                    responseType: 'blob',
                 }
             );
 
@@ -94,6 +108,7 @@ function ReportPage2() {
             <div style={styles.container}>
                 <h1 style={styles.title}>Generador de Reportes por Nodo</h1>
 
+                {/* Proyecto */}
                 <div style={styles.selectContainer}>
                     <label htmlFor="proyecto" style={styles.selectLabel}>Selecciona un Proyecto</label>
                     <select
@@ -111,6 +126,7 @@ function ReportPage2() {
                     </select>
                 </div>
 
+                {/* Municipio */}
                 {selectedProject && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="municipio" style={styles.selectLabel}>Selecciona un Municipio</label>
@@ -130,6 +146,7 @@ function ReportPage2() {
                     </div>
                 )}
 
+                {/* Institución */}
                 {selectedMunicipality && (
                     <div style={styles.selectContainer}>
                         <label htmlFor="institucion" style={styles.selectLabel}>Selecciona una Institución Educativa</label>
@@ -149,9 +166,51 @@ function ReportPage2() {
                     </div>
                 )}
 
+                {/* Campos de matrícula */}
+                {selectedInstitution && (
+                    <div style={styles.selectContainer}>
+                        <label style={styles.selectLabel}>Matriculados Tercero Entrada</label>
+                        <input
+                            type="number"
+                            value={matriculadosTerceroEntrada}
+                            onChange={(e) => setMatriculadosTerceroEntrada(e.target.value)}
+                            style={styles.select}
+                        />
+
+                        <label style={styles.selectLabel}>Matriculados Quinto Entrada</label>
+                        <input
+                            type="number"
+                            value={matriculadosQuintoEntrada}
+                            onChange={(e) => setMatriculadosQuintoEntrada(e.target.value)}
+                            style={styles.select}
+                        />
+
+                        <label style={styles.selectLabel}>Matriculados Tercero Salida</label>
+                        <input
+                            type="number"
+                            value={matriculadosTerceroSalida}
+                            onChange={(e) => setMatriculadosTerceroSalida(e.target.value)}
+                            style={styles.select}
+                        />
+
+                        <label style={styles.selectLabel}>Matriculados Quinto Salida</label>
+                        <input
+                            type="number"
+                            value={matriculadosQuintoSalida}
+                            onChange={(e) => setMatriculadosQuintoSalida(e.target.value)}
+                            style={styles.select}
+                        />
+                    </div>
+                )}
+
                 <button
                     onClick={fetchData}
-                    disabled={loading || !selectedProject || !selectedMunicipality || !selectedInstitution}
+                    disabled={
+                        loading ||
+                        !selectedProject ||
+                        !selectedMunicipality ||
+                        !selectedInstitution
+                    }
                     style={styles.button}
                 >
                     {loading ? "Cargando..." : "Obtener Reporte"}
@@ -180,11 +239,14 @@ const styles = {
     },
     selectContainer: {
         marginBottom: '20px',
+        display: 'flex',
+        flexDirection: 'column',
+        width: '300px',
     },
     selectLabel: {
         color: '#1B8830',
         fontSize: '1rem',
-        marginBottom: '10px',
+        marginBottom: '5px',
     },
     select: {
         padding: '10px',
