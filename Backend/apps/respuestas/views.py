@@ -1501,7 +1501,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[100, 80, 80, 60, 80, 80, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[100, 70, 70, 60, 70, 70, 60])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 1), HexColor("#1B8830")),
                 ('TEXTCOLOR', (0, 0), (-1, 1), colors.white),
@@ -1512,10 +1512,11 @@ class GenerarReporte2APIIew(APIView):
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                
+
                 ('SPAN', (0, 0), (0, 1)),  # Unir "Grado" de encabezado principal y subencabezado
                 ('SPAN', (1, 0), (3, 0)),  # Unir "Entrada" (total matriculados, evaluados, %)
                 ('SPAN', (4, 0), (6, 0)),  # Unir "Salida" (total matriculados, evaluados, %)
+                ('VALIGN', (0, 0), (-1, 1), 'MIDDLE'),  # Centrar verticalmente los encabezados (primera y segunda fila)
             ]))
 
             elements.append(Spacer(1, 12))
