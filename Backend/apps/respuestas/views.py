@@ -480,25 +480,16 @@ class GenerarReporte1APIIew(APIView):
             ciudad = ''
             fecha_aplicacion = ''
             # Preparar los datos
-            data = []
             for encuesta in encuestas:
-                estudiante = encuesta.nombre_estudiante or "N/A"
-                grado = encuesta.grado or "N/A"
-                correctos = encuesta.correctos if encuesta.correctos is not None else 0
-                data.append([estudiante, grado, correctos])
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
-                if encuesta.prueba.lower() == 'lenguaje' and encuesta.grado.lower() == 'tercero':
-                    pass
-
-            df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
             buffer = BytesIO()
 
             # Crear el documento
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
-            """
+            
             # Estilo verde centrado
             titulo_style = ParagraphStyle(
                 name="TituloVerdeCentrado",
@@ -557,10 +548,10 @@ class GenerarReporte1APIIew(APIView):
             )
 
             # Contenido
-            titulo_texto = f""
+            titulo_texto = f"""
             <b>Reporte de resultados para la</b><br/>
             <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
-            ""
+            """
 
             subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
             descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}</b>"
@@ -574,11 +565,11 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_style))
             
             parrafo_intro = Paragraph(
-                f""Este informe presenta los resultados obtenidos por los estudiantes de la institución
+                f"""Este informe presenta los resultados obtenidos por los estudiantes de la institución
                 {institucion}, correspondientes a la aplicación de entrada del programa educativo. 
                 Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, 
                 y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer 
-                los procesos de enseñanza y aprendizaje."",
+                los procesos de enseñanza y aprendizaje.""",
                 parrafo_estilo
             )
 
@@ -629,7 +620,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = ""
+            contenido = """
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
@@ -639,7 +630,7 @@ class GenerarReporte1APIIew(APIView):
             • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
             • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/><br/>
             Los puntajes en esta prueba se presentan en una escala de 0 a 20 puntos. 
-            ""
+            """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -935,7 +926,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = ""
+            contenido = """
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
@@ -948,7 +939,7 @@ class GenerarReporte1APIIew(APIView):
             • Númerico - variacional<br/>
             • Espacial - métrico<br/>
             • Aleatorio<br/><br/>
-            ""
+            """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -1237,7 +1228,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-            """
+
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
