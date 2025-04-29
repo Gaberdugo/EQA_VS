@@ -1058,7 +1058,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            """
+            
 
             descripcion_texto = '<b>Significado de los niveles de desempeño – Matemáticas, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -1101,7 +1101,7 @@ class GenerarReporte1APIIew(APIView):
             
             #-----------------------------------------------------------------------------------------------------------------------
 
-            descripcion_texto = '<b>4.2.	Quinto grado </b><br/><b>a. Puntaje</b>'
+            descripcion_texto = '<b>4.2. Quinto grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             parrafo_intro = Paragraph(
@@ -1135,6 +1135,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
+
+            """
 
             descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
