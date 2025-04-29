@@ -489,10 +489,17 @@ class GenerarReporte1APIIew(APIView):
             # Crear el documento
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
+            
 
-            return Response({
-                    "error": [len(encuestas), ciudad, fecha_aplicacion]
-                }, status=400)
+            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
+
+            buffer.seek(0)
+            
+            response = HttpResponse(buffer, content_type='application/pdf')
+
+            response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
+
+            return response
             
             # Estilo verde centrado
             titulo_style = ParagraphStyle(
