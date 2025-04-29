@@ -1240,6 +1240,8 @@ class GenerarReporte1APIIew(APIView):
             else:
                 response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
             
+            #response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
+
             return response
 
         except Exception as e:
@@ -1291,6 +1293,8 @@ class GenerarReporte1APIIew(APIView):
         maxi = 0
         mini = 20
         for encuesta in encuestas:
+            if encuesta.correctos is None:
+                continue
             if maxi < encuesta.correctos:
                 maxi = encuesta.correctos
             if mini > encuesta.correctos:
