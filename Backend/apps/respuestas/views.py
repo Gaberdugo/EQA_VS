@@ -631,7 +631,7 @@ class GenerarReporte1APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[80, 80, 80, 80])
+            tabla_estadistica = Table(tabla_datos, colWidths=[100, 100, 100, 100])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
@@ -693,11 +693,19 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'L')
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
-            tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
-            ]
+            if len(institucion) < 19:
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -834,11 +842,19 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'L')
             c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'L')
-            tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
-            ]
+            if len(institucion) < 19:
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -1002,11 +1018,19 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'M')
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'M')
-            tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
-            ]
+            if len(institucion) < 19:
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -1141,11 +1165,19 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'M')
             c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'M')
-            tabla_datos = [
-                ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
-            ]
+            if len(institucion) < 19:
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
