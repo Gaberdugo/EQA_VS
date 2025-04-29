@@ -1363,6 +1363,9 @@ class GenerarReporte1APIIew(APIView):
         
         total = bajo + medio + alto
 
+        if total == 0:
+            total = 1
+
         return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
 
     def agregar_numero_pagina(self, canvas, doc):
