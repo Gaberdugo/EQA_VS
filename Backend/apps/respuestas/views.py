@@ -1197,7 +1197,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            """
+            
 
             descripcion_texto = '<b>Significado de los niveles de desempeño – Matemáticas, quinto grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -1237,7 +1237,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
-            """
+            
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
