@@ -888,7 +888,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(grafico)
             elements.append(Spacer(1, 20))
 
-            """
+            
 
             descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, quinto grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -935,7 +935,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            contenido = ""
+            contenido = """
             <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
@@ -948,7 +948,7 @@ class GenerarReporte1APIIew(APIView):
             • Númerico - variacional<br/>
             • Espacial - métrico<br/>
             • Aleatorio<br/><br/>
-            ""
+            """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
@@ -958,6 +958,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
             
+            """
+
             #-----------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '<b>4.1. Tercer grado</b><br/><b>a. Puntaje</b>'
