@@ -625,9 +625,9 @@ class GenerarReporte1APIIew(APIView):
 
             tabla_datos = [
                 ["Grado", "Total matriculados", "Total evaluados", "%"], # Encabezados
-                ["Tercero", tercero_entrada, len(ter), f"{c[0]}%"],  # Fila 1
-                ["Quinto ", quinto_entrada, len(quin), f"{c[1]}%"],  # Fila 2
-                ["Total", tercero_entrada+quinto_entrada , len(ter)+len(quin), f"{c[2]}%"],  # Fila 3
+                ["Tercero", tercero_entrada, len(ter), f"{self.comma_dot(c[0])}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin), f"{self.comma_dot(c[1])}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , len(ter)+len(quin), f"{self.comma_dot(c[2])}%"],  # Fila 3
             ]
 
             # Crear la tabla
@@ -696,15 +696,15 @@ class GenerarReporte1APIIew(APIView):
             if len(institucion) < 19:
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
             else:
                 nombre = institucion[:19]
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [nombre, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
 
             # Crear la tabla
@@ -845,8 +845,8 @@ class GenerarReporte1APIIew(APIView):
             if len(institucion) < 19:
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
             else:
                 nombre = institucion[:19]
@@ -1021,15 +1021,15 @@ class GenerarReporte1APIIew(APIView):
             if len(institucion) < 19:
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
             else:
                 nombre = institucion[:19]
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [nombre, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
 
             # Crear la tabla
@@ -1168,15 +1168,15 @@ class GenerarReporte1APIIew(APIView):
             if len(institucion) < 19:
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
             else:
                 nombre = institucion[:19]
                 tabla_datos = [
                     ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
+                    [nombre, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
                 ]
 
             # Crear la tabla
@@ -1458,6 +1458,11 @@ class GenerarReporte1APIIew(APIView):
 
         return p
 
+    def comma_dot(self, x):
+        res = str(x)
+        res.replace('.',',')
+        return res
+
 class GenerarReporte2APIIew(APIView):
     permission_classes = [AllowAny]
 
@@ -1636,9 +1641,9 @@ class GenerarReporte2APIIew(APIView):
             tabla_datos = [
                 ["Grado", "Entrada", "", "", "Salida", "", ""],  # Encabezados
                 ["", "Total\nmatriculados", "Total\nevaluados", "%", "Total\nmatriculados", "Total\nevaluados", "%"], # Encabezados 2
-                ["Tercero", tercero_entrada, len(ter1), f"{c[0]}%", tercero_salida, len(ter2), f"{c[3]}%"],  # Fila 1
-                ["Quinto ", quinto_entrada, len(quin1), f"{c[1]}%", quinto_salida, len(quin2), f"{c[4]}%"],  # Fila 2
-                ["Total", tercero_entrada+quinto_entrada , len(ter1)+len(quin1), f"{c[2]}%", tercero_salida+quinto_salida, len(ter2)+len(quin2), f"{c[5]}%"],  # Fila 3
+                ["Tercero", tercero_entrada, len(ter1), f"{self.comma_dot(c[0])}%", tercero_salida, len(ter2), f"{self.comma_dot(c[3])}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin1), f"{self.comma_dot(c[1])}%", quinto_salida, len(quin2), f"{self.comma_dot(c[4])}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , len(ter1)+len(quin1), f"{self.comma_dot(c[2])}%", tercero_salida+quinto_salida, len(ter2)+len(quin2), f"{self.comma_dot(c[5])}%"],  # Fila 3
             ]
 
             # Crear la tabla
@@ -1708,13 +1713,24 @@ class GenerarReporte2APIIew(APIView):
             c = self.tabla(1, ciudad, 'entrada',proyecto, 3, 'L')
             t2 = self.tabla(0, institucion, 'salida',proyecto, 3, 'L')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'L')
-            tabla_datos = [
-                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
-                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
-                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
-            ]
+            
+            if len(institucion)<19:
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -1889,13 +1905,24 @@ class GenerarReporte2APIIew(APIView):
             c = self.tabla(1, ciudad, 'entrada',proyecto, 5, 'L')
             t2 = self.tabla(0, institucion, 'salida',proyecto, 5, 'L')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'L')
-            tabla_datos = [
-                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
-                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
-                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
-            ]
+            
+            if len(institucion)<19:
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -2097,13 +2124,24 @@ class GenerarReporte2APIIew(APIView):
             c = self.tabla(1, ciudad, 'entrada',proyecto, 3, 'M')
             t2 = self.tabla(0, institucion, 'salida',proyecto, 3, 'M')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'M')
-            tabla_datos = [
-                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
-                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
-                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
-            ]
+            
+            if len(institucion)<19:
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -2276,13 +2314,24 @@ class GenerarReporte2APIIew(APIView):
             c = self.tabla(1, ciudad, 'entrada',proyecto, 5, 'M')
             t2 = self.tabla(0, institucion, 'salida',proyecto, 5, 'M')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'M')
-            tabla_datos = [
-                ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                [institucion, "Entrada",t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                ['', "Salida",t2[0], t2[1], t2[2], t2[3], t2[4]],  # Fila 2
-                [ciudad, "Entrada",c[0], c[1], c[2], c[3], c[4]],  # Fila 3
-                ['', "Salida",c2[0], c2[1], c2[2], c2[3], c2[4]],  # Fila 4
-            ]
+            
+            if len(institucion)<19:
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
+            else:
+                nombre = institucion[:19]
+                tabla_datos = [
+                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+                ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -2595,3 +2644,8 @@ class GenerarReporte2APIIew(APIView):
         p.append(round(((E3_S + E5_S)/(M3_S + M5_S))*100, 1))
 
         return p
+    
+    def comma_dot(self, x):
+        res = str(x)
+        res.replace('.',',')
+        return res
