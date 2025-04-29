@@ -1245,7 +1245,13 @@ class GenerarReporte1APIIew(APIView):
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
+            if len(institucion) > 18:
+                res = ''
+                for i in range(18):
+                    res+=i
+                response['Content-Disposition'] = f'attachment; filename=\"Reporte_{res}_{proyecto}.pdf\"'
+            else:
+                response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
             return response
 
         except Exception as e:
