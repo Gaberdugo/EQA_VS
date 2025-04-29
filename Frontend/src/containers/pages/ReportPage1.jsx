@@ -12,6 +12,8 @@ function ReportPage1() {
     const [institutions, setInstitutions] = useState([]);
     const [selectedInstitution, setSelectedInstitution] = useState('');
     const [applicationType, setApplicationType] = useState('');
+    const [matriculadosQuinto, setMatriculadosQuinto] = useState('');
+    const [matriculadosTercero, setMatriculadosTercero] = useState('');
 
     const fetchProjects = async () => {
         try {
@@ -26,7 +28,6 @@ function ReportPage1() {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/municipios/?proyecto_id=${projectName}`);
             setMunicipalities(response.data);
-            console.log(projectName);
         } catch (error) {
             setError("Hubo un error al obtener los municipios");
         }
@@ -51,6 +52,8 @@ function ReportPage1() {
             setSelectedMunicipality('');
             setSelectedInstitution('');
             setApplicationType('');
+            setMatriculadosQuinto('');
+            setMatriculadosTercero('');
         }
     }, [selectedProject]);
 
@@ -59,12 +62,14 @@ function ReportPage1() {
             fetchInstitutions(selectedProject, selectedMunicipality);
             setSelectedInstitution('');
             setApplicationType('');
+            setMatriculadosQuinto('');
+            setMatriculadosTercero('');
         }
     }, [selectedMunicipality]);
 
     const fetchData = async () => {
-        if (!selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType) {
-            setError("Por favor, completa todas las selecciones");
+        if (!selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType || !matriculadosQuinto || !matriculadosTercero) {
+            setError("Por favor, completa todas las selecciones y los campos de matrícula");
             return;
         }
 
@@ -73,11 +78,11 @@ function ReportPage1() {
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&aplicacion=${encodeURIComponent(applicationType)}`,
+                `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&aplicacion=${encodeURIComponent(applicationType)}&matriculados_quinto=${encodeURIComponent(matriculadosQuinto)}&matriculados_tercero=${encodeURIComponent(matriculadosTercero)}`,
                 {
-                  responseType: 'blob',
+                    responseType: 'blob',
                 }
-              );
+            );
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
@@ -169,7 +174,35 @@ function ReportPage1() {
                     </div>
                 )}
 
-                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType} style={styles.button}>
+                {applicationType && (
+                    <>
+                        <div style={styles.selectContainer}>
+                            <label htmlFor="matriculadosQuinto" style={styles.selectLabel}>Número de matriculados en Quinto</label>
+                            <input
+                                type="number"
+                                id="matriculadosQuinto"
+                                value={matriculadosQuinto}
+                                onChange={(e) => setMatriculadosQuinto(e.target.value)}
+                                style={styles.select}
+                                min="0"
+                            />
+                        </div>
+
+                        <div style={styles.selectContainer}>
+                            <label htmlFor="matriculadosTercero" style={styles.selectLabel}>Número de matriculados en Tercero</label>
+                            <input
+                                type="number"
+                                id="matriculadosTercero"
+                                value={matriculadosTercero}
+                                onChange={(e) => setMatriculadosTercero(e.target.value)}
+                                style={styles.select}
+                                min="0"
+                            />
+                        </div>
+                    </>
+                )}
+
+                <button onClick={fetchData} disabled={loading || !selectedProject || !selectedMunicipality || !selectedInstitution || !applicationType || !matriculadosQuinto || !matriculadosTercero} style={styles.button}>
                     {loading ? "Cargando..." : "Obtener Reporte"}
                 </button>
 
@@ -196,6 +229,8 @@ const styles = {
     },
     selectContainer: {
         marginBottom: '20px',
+        display: 'flex',
+        flexDirection: 'column',
     },
     selectLabel: {
         color: '#1B8830',
@@ -207,6 +242,7 @@ const styles = {
         fontSize: '1rem',
         border: '1px solid #ccc',
         borderRadius: '5px',
+        width: '250px',
     },
     button: {
         backgroundColor: '#1B8830',
