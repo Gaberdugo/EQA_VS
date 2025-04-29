@@ -472,10 +472,6 @@ class GenerarReporte1APIIew(APIView):
                 nombre=proyecto
             )
 
-            return Response({
-                    "error": len(encuestas)
-                }, status=400)
-
             if not encuestas.exists():
                 return Response({
                     "error": "No se encontraron encuestas para los filtros proporcionados."
@@ -487,6 +483,10 @@ class GenerarReporte1APIIew(APIView):
             for encuesta in encuestas:
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
+
+            return Response({
+                    "error": [len(encuestas), ciudad, fecha_aplicacion]
+                }, status=400)
 
             buffer = BytesIO()
 
