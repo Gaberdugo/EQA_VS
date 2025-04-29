@@ -490,6 +490,12 @@ class GenerarReporte1APIIew(APIView):
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
             
+            # Si elements está vacío, agregamos una página dummy
+            if not elements:
+                from reportlab.platypus import Paragraph
+                from reportlab.lib.styles import getSampleStyleSheet
+                styles = getSampleStyleSheet()
+                elements.append(Paragraph("No hay datos para mostrar.", styles['Title']))
 
             doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
 
