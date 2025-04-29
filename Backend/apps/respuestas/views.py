@@ -460,6 +460,8 @@ class GenerarReporte1APIIew(APIView):
             institucion = request.GET.get('institucion')
             proyecto = request.GET.get('proyecto')
             aplicacion = request.GET.get('aplicacion')
+            tercero_entrada = int(request.GET.get('tercero_entrada'))
+            quinto_entrada = int(request.GET.get('quinto_entrada'))
 
             if not institucion or not proyecto or not aplicacion:
                 return Response({
@@ -480,7 +482,14 @@ class GenerarReporte1APIIew(APIView):
             ciudad = ''
             fecha_aplicacion = ''
             # Preparar los datos
+            ter = []
+            quin = []
             for encuesta in encuestas:
+                grado = encuesta.grado or "N/A"
+                if grado == 'Tercero':
+                    ter.append(grado)
+                elif grado == 'Quinto':
+                    quin.append(grado)
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
 
@@ -612,6 +621,36 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
             
             
+            c = self.tabla_inicial(tercero_entrada, ter, quinto_entrada, quin)
+
+            tabla_datos = [
+                ["Grado", "Total matriculados", "Total evaluados", "%"], # Encabezados
+                ["Tercero", tercero_entrada, len(ter), f"{c[0]}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin), f"{c[1]}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , len(ter)+len(quin), f"{c[2]}%"],  # Fila 3
+            ]
+
+            # Crear la tabla
+            tabla_estadistica = Table(tabla_datos, colWidths=[80, 80, 80, 80])
+            tabla_estadistica.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 1), HexColor("#1B8830")),
+                ('TEXTCOLOR', (0, 0), (-1, 1), colors.white),
+
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('TOPPADDING', (0, 0), (-1, -1), 6),
+                ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
+
+            ]))
+
+            elements.append(Spacer(1, 12))
+            elements.append(tabla_estadistica)
+            elements.append(Spacer(1, 20))
+            elements.append(PageBreak())  #Inicia nueva página para la tabla
+
+
             elements.append(PageBreak())
 
             #----------------------------------------------------------------------------------------------------------------------------
@@ -1377,6 +1416,15 @@ class GenerarReporte1APIIew(APIView):
         y = 0.5 * inch  # Desde el borde inferior
 
         canvas.drawString(x, y, text)
+    
+    def tabla_inicial(self, M3, E3, M5, E5):
+        p = []
+
+        p.append(round((E3/M3)*100, 1))
+        p.append(round((E5/M5)*100, 1))
+        p.append(round(((E3 + E5)/(M3 + M5))*100, 1))
+
+        return p
 
 class GenerarReporte2APIIew(APIView):
     permission_classes = [AllowAny]
@@ -2366,7 +2414,7 @@ class GenerarReporte2APIIew(APIView):
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename=\"reporte_comparativo_{institucion}_{proyecto}.pdf\"'
+            response['Content-Disposition'] = f'attachment; filename=\"reporte_comparativo.pdf\"'
             return response
 
         except Exception as e:
