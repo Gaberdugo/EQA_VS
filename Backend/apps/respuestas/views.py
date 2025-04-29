@@ -633,8 +633,8 @@ class GenerarReporte1APIIew(APIView):
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[80, 80, 80, 80])
             tabla_estadistica.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 1), HexColor("#1B8830")),
-                ('TEXTCOLOR', (0, 0), (-1, 1), colors.white),
+                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
 
                 ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
