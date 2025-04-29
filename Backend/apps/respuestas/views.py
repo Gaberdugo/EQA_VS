@@ -472,6 +472,10 @@ class GenerarReporte1APIIew(APIView):
                 nombre=proyecto
             )
 
+            return Response({
+                    "error": len(encuestas)
+                }, status=400)
+
             if not encuestas.exists():
                 return Response({
                     "error": "No se encontraron encuestas para los filtros proporcionados."
