@@ -948,8 +948,6 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
-            
-            
 
             #-----------------------------------------------------------------------------------------------------------------------
 
@@ -1236,17 +1234,16 @@ class GenerarReporte1APIIew(APIView):
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
-            if len(institucion) > 18:
-                res = ''
-                for i in range(18):
-                    res+=i
-                response['Content-Disposition'] = f'attachment; filename=\"Reporte_{res}_{proyecto}.pdf\"'
+            
+            if institucion == 'IED Manuel del Socorro Rodríguez':
+                response['Content-Disposition'] = f'attachment; filename=\"Reporte_IEDManuelDelSocorroRodríguez_{proyecto}.pdf\"'
             else:
                 response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
+            
             return response
 
         except Exception as e:
-            print("🔴 ERROR:", format_exc())
+            print("ERROR:", format_exc())
             return Response({
                 "error": "Error interno al generar el PDF.",
                 "detalle": str(e)
@@ -1409,16 +1406,12 @@ class GenerarReporte2APIIew(APIView):
             ciudad = ''
             fecha_aplicacion = ''
             # Preparar los datos
-            data = []
             ter1 = []
             ter2 = []
             quin1 = []
             quin2 = []
             for encuesta in encuestas:
-                estudiante = encuesta.nombre_estudiante or "N/A"
                 grado = encuesta.grado or "N/A"
-                correctos = encuesta.correctos if encuesta.correctos is not None else 0
-                data.append([estudiante, grado, correctos])
                 if grado == 'Tercero' and encuesta.aplicacion == 'entrada':
                     ter1.append(grado)
                 elif grado == 'Tercero' and encuesta.aplicacion == 'salida':
@@ -1429,8 +1422,6 @@ class GenerarReporte2APIIew(APIView):
                     quin2.append(grado)
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
-
-            df = pd.DataFrame(data, columns=["Estudiante", "Grado", "Correctas"])
 
             buffer = BytesIO()
 
@@ -2377,7 +2368,7 @@ class GenerarReporte2APIIew(APIView):
             return response
 
         except Exception as e:
-            print("🔴 ERROR:", format_exc())
+            print("ERROR:", format_exc())
             return Response({
                 "error": "Error interno al generar el PDF.",
                 "detalle": str(e)
