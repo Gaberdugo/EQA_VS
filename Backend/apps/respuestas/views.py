@@ -1235,12 +1235,7 @@ class GenerarReporte1APIIew(APIView):
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
             
-            if institucion == 'IED Manuel del Socorro Rodríguez':
-                response['Content-Disposition'] = f'attachment; filename=\"Reporte_IEDManuelDelSocorroRodríguez_{proyecto}.pdf\"'
-            else:
-                response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
-            
-            #response['Content-Disposition'] = f'attachment; filename=\"Reporte_{institucion}_{proyecto}.pdf\"'
+            response['Content-Disposition'] = f'attachment; filename=\"Reporte.pdf\"'
 
             return response
 
