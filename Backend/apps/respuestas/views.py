@@ -498,7 +498,7 @@ class GenerarReporte1APIIew(APIView):
             # Crear el documento
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
-
+            """
             # Estilo verde centrado
             titulo_style = ParagraphStyle(
                 name="TituloVerdeCentrado",
@@ -557,10 +557,10 @@ class GenerarReporte1APIIew(APIView):
             )
 
             # Contenido
-            titulo_texto = f"""
+            titulo_texto = f""
             <b>Reporte de resultados para la</b><br/>
             <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
-            """
+            ""
 
             subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
             descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}</b>"
@@ -574,17 +574,17 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_style))
             
             parrafo_intro = Paragraph(
-                f"""Este informe presenta los resultados obtenidos por los estudiantes de la institución
+                f""Este informe presenta los resultados obtenidos por los estudiantes de la institución
                 {institucion}, correspondientes a la aplicación de entrada del programa educativo. 
                 Los datos aquí consignados reflejan el desempeño en las áreas de Lenguaje y Matemáticas, 
                 y constituyen un insumo valioso para orientar estrategias pedagógicas y fortalecer 
-                los procesos de enseñanza y aprendizaje.""",
+                los procesos de enseñanza y aprendizaje."",
                 parrafo_estilo
             )
 
             elements.append(Spacer(1, 12))
             elements.append(parrafo_intro)    
-            """
+            
             descripcion_texto = '<b>1. Datos de identificación de la institución educativa</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
