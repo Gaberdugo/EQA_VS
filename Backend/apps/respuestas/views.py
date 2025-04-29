@@ -621,7 +621,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
             
             
-            c = self.tabla_inicial(tercero_entrada, ter, quinto_entrada, quin)
+            c = self.tabla_inicial(tercero_entrada, len(ter), quinto_entrada, len(quin))
 
             tabla_datos = [
                 ["Grado", "Total matriculados", "Total evaluados", "%"], # Encabezados
