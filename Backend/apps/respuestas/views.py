@@ -564,16 +564,6 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(subtitulo_texto, subtitulo_style))
             elements.append(Paragraph(descripcion_texto, descripcion_style))
 
-            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
-
-            buffer.seek(0)
-
-            response = HttpResponse(buffer, content_type='application/pdf')
-
-            response['Content-Disposition'] = f'attachment; filename=\"Reporte.pdf\"'
-
-            return response
-
             parrafo_intro = Paragraph(
                 f"""Este informe presenta los resultados obtenidos por los estudiantes de la institución
                 {institucion}, correspondientes a la aplicación de entrada del programa educativo. 
