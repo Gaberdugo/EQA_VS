@@ -460,8 +460,8 @@ class GenerarReporte1APIIew(APIView):
             institucion = request.GET.get('institucion')
             proyecto = request.GET.get('proyecto')
             aplicacion = request.GET.get('aplicacion')
-            tercero_entrada = int(request.GET.get('tercero_entrada'))
-            quinto_entrada = int(request.GET.get('quinto_entrada'))
+            tercero_entrada = int(request.GET.get('matriculados_tercero'))
+            quinto_entrada = int(request.GET.get('matriculados_quinto'))
 
             if not institucion or not proyecto or not aplicacion:
                 return Response({
