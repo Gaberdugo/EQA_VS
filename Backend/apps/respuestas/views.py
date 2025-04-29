@@ -2647,5 +2647,5 @@ class GenerarReporte2APIIew(APIView):
     
     def comma_dot(self, x):
         res = str(x)
-        res.replace('.',',')
+        res = res.replace('.',',')
         return res
