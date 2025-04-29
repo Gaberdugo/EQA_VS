@@ -484,15 +484,15 @@ class GenerarReporte1APIIew(APIView):
                 ciudad = encuesta.ciudad
                 fecha_aplicacion = encuesta.fecha
 
-            return Response({
-                    "error": [len(encuestas), ciudad, fecha_aplicacion]
-                }, status=400)
-
             buffer = BytesIO()
 
             # Crear el documento
             doc = SimpleDocTemplate(buffer, pagesize=letter)
             elements = []
+
+            return Response({
+                    "error": [len(encuestas), ciudad, fecha_aplicacion]
+                }, status=400)
             
             # Estilo verde centrado
             titulo_style = ParagraphStyle(
