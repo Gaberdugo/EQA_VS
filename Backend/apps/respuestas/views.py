@@ -2651,6 +2651,8 @@ class GenerarReporte2APIIew(APIView):
         return res
 
 class CrearInstitucionAPIView(APIView):
+    permission_classes = [AllowAny]
+    
     def post(self, request):
         serializer = InstitucionSerializer(data=request.data)
         if serializer.is_valid():
