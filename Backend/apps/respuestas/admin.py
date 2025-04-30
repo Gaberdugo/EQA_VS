@@ -45,7 +45,7 @@ class PreguntaLenguaAdmin(admin.ModelAdmin):
     ordering = ('grado',)
 
 class InstitucionesAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'DANE')
+    list_display = ('nombre', 'DANE', 'terpel')
     search_fields = ('nombre',)
 
 admin.site.register(Encuesta, EncuestaAdmin)

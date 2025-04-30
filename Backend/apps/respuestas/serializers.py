@@ -65,4 +65,4 @@ class CuadernilloNombreSerializer(serializers.ModelSerializer):
 class InstitucionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instituciones
-        fields = ['id', 'nombre', 'DANE']
+        fields = ['id', 'nombre', 'DANE', 'terpel']
