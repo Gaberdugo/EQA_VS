@@ -5,6 +5,7 @@ import axios from 'axios';
 function ValInsti() {
     const [nombre, setNombre] = useState('');
     const [dane, setDane] = useState('');
+    const [codigoTerpel, setCodigoTerpel] = useState('');
     const [mensaje, setMensaje] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -19,11 +20,13 @@ function ValInsti() {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/res/crearinsti/`, {
                 nombre: nombre,
                 DANE: dane,
+                codigo_terpel: codigoTerpel,  // <- Aquí lo mandas al backend
             });
 
             setMensaje('Institución creada con éxito.');
             setNombre('');
             setDane('');
+            setCodigoTerpel('');
         } catch (err) {
             setError('Hubo un error al crear la institución.');
         } finally {
@@ -51,6 +54,15 @@ function ValInsti() {
                         type="number"
                         value={dane}
                         onChange={(e) => setDane(e.target.value)}
+                        style={styles.input}
+                        required
+                    />
+
+                    <label style={styles.label}>Código Terpel</label>
+                    <input
+                        type="text"
+                        value={codigoTerpel}
+                        onChange={(e) => setCodigoTerpel(e.target.value)}
                         style={styles.input}
                         required
                     />
