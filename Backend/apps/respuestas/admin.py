@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua, CuadernilloLengua
+from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua, CuadernilloLengua, Instituciones
 
 class EncuestaAdmin(admin.ModelAdmin):
     list_display = ['id', 'nombre', 'ciudad', 'nombre_institucion', 'fecha', 'nombre_estudiante','grado', 'edad', 'genero', 'numero_cuadernillo', 'documento_estudiante', 'responsable', 'fecha_cargue']
@@ -44,9 +44,13 @@ class PreguntaLenguaAdmin(admin.ModelAdmin):
     list_filter = ('grado', 'dificultad')
     ordering = ('grado',)
 
+class InstitucionesAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'DANE')
+    search_fields = ('nombre',)
 
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(PreguntaMate, PreguntaMateAdmin) 
 admin.site.register(CuadernilloMate, CuadernilloMateAdmin) 
 admin.site.register(PreguntaLengua, PreguntaLenguaAdmin) 
 admin.site.register(CuadernilloLengua, CuadernilloLenguaAdmin) 
+admin.site.register(Instituciones, InstitucionesAdmin)
