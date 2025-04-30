@@ -4,6 +4,7 @@ import {
   RssIcon,
   UsersIcon,
   TrashIcon,
+  AcademicCapIcon,
   PencilIcon,
   ArrowUturnUpIcon,
   WalletIcon,
@@ -25,6 +26,7 @@ function Sidebar3(){
       { name: 'TAB - CAL', href: '/reportPage', icon: WalletIcon, current: location.pathname==='/reportPage' ? true:false },
       { name: 'Reporte Insti', href: '/reportPage1', icon: ChartBarIcon, current: location.pathname==='/reportPage1' ? true:false },
       { name: 'Reporte Comparativo', href: '/reportPage2', icon: ChartPieIcon, current: location.pathname==='/reportPage2' ? true:false },
+      { name: 'Instituciones', href: '/valInsti', icon: AcademicCapIcon, current: location.pathname==='/valInsti' ? true:false },
       /*{ name: 'Digitadores', href: '/valDigi', icon: UsersIcon, current: location.pathname==='/valDigi' ? true:false },*/
       { name: 'Digitar', href: '/valForm', icon: PencilIcon, current: location.pathname==='/valForm' ? true:false },
       { name: 'Corregir', href: '/valCorr', icon: ArrowUturnUpIcon, current: location.pathname==='/valCorr' ? true:false },
