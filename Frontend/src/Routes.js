@@ -20,7 +20,7 @@ import ValDigi from 'containers/pages/ValDigi';
 import ValDelete from 'containers/pages/valDelete';
 import ValForm from 'containers/pages/ValForm';
 import ValCorr from 'containers/pages/ValCorr';
-import valInsti from 'containers/pages/valInsti';
+import ValInsti from 'containers/pages/valInsti';
 import TerPage from 'containers/pages/TerPage';
 import TerPrueba from 'containers/pages/TerPrueba';
 import TerReport from 'containers/pages/TerReport';
@@ -164,7 +164,7 @@ function AnimatedRoutes() {
                         path='/valInsti' 
                         element={
                             <PrivateRoute requiredRole="val">
-                                <valInsti />
+                                <ValInsti />
                             </PrivateRoute>
                         } 
                     />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Layout4 from "hocs/Layouts/Layout4";
 import axios from 'axios';
 
-function valInsti() {
+function ValInsti() {
     const [nombre, setNombre] = useState('');
     const [dane, setDane] = useState('');
     const [mensaje, setMensaje] = useState('');
@@ -119,4 +119,4 @@ const styles = {
     },
 };
 
-export default valInsti;
+export default ValInsti;
