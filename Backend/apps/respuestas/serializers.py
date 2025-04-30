@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua
+from .models import Encuesta, PreguntaMate, CuadernilloMate, PreguntaLengua, Instituciones
 
 class EncuestaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,7 +44,6 @@ class PreguntaMateSerializer(serializers.ModelSerializer):
         model = PreguntaMate
         fields = '__all__'  # Esto incluye todos los campos del modelo
 
-# Serializador para los cuadernillos
 class CuadernilloMateSerializer(serializers.ModelSerializer):
     # Incluimos las preguntas asociadas usando el PreguntaMateSerializer
     preguntas = PreguntaMateSerializer(many=True, read_only=True)
@@ -62,3 +61,8 @@ class CuadernilloNombreSerializer(serializers.ModelSerializer):
     class Meta:
         model = CuadernilloMate  # Puedes usar este serializer para ambos modelos
         fields = ['nombre']
+
+class InstitucionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Instituciones
+        fields = ['id', 'nombre', 'DANE']

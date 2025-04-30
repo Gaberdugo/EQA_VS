@@ -197,3 +197,7 @@ class CuadernilloPreguntaLengua(models.Model):
 
     def __str__(self):
         return f"Cuadernillo: {self.cuadernillo.nombre} - Pregunta: {self.pregunta.codigo_pregunta}"
+
+class Instituciones(models.Model):
+    nombre = models.CharField(max_length=255)
+    DANE = models.IntegerField(default=0) 

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import EncuestaView, EncuestaExportView, CuadernilloMateAPIView, EncuestaAleatoriaView, PreguntaView, CuadernillosNombresAPIView, EncuestaDeleteView, EncuestasResponsableView
-from .views import ObtenerEncuestaAPIView, ModificarEncuestaAPIView, ObtenerInstitucionesAPIView,ObtenerMunicipiosAPIView,GenerarReporte1APIIew,GenerarReporte2APIIew
+from .views import ObtenerEncuestaAPIView, ModificarEncuestaAPIView, ObtenerInstitucionesAPIView,ObtenerMunicipiosAPIView,GenerarReporte1APIIew,GenerarReporte2APIIew, CrearInstitucionAPIView
  
 urlpatterns = [
     path('respuesta/', EncuestaView.as_view(), name='repuesta_create'),  # Endpoint para crear la encuesta
@@ -8,6 +8,7 @@ urlpatterns = [
     path('instituciones/', ObtenerInstitucionesAPIView.as_view(), name='obtener_instituciones'),
     path('municipios/', ObtenerMunicipiosAPIView.as_view(), name='obtener_municipios'),
     path('pdf/', GenerarReporte1APIIew.as_view(), name='obtener_pdf'),
+    path('crearinsti/', CrearInstitucionAPIView.as_view(), name='crear_institución'),
     path('pdf2/', GenerarReporte2APIIew.as_view(), name='obtener_pdf2'),
     path('cuadernillos/', CuadernilloMateAPIView.as_view(), name='cuadernillo_list'), 
     path('respuesta/aleatoria/', EncuestaAleatoriaView.as_view(), name='encuesta-aleatoria'),
