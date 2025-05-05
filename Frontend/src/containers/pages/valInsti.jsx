@@ -19,7 +19,7 @@ function ValInsti() {
         setError('');
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/res/crearinsti/`, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/ins/institutos/`, {
                 nombre: nombre,
                 DANE: dane,
                 codigo_terpel: codigoTerpel,
