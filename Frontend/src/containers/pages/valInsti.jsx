@@ -6,6 +6,8 @@ function ValInsti() {
     const [nombre, setNombre] = useState('');
     const [dane, setDane] = useState('');
     const [codigoTerpel, setCodigoTerpel] = useState('');
+    const [municipio, setMunicipio] = useState('');
+    const [departamento, setDepartamento] = useState('');
     const [mensaje, setMensaje] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -20,13 +22,17 @@ function ValInsti() {
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/res/crearinsti/`, {
                 nombre: nombre,
                 DANE: dane,
-                codigo_terpel: codigoTerpel,  // <- Aquí lo mandas al backend
+                codigo_terpel: codigoTerpel,
+                municipio: municipio,
+                departamento: departamento
             });
 
             setMensaje('Institución creada con éxito.');
             setNombre('');
             setDane('');
             setCodigoTerpel('');
+            setMunicipio('');
+            setDepartamento('');
         } catch (err) {
             setError('Hubo un error al crear la institución.');
         } finally {
@@ -63,6 +69,24 @@ function ValInsti() {
                         type="text"
                         value={codigoTerpel}
                         onChange={(e) => setCodigoTerpel(e.target.value)}
+                        style={styles.input}
+                        required
+                    />
+
+                    <label style={styles.label}>Municipio</label>
+                    <input
+                        type="text"
+                        value={municipio}
+                        onChange={(e) => setMunicipio(e.target.value)}
+                        style={styles.input}
+                        required
+                    />
+
+                    <label style={styles.label}>Departamento</label>
+                    <input
+                        type="text"
+                        value={departamento}
+                        onChange={(e) => setDepartamento(e.target.value)}
                         style={styles.input}
                         required
                     />
