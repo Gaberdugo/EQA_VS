@@ -599,7 +599,7 @@ class GenerarReporte1APIIew(APIView):
                 nombre=institucion
             )
 
-            res = 1111
+            res = 9999
 
             if dane.exists():
                 for dan in dane:
