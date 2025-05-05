@@ -10,6 +10,8 @@ urlpatterns = [
     path('auth/', include('apps.proyecto.urls')),
     path('auth/', include('apps.user.urls')),
 
+    path('ins/', include('apps.institucion.urls')),
+
     path('res/', include('apps.respuestas.urls')),
 
     path('ckeditor/', include('ckeditor_uploader.urls')),

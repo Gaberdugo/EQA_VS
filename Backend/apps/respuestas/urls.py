@@ -8,7 +8,6 @@ urlpatterns = [
     path('instituciones/', ObtenerInstitucionesAPIView.as_view(), name='obtener_instituciones'),
     path('municipios/', ObtenerMunicipiosAPIView.as_view(), name='obtener_municipios'),
     path('pdf/', GenerarReporte1APIIew.as_view(), name='obtener_pdf'),
-    path('crearinsti/', CrearInstitucionAPIView.as_view(), name='crear_institución'),
     path('pdf2/', GenerarReporte2APIIew.as_view(), name='obtener_pdf2'),
     path('cuadernillos/', CuadernilloMateAPIView.as_view(), name='cuadernillo_list'), 
     path('respuesta/aleatoria/', EncuestaAleatoriaView.as_view(), name='encuesta-aleatoria'),
