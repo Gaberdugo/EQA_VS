@@ -19,13 +19,15 @@ from traceback import format_exc
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
+from institucion.models import Instituto
+
 from rest_framework import permissions
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import Encuesta, CuadernilloMate, CuadernilloLengua, Instituciones
+from .models import Encuesta, CuadernilloMate, CuadernilloLengua
 from .serializers import EncuestaSerializer, CuadernilloMateSerializer, PreguntaMateSerializer, PreguntaLenguaSerializer, Encuesta2Serializer, InstitucionSerializer
 from rest_framework.permissions import AllowAny
 
@@ -589,12 +591,26 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
+            # Cambio de formato fecha 
+            nFecha = fecha_aplicacion.day + ' - ' + fecha_aplicacion.month + ' - ' + fecha_aplicacion.year
+
+            # Busqueda del código dane
+            dane = Instituto.objects.filter(
+                nombre=institucion
+            )
+
+            res = 1111
+
+            if dane.exists():
+                for dan in dane:
+                    res = dan.DANE
+
             # Datos de la tabla
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
-                ['Código DANE:', 1111],
-                ['Fecha de aplicación:', fecha_aplicacion],
+                ['Código DANE:', res],
+                ['Fecha de aplicación:', nFecha],
                 ['Tipo de aplicación:', str(aplicacion).title()],
             ]
 
