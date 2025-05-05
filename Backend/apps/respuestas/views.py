@@ -18,8 +18,8 @@ from reportlab.pdfgen import canvas
 from traceback import format_exc
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-import requests
-
+#import requests
+from institucion.models import valorDane
 #from institucion.models import Instituto
 
 from rest_framework import permissions
@@ -596,31 +596,7 @@ class GenerarReporte1APIIew(APIView):
             nFecha = fecha_aplicacion.strftime("%d-%m-%Y")
 
             # Busqueda del código dane
-
-            # URL de tu API
-            url = "https://eqa-vs.azurewebsites.net/ins/dane/"
-
-            # Parámetro 'nombre' que envías en la consulta
-            params = {
-                'nombre': institucion  # Cambia el nombre de la institución
-            }
-
-            response = requests.get(url, params=params)
-
-            res = 9999
-
-            if response.status_code == 200:
-                data = response.json()
-                res = data['DANE']
-
-            """
-            dane = Instituto.objects.filter(
-                nombre=institucion
-            )"""
-
-            #instituto = Instituto.objects.filter(nombre=institucion).first()
-            #res = instituto.DANE if instituto else 9999
-
+            res = valorDane(institucion)
 
             # Datos de la tabla
             resumen_data = [
