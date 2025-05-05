@@ -19,7 +19,7 @@ from traceback import format_exc
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-from institucion.models import Instituto
+#from institucion.models import Instituto
 
 from rest_framework import permissions
 from django.http import HttpResponse
@@ -595,19 +595,20 @@ class GenerarReporte1APIIew(APIView):
             nFecha = fecha_aplicacion.strftime("%d - %m - %Y")
 
             # Busqueda del código dane
+            """
             dane = Instituto.objects.filter(
                 nombre=institucion
-            )
+            )"""
 
-            instituto = Instituto.objects.filter(nombre=institucion).first()
-            dane = instituto.DANE if instituto else 9999
+            #instituto = Instituto.objects.filter(nombre=institucion).first()
+            #res = instituto.DANE if instituto else 9999
 
 
             # Datos de la tabla
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
-                ['Código DANE:', dane],
+                ['Código DANE:', 999],
                 ['Fecha de aplicación:', nFecha],
                 ['Tipo de aplicación:', str(aplicacion).title()],
             ]
