@@ -200,5 +200,6 @@ class CuadernilloPreguntaLengua(models.Model):
 
 class Instituciones(models.Model):
     nombre = models.CharField(max_length=255)
+    municipio = models.CharField(max_length=255)
     DANE = models.BigIntegerField(default=0) 
     terpel = models.IntegerField(default=0) 
