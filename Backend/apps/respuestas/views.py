@@ -18,6 +18,7 @@ from reportlab.pdfgen import canvas
 from traceback import format_exc
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+import requests
 
 #from institucion.models import Instituto
 
@@ -592,9 +593,26 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             # Cambio de formato fecha 
-            nFecha = fecha_aplicacion.strftime("%d - %m - %Y")
+            nFecha = fecha_aplicacion.strftime("%d-%m-%Y")
 
             # Busqueda del código dane
+
+            # URL de tu API
+            url = "https://eqa-vs.azurewebsites.net/ins/dane/"
+
+            # Parámetro 'nombre' que envías en la consulta
+            params = {
+                'nombre': institucion  # Cambia el nombre de la institución
+            }
+
+            response = requests.get(url, params=params)
+
+            res = 9999
+
+            if response.status_code == 200:
+                data = response.json()
+                res = data['DANE']
+
             """
             dane = Instituto.objects.filter(
                 nombre=institucion
@@ -608,7 +626,7 @@ class GenerarReporte1APIIew(APIView):
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
-                ['Código DANE:', 999],
+                ['Código DANE:', res],
                 ['Fecha de aplicación:', nFecha],
                 ['Tipo de aplicación:', str(aplicacion).title()],
             ]
