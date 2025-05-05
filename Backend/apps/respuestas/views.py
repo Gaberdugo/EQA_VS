@@ -592,24 +592,22 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             # Cambio de formato fecha 
-            nFecha = fecha_aplicacion.day + ' - ' + fecha_aplicacion.month + ' - ' + fecha_aplicacion.year
+            nFecha = fecha_aplicacion.strftime("%d - %m - %Y")
 
             # Busqueda del código dane
             dane = Instituto.objects.filter(
                 nombre=institucion
             )
 
-            res = 9999
+            instituto = Instituto.objects.filter(nombre=institucion).first()
+            dane = instituto.DANE if instituto else 9999
 
-            if dane.exists():
-                for dan in dane:
-                    res = dan.DANE
 
             # Datos de la tabla
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
-                ['Código DANE:', res],
+                ['Código DANE:', dane],
                 ['Fecha de aplicación:', nFecha],
                 ['Tipo de aplicación:', str(aplicacion).title()],
             ]
