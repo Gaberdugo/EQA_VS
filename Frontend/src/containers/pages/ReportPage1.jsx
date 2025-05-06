@@ -87,7 +87,7 @@ function ReportPage1() {
 
         try {
             const daneResponse = await axios.get(
-                `${process.env.REACT_APP_API_URL}/ins/pdf/?institucion=${encodeURIComponent(selectedInstitution)}`,
+                `${process.env.REACT_APP_API_URL}/ins/dane/?institucion=${encodeURIComponent(selectedInstitution)}`,
             );
 
             const dane = daneResponse.data?.DANE || 9999;
