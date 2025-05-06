@@ -82,8 +82,14 @@ function ReportPage2() {
         setError(null);
 
         try {
+            const daneResponse = await axios.get(
+                `${process.env.REACT_APP_API_URL}/ins/dane/?nombre=${encodeURIComponent(selectedInstitution)}`,
+            );
+
+            const dane = daneResponse.data?.DANE || 9999;
+
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&tercero_entrada=${matriculadosTerceroEntrada}&quinto_entrada=${matriculadosQuintoEntrada}&tercero_salida=${matriculadosTerceroSalida}&quinto_salida=${matriculadosQuintoSalida}`,
+                `${process.env.REACT_APP_API_URL}/res/pdf2/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&tercero_entrada=${matriculadosTerceroEntrada}&quinto_entrada=${matriculadosQuintoEntrada}&tercero_salida=${matriculadosTerceroSalida}&quinto_salida=${matriculadosQuintoSalida}&dane=${dane}`,
                 {
                   responseType: 'blob',
                 }
