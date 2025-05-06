@@ -664,7 +664,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
+            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
@@ -677,6 +677,16 @@ class GenerarReporte1APIIew(APIView):
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
+
+            # Estilos de la tabla
+            recuadro_tabla.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
+                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('LEFTPADDING', (0, 0), (0, 0), 10),
+                ('RIGHTPADDING', (0, 0), (0, 0), 10),
+                ('TOPPADDING', (0, 0), (0, 0), 6),
+                ('BOTTOMPADDING', (0, 0), (0, 0), 6),
+            ]))
 
             # Añádelo a la lista de elementos
             elements.append(Spacer(1, 12))
@@ -972,7 +982,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
+            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
             estándares básicos de competencias del Ministerio de Educación Nacional:.<br/><br/>
@@ -988,6 +998,16 @@ class GenerarReporte1APIIew(APIView):
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
+
+            # Estilos de la tabla
+            recuadro_tabla.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
+                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('LEFTPADDING', (0, 0), (0, 0), 10),
+                ('RIGHTPADDING', (0, 0), (0, 0), 10),
+                ('TOPPADDING', (0, 0), (0, 0), 6),
+                ('BOTTOMPADDING', (0, 0), (0, 0), 6),
+            ]))
 
             # Añádelo a la lista de elementos
             elements.append(Spacer(1, 12))
@@ -1658,7 +1678,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
+            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
@@ -1670,7 +1690,18 @@ class GenerarReporte2APIIew(APIView):
             """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
+
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
+
+            # Estilos de la tabla
+            recuadro_tabla.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
+                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('LEFTPADDING', (0, 0), (0, 0), 10),
+                ('RIGHTPADDING', (0, 0), (0, 0), 10),
+                ('TOPPADDING', (0, 0), (0, 0), 6),
+                ('BOTTOMPADDING', (0, 0), (0, 0), 6),
+            ]))
 
             # Añádelo a la lista de elementos
             elements.append(Spacer(1, 12))
@@ -2046,7 +2077,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>¿Qué se evalúa:</font></b><br/><br/>
+            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
             estándares básicos de competencias del Ministerio de Educación Nacional:.<br/><br/>
@@ -2062,6 +2093,16 @@ class GenerarReporte2APIIew(APIView):
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
+
+            # Estilos de la tabla
+            recuadro_tabla.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
+                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('LEFTPADDING', (0, 0), (0, 0), 10),
+                ('RIGHTPADDING', (0, 0), (0, 0), 10),
+                ('TOPPADDING', (0, 0), (0, 0), 6),
+                ('BOTTOMPADDING', (0, 0), (0, 0), 6),
+            ]))
 
             # Añádelo a la lista de elementos
             elements.append(Spacer(1, 12))
