@@ -681,7 +681,7 @@ class GenerarReporte1APIIew(APIView):
             # Estilos de la tabla
             recuadro_tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
-                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  # Borde más delgado y color personalizado
                 ('LEFTPADDING', (0, 0), (0, 0), 10),
                 ('RIGHTPADDING', (0, 0), (0, 0), 10),
                 ('TOPPADDING', (0, 0), (0, 0), 6),
@@ -1002,7 +1002,7 @@ class GenerarReporte1APIIew(APIView):
             # Estilos de la tabla
             recuadro_tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
-                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  # Borde más delgado y color personalizado
                 ('LEFTPADDING', (0, 0), (0, 0), 10),
                 ('RIGHTPADDING', (0, 0), (0, 0), 10),
                 ('TOPPADDING', (0, 0), (0, 0), 6),
@@ -1696,7 +1696,7 @@ class GenerarReporte2APIIew(APIView):
             # Estilos de la tabla
             recuadro_tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
-                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  # Borde más delgado y color personalizado
                 ('LEFTPADDING', (0, 0), (0, 0), 10),
                 ('RIGHTPADDING', (0, 0), (0, 0), 10),
                 ('TOPPADDING', (0, 0), (0, 0), 6),
@@ -2097,7 +2097,7 @@ class GenerarReporte2APIIew(APIView):
             # Estilos de la tabla
             recuadro_tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
-                ('BOX', (0, 0), (0, 0), 1, colors.black),       # Borde negro de 1 punto
+                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  # Borde más delgado y color personalizado
                 ('LEFTPADDING', (0, 0), (0, 0), 10),
                 ('RIGHTPADDING', (0, 0), (0, 0), 10),
                 ('TOPPADDING', (0, 0), (0, 0), 6),
