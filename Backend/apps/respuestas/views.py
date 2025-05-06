@@ -697,19 +697,12 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'L')
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
-            if len(institucion) < 19:
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
+            
+            tabla_datos = [
+                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -758,11 +751,11 @@ class GenerarReporte1APIIew(APIView):
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
@@ -846,19 +839,12 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'L')
             c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'L')
-            if len(institucion) < 19:
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], t[1], t[2], t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], c[1], c[2], c[3], c[4]],  # Fila 2 
-                ]
+            
+            tabla_datos = [
+                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -907,11 +893,11 @@ class GenerarReporte1APIIew(APIView):
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
@@ -1022,19 +1008,13 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'M')
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'M')
-            if len(institucion) < 19:
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
+            
+            tabla_datos = [
+                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+            ]
+            
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -1083,11 +1063,11 @@ class GenerarReporte1APIIew(APIView):
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
@@ -1169,19 +1149,12 @@ class GenerarReporte1APIIew(APIView):
             elements.append(parrafo_intro)   
             t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'M')
             c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'M')
-            if len(institucion) < 19:
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    [ciudad, c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
-                ]
+
+            tabla_datos = [
+                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 60, 80, 60, 60])
@@ -1230,11 +1203,11 @@ class GenerarReporte1APIIew(APIView):
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
@@ -1381,8 +1354,8 @@ class GenerarReporte1APIIew(APIView):
 
         return [
             len(data),
-            round(media, 2),
-            round(desviacion_estandar, 2),
+            round(float(media), 1),
+            round(float(desviacion_estandar), 1),
             mini,
             maxi
         ]
@@ -1447,7 +1420,7 @@ class GenerarReporte1APIIew(APIView):
         width, height = letter
 
         # Ajusta la posición: derecha (margen derecho - ancho del texto)
-        text_width = canvas.stringWidth(text, 'Helvetica', 9)
+        text_width = canvas.stringWidth(text, 'Helvetica', 12)
         x = width - inch * 0.5 # Una pulgada del borde derecho
         y = 0.5 * inch  # Desde el borde inferior
 
@@ -1456,9 +1429,9 @@ class GenerarReporte1APIIew(APIView):
     def tabla_inicial(self, M3, E3, M5, E5):
         p = []
 
-        p.append(round((E3/M3)*100, 1))
-        p.append(round((E5/M5)*100, 1))
-        p.append(round(((E3 + E5)/(M3 + M5))*100, 1))
+        p.append(round(float((E3/M3)*100), 1))
+        p.append(round(float((E5/M5)*100), 1))
+        p.append(round(float(((E3 + E5)/(M3 + M5))*100), 1))
 
         return p
 
