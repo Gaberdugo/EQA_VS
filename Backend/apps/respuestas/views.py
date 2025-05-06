@@ -1451,6 +1451,7 @@ class GenerarReporte2APIIew(APIView):
             quinto_entrada = int(request.GET.get('quinto_entrada'))
             tercero_salida = int(request.GET.get('tercero_salida'))
             quinto_salida = int(request.GET.get('quinto_salida'))
+            res = request.GET.get('dane')
 
             if not institucion or not proyecto:
                 return Response({
@@ -1583,12 +1584,15 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
+            # Cambio de formato fecha 
+            nFecha = fecha_aplicacion.strftime("%d-%m-%Y")
+
             # Datos de la tabla
             resumen_data = [
                 ['Ciudad:', ciudad],
                 ['Institución educativa:', institucion],
-                ['Código DANE:', 1111],
-                ['Fecha de aplicación:', fecha_aplicacion],
+                ['Código DANE:', res],
+                ['Fecha de aplicación:', nFecha],
             ]
 
             # Crear tabla de resumen
@@ -1691,23 +1695,13 @@ class GenerarReporte2APIIew(APIView):
             t2 = self.tabla(0, institucion, 'salida',proyecto, 3, 'L')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'L')
             
-            if len(institucion)<19:
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
+            tabla_datos = [
+                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                ["Municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -1763,11 +1757,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.title('Distribución por Niveles de Desempeño - Institución\n')
@@ -1794,11 +1788,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
@@ -1883,23 +1877,13 @@ class GenerarReporte2APIIew(APIView):
             t2 = self.tabla(0, institucion, 'salida',proyecto, 5, 'L')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'L')
             
-            if len(institucion)<19:
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
+            tabla_datos = [
+                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                ["Municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -1955,11 +1939,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.title('Distribución por Niveles de Desempeño - Institución\n')
@@ -2102,23 +2086,13 @@ class GenerarReporte2APIIew(APIView):
             t2 = self.tabla(0, institucion, 'salida',proyecto, 3, 'M')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'M')
             
-            if len(institucion)<19:
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
+            tabla_datos = [
+                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                ["Municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -2174,11 +2148,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.title('Distribución por Niveles de Desempeño - Institución')
@@ -2205,11 +2179,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.title('Distribución por Niveles de Desempeño - Ciudad')
@@ -2292,23 +2266,13 @@ class GenerarReporte2APIIew(APIView):
             t2 = self.tabla(0, institucion, 'salida',proyecto, 5, 'M')
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'M')
             
-            if len(institucion)<19:
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [institucion, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
-            else:
-                nombre = institucion[:19]
-                tabla_datos = [
-                    ["Institución", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                    [nombre, "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                    ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
-                    [ciudad, "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
-                    ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
-                ]
+            tabla_datos = [
+                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["Institución", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
+                ["Municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
+                ['', "Salida",c2[0], self.comma_dot(c2[1]), self.comma_dot(c2[2]), c2[3], c2[4]],  # Fila 4
+            ]
 
             # Crear la tabla
             tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
@@ -2364,11 +2328,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.title('Distribución por Niveles de Desempeño - Institución\n')
@@ -2395,11 +2359,11 @@ class GenerarReporte2APIIew(APIView):
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
             plt.ylabel('')
@@ -2540,8 +2504,8 @@ class GenerarReporte2APIIew(APIView):
 
         return [
             len(data),
-            round(media, 2),
-            round(desviacion_estandar, 2),
+            round(float(media), 1),
+            round(float(desviacion_estandar), 1),
             mini,
             maxi
         ]
@@ -2613,12 +2577,12 @@ class GenerarReporte2APIIew(APIView):
     def tabla_inicial(self, M3_E, E3_E, M3_S, E3_S, M5_E, E5_E, M5_S, E5_S):
         p = []
 
-        p.append(round((E3_E/M3_E)*100, 1))
-        p.append(round((E5_E/M5_E)*100, 1))
-        p.append(round(((E3_E + E5_E)/(M3_E + M5_E))*100, 1))
-        p.append(round((E3_S/M3_S)*100, 1))
-        p.append(round((E5_S/M5_S)*100, 1))
-        p.append(round(((E3_S + E5_S)/(M3_S + M5_S))*100, 1))
+        p.append(round(float((E3_E/M3_E)*100), 1))
+        p.append(round(float((E5_E/M5_E)*100), 1))
+        p.append(round(float(((E3_E + E5_E)/(M3_E + M5_E))*100), 1))
+        p.append(round(float((E3_S/M3_S)*100), 1))
+        p.append(round(float((E5_S/M5_S)*100), 1))
+        p.append(round(float(((E3_S + E5_S)/(M3_S + M5_S))*100), 1))
 
         return p
     
