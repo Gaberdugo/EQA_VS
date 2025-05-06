@@ -18,9 +18,6 @@ from reportlab.pdfgen import canvas
 from traceback import format_exc
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-#import requests
-from institucion.models import valorDane
-#from institucion.models import Instituto
 
 from rest_framework import permissions
 from django.http import HttpResponse
@@ -465,6 +462,7 @@ class GenerarReporte1APIIew(APIView):
             aplicacion = request.GET.get('aplicacion')
             tercero_entrada = int(request.GET.get('matriculados_tercero'))
             quinto_entrada = int(request.GET.get('matriculados_quinto'))
+            res = request.GET.get('dane')
 
             if not institucion or not proyecto or not aplicacion:
                 return Response({
@@ -594,9 +592,6 @@ class GenerarReporte1APIIew(APIView):
 
             # Cambio de formato fecha 
             nFecha = fecha_aplicacion.strftime("%d-%m-%Y")
-
-            # Busqueda del código dane
-            res = valorDane(institucion)
 
             # Datos de la tabla
             resumen_data = [

@@ -8,15 +8,6 @@ from .models import Instituto
 from .serializers import InstitutoSerializer
 from rest_framework.permissions import AllowAny
 
-def valorDane(nombre):
-    institucion = Instituto.objects.filter(nombre=nombre)
-    if institucion.exists():
-        res = int(institucion.DANE)
-    else:
-        res = 9999
-    
-    return res
-
 class CrearInstitucionAPIView(APIView):
     permission_classes = [AllowAny]
     
