@@ -77,17 +77,8 @@ function ReportPage1() {
         setError(null);
 
         try {
-            
-
-        } catch (error) {
-            setError("Hubo un error al generar el reporte PDF 2");
-        } finally {
-            setLoading(false);
-        }
-
-        try {
             const daneResponse = await axios.get(
-                `${process.env.REACT_APP_API_URL}/ins/dane/?institucion=${encodeURIComponent(selectedInstitution)}`,
+                `${process.env.REACT_APP_API_URL}/ins/dane/?nombre=${encodeURIComponent(selectedInstitution)}`,
             );
 
             const dane = daneResponse.data?.DANE || 9999;
