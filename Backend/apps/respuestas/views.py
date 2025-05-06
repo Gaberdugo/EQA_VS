@@ -2155,7 +2155,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Institución')
+            plt.title('Distribución por Niveles de Desempeño - Institución\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2186,7 +2186,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Ciudad')
+            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
             plt.legend()
             plt.tight_layout()
 
