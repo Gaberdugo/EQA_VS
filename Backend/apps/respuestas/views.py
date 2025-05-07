@@ -576,16 +576,16 @@ class GenerarReporte1APIIew(APIView):
 
             contenido =  f"""Este reporte contiene los resultados de la institución educativa en la <b><u>aplicación de
                             {aplicacion}</u></b> de las pruebas de Lenguaje y Matemáticas presentadas por una muestra
-                            representativa de estudiantes de tercero y quinto grados.<br/>
+                            representativa de estudiantes de tercero y quinto grados.<br/><br/>
                             Para cada grado y área se presentan los siguientes tipos de resultados, tanto de la
                             institución educativa como del conjunto de los establecimientos educativos del municipio
                             que están participando en el programa Escuelas que Aprenden (EQA), con el fin de
-                            posibilitar la realización de algunas comparaciones:<br/>
+                            posibilitar la realización de algunas comparaciones:<br/><br/>
                             • Puntaje promedio<br/>
                             • Desviación estándar<br/>
                             • Puntaje mínimo<br/>
                             • Puntaje máximo<br/>
-                            • Distribución porcentual de los estudiantes según niveles de desempeño<br/>
+                            • Distribución porcentual de los estudiantes según niveles de desempeño<br/><br/>
 
                             Esperamos que esta información sea de utilidad para que la institución educativa conozca
                             las fortalezas de sus estudiantes en las áreas evaluadas y, a partir de ello, establezca
@@ -679,10 +679,6 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
-            elements.append(PageBreak())  #Inicia nueva página para la tabla
-
-
-            elements.append(PageBreak())
 
             #----------------------------------------------------------------------------------------------------------------------------
 
@@ -729,14 +725,14 @@ class GenerarReporte1APIIew(APIView):
                             <b>Los puntajes se presentan en una escala de 0 a 20 puntos.</b><br/>
                             <b>La media (o puntaje promedio)</b> se obtiene de sumar los puntajes obtenidos por cada
                             estudiante y dividir ese total por el número de estudiantes evaluados. Permite establecer
-                            cuál fue el puntaje más representativo de los estudiantes en la prueba.<br/>
+                            cuál fue el puntaje más representativo de los estudiantes en la prueba.<br/><br/>
 
                             La <b>desviación estándar</b> permite conocer la magnitud en la cual la mayoría de los
                             puntajes se alejan, “hacia arriba” o “hacia abajo”, del promedio. Un menor valor de la
                             desviación estándar quiere decir que la distribución de los estudiantes es más
                             homogénea, o sea, que la mayoría obtuvo puntajes similares. Por el contrario, un alto
                             valor significa mayor heterogeneidad: mientras algunos obtuvieron puntajes muy altos,
-                            otros sacaron puntajes muy bajos.<br/>
+                            otros sacaron puntajes muy bajos.<br/><br/>
 
                             El <b>puntaje mínimo</b> corresponde al menor valor de puntuación obtenido en el grupo de
                             estudiantes evaluados. A su vez, el <b>puntaje máximo</b> corresponde al mayor valor de
@@ -798,14 +794,14 @@ class GenerarReporte1APIIew(APIView):
                             Los <b>niveles de desempeño</b> muestran la distribución porcentual de los estudiantes según
                             los desempeños alcanzados en cada una de las pruebas. Además, describen lo que ellos
                             saben y saben hacer, y permiten conocer cómo se encuentran en relación con la
-                            capacidad para resolver problemas de distintos niveles de complejidad.<br/>
-                            <b>Se establecieron tres niveles de desempeño: bajo, medio y alto.</b><br/>
+                            capacidad para resolver problemas de distintos niveles de complejidad.<br/><br/>
+                            <b>Se establecieron tres niveles de desempeño: bajo, medio y alto.</b><br/><br/>
                             Estos niveles de desempeño son <b>específicos</b>, <b>jerárquicos</b> e <b>inclusivos</b>. Esto quiere
                             decir que son definidos para cada prueba, tienen una complejidad creciente y que, para
-                            ubicarse en un determinado nivel, es necesario haber superado los niveles anteriores.<br/>
+                            ubicarse en un determinado nivel, es necesario haber superado los niveles anteriores.<br/><br/>
                             
                             <b>Nota:</b> la suma de los porcentajes puede no ser exactamente 100% debido a
-                            aproximaciones realizadas entre cifras decimales.
+                            aproximaciones realizadas entre cifras decimales.<br/>
                             """
     
 
@@ -884,8 +880,7 @@ class GenerarReporte1APIIew(APIView):
             niveles_data = [
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo),
-                    Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
-                            """
+                    Paragraph("""
                             <b>Los estudiantes ubicados en este nivel de desempeño:</b><br/>
                             • Tienen una comprensión básica pero significativa del lenguaje, al reconocer
                             sinónimos y antónimos.<br/>
@@ -893,8 +888,7 @@ class GenerarReporte1APIIew(APIView):
                 ],
                 [
                     Paragraph("<b>Medio<br/>(entre 5 y 12 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
-                            """
+                    Paragraph("""
                             <b>Además de lo descrito en el nivel anterior, los estudiantes ubicados en este nivel:</b><br/>
 
                             • Comprenden tanto el significado literal como el implícito de un texto:
@@ -912,8 +906,7 @@ class GenerarReporte1APIIew(APIView):
                 ],
                 [
                     Paragraph("<b>Alto<br/>(entre 13 y 20 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
-                            """
+                    Paragraph("""
                             <b>Además de lo descrito en los niveles anteriores, los estudiantes ubicados en este nivel:</b><br/>
                             • Identifican con claridad una secuencia discursiva.<br/>
                             • Comprenden la relación entre el título y el contenido de diversos tipos de
@@ -994,14 +987,6 @@ class GenerarReporte1APIIew(APIView):
             descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            parrafo_intro = Paragraph(
-                "Espacio estático para incluir un texto, pendiente de construir, para explicar qué es y cómo interpretar los niveles de desempeño (dos párrafos cortos como máximo).",
-                parrafo_estilo
-            )
-
-            elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
-
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
             t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
@@ -1059,18 +1044,47 @@ class GenerarReporte1APIIew(APIView):
             niveles_data = [
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo),
-                    Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Los estudiantes ubicados en este nivel de desempeño:</b><br/><br/>
+                            • <b>Reconocen léxico básico:</b> identifican el uso de sinónimos y antónimos
+                            para ampliar su vocabulario.<br/>
+                            • <b>Comprenden la relación título-contenido:</b> identifican la relación entre el
+                            título y el contenido en textos narrativos.<br/>
+                            • <b>Interpretan aspectos básicos de textos visuales:</b> relacionan textos
+                            compuestos por imágenes e interpretan su significado.
+                            """, parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Medio<br/>(entre 7 y 13 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            Además de lo descrito en el nivel anterior, los estudiantes ubicados en este nivel:<br/><br/>
+                            • <b>Identifican elementos textuales básicos:</b> reconocen personajes,
+                            secuencia de acciones, tipo de texto por su estructura y la relación entre
+                            título y contenido en diversos tipos de textos.<br/>
+                            • <b>Comprenden la acción y el tema:</b> identifican el foco de la acción en
+                            narrativas y deducen el tema implícito en descripciones.<br/>
+                            • <b>Procesan y relacionan información:</b> parafrasean oraciones, relacionan
+                            textos con saberes previos y discriminan tema e idea principal para conectar
+                            textos.<br/>
+                            • <b>Analizan y comparan textos:</b> elaboran hipótesis de lectura, comparan
+                            textos por formato y finalidad, identifican elementos argumentativos (causas,
+                            consecuencias, etc.) y distinguen tipos de descripción según la perspectiva
+                            del autor.
+                            """, parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Alto<br/>(entre 14 y 20 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Además de lo descrito en los niveles anteriores, los estudiantes ubicados
+                            en este nivel:</b><br/><br/>
+                            
+                            • <b>Comprenden vocabulario contextual:</b> reconocen el significado de
+                            palabras dentro de enunciados específicos en el texto, y también identifican
+                            el significado del vocabulario en situaciones comunicativas.<br/>
+                            • <b>Identifican</b> la voz narrativa en una historia.<br/>
+                            • <b>Relacionan título-contenido en textos descriptivos:</b> identifican la relación
+                            entre el título y el contenido de un texto descriptivo.
+                            """, parrafo_estilo)
                 ],
             ]
 
@@ -1090,6 +1104,14 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
+
+            parrafo_intro = Paragraph(
+                "<b>Nota:</b> el Anexo 2 contiene las descripciones más detalladas de estos niveles de desempeño; por tanto, se recomienda su consulta y análisis.",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro) 
 
             #-----------------------------------------------------------------------------------------------------------------------
             
@@ -1134,14 +1156,7 @@ class GenerarReporte1APIIew(APIView):
 
             descripcion_texto = '<b>4.1. Tercer grado</b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
-
-            parrafo_intro = Paragraph(
-                "Espacio estático para incluir un texto, pendiente de construir, para explicar que el puntaje se presenta en una escala de 0 a 20 puntos, qué es el promedio y la desviación estándar (dos párrafos cortos como máximo).",
-                parrafo_estilo
-            )
-
-            elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
+  
             t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'M')
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'M')
             
@@ -1170,17 +1185,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 20))
 
             
-
             descripcion_texto = 'b. Descripción'
-            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
-
-            parrafo_intro = Paragraph(
-                "Espacio estático para incluir un texto, pendiente de construir, para explicar qué es y cómo interpretar los niveles de desempeño (dos párrafos cortos como máximo).",
-                parrafo_estilo
-            )
-
-            elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))  
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
@@ -1239,18 +1245,46 @@ class GenerarReporte1APIIew(APIView):
             niveles_data = [
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo),
-                    Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Los estudiantes ubicados en este nivel de desempeño:</b><br/><br/>
+                            • Resuelven problemas rutinarios con apoyo, aplicando algoritmos de forma
+                            guiada y utilizando herramientas básicas como fracciones simples,
+                            secuencias numéricas y unidades de medida estandarizadas.<br/>
+                            • Demuestran una comprensión inicial de conceptos elementales, aunque su
+                            razonamiento presenta limitaciones.<br/>
+                            • Siguen patrones mecánicos, cometen errores frecuentes y requieren
+                            reforzar la argumentación y la conexión entre ideas matemáticas.
+                            """, parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Medio<br/>(entre 7 y 13 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Además de lo descrito en el nivel anterior, los estudiantes ubicados en
+                            este nivel:</b><br/><br/>
+                            • Resuelven problemas estándar: aplican adecuadamente los conceptos y
+                            justifican los pasos con cierto rigor, comunicando soluciones claras, aunque
+                            con margen para profundizar.<br/>
+                            • Demuestran comprensión en problemas multiplicativos.<br/>
+                            • Seleccionan unidades de medida adecuadas.<br/>
+                            • Reconocen movimientos de figuras.<br/>
+                            • Determinan áreas mediante patrones de recubrimiento.<br/>
+                            • Identifican patrones de cambio.<br/>
+                            • Estiman probabilidades simples.
+                            """, parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Alto<br/>(entre 14 y 20 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Además de lo descrito en los niveles anteriores, los estudiantes ubicados
+                            en este nivel:</b><br/><br/>
+                            • Resuelven problemas compuestos y no rutinarios mediante estrategias
+                            innovadoras, integrando múltiples conceptos, argumentando con precisión,
+                            utilizando lenguaje técnico y demostrando pensamiento crítico y creativo en
+                            sus respuestas.<br/>
+                            • Resuelven problemas con transformaciones.<br/>
+                            • Analizan frecuencias y toman decisiones fundamentadas en medidas
+                            estadísticas como la moda.<br/>
+                            """, parrafo_estilo)
                 ],
             ]
 
@@ -1270,6 +1304,14 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
+
+            parrafo_intro = Paragraph(
+                "<b>Nota:</b> el Anexo 3 contiene las descripciones más detalladas de estos niveles de desempeño; por tanto, se recomienda su consulta y análisis.",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro) 
             
             #-----------------------------------------------------------------------------------------------------------------------
 
@@ -1314,13 +1356,7 @@ class GenerarReporte1APIIew(APIView):
             descripcion_texto = '<b>b. Descripción</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            parrafo_intro = Paragraph(
-                "Espacio estático para incluir un texto, pendiente de construir, para explicar qué es y cómo interpretar los niveles de desempeño (dos párrafos cortos como máximo).",
-                parrafo_estilo
-            )
-
-            elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
+              
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
@@ -1379,18 +1415,57 @@ class GenerarReporte1APIIew(APIView):
             niveles_data = [
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 5 puntos)</b>", parrafo_estilo),
-                    Paragraph("El estudiante ubicado en este nivel de desempeño: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Los estudiantes ubicados en este nivel de desempeño:</b><br/><br/>
+                            • Describen relaciones entre cantidades.<br/>
+                            • Aplican fórmulas estándar para cálculos geométricos (perímetro, área,
+                            volumen).<br/>
+                            • Resuelven problemas aditivos y multiplicativos rutinarios.<br/>
+                            • Manejan fracciones, decimales y probabilidad simple (frecuencias o
+                            razones).<br/>
+                            • Reconocen semejanza o congruencia en figuras mediante ejemplos
+                            concretos.<br/>
+                            • Interpretan representaciones pictóricas y numéricas, pero su razonamiento
+                            es guiado, con limitaciones en la argumentación y conexión de conceptos.
+                            """, parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Medio<br/>(entre 6 y 10 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en el nivel anterior, el estudiante ubicado en este nivel: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Además de lo descrito en el nivel anterior, los estudiantes ubicados en
+                            este nivel:</b><br/><br/>
+                            • Resuelven problemas multiplicativos simples, no rutinarios (división,
+                            proporcionalidad).<br/>
+                            • Generan equivalencias entre expresiones numéricas.<br/>
+                            • Establecen conjeturas sobre probabilidad.<br/>
+                            • Utilizan medidas no estandarizadas para realizar cálculos geométricos.
+                            • Ordenan objetos por volumen.<br/>
+                            • Integran datos de múltiples gráficos estadísticos.<br/>
+                            • Argumentan soluciones basadas en análisis de datos<br/>
+                            • Representan relaciones entre magnitudes mediante expresiones
+                            matemáticas o pictogramas, mostrando mayor capacidad para vincular
+                            conceptos.
+                            """, parrafo_estilo)
                 ],
                 [
                     Paragraph("<b>Alto<br/>(entre 11 y 20 puntos)</b>", parrafo_estilo),
-                    Paragraph("Además de lo descrito en los niveles anteriores, el estudiante ubicado en este nivel: <br/>"
-                            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", parrafo_estilo)
+                    Paragraph("""
+                            <b>Además de lo descrito en el nivel anterior, los estudiantes ubicados en
+                            este nivel:</b><br/><br/>
+                            • Resuelven problemas multiplicativos compuestos y no rutinarios (división,
+                            agrupación, proporcionalidad).<br/>
+                            • Generan equivalencias entre expresiones numéricas con precisión.<br/>
+                            • Argumentan con rigor la mejor solución para situaciones problema,
+                            vinculando datos de múltiples gráficos estadísticos.<br/>
+                            • Determinan perímetros de polígonos irregulares con medidas no
+                            estandarizadas.<br/>
+                            • Ordenan objetos por volumen.<br/>
+                            • Representan relaciones entre magnitudes mediante expresiones
+                            matemáticas o pictogramas, demostrando pensamiento crítico y síntesis de
+                            información.<br/>
+                            • Establecen conjeturas fundamentadas sobre probabilidad.<br/>
+                            • Aplican razonamiento proporcional en contextos diversos.
+                            """, parrafo_estilo)
                 ],
             ]
 
@@ -1410,6 +1485,14 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(Spacer(1, 12))
             elements.append(tabla_niveles)
+
+            parrafo_intro = Paragraph(
+                "<b>Nota:</b> el Anexo 4 contiene las descripciones más detalladas de estos niveles de desempeño; por tanto, se recomienda su consulta y análisis.",
+                parrafo_estilo
+            )
+
+            elements.append(Spacer(1, 12))
+            elements.append(parrafo_intro) 
 
             #-----------------------------------------------------------------------------------------------------------------------
 
