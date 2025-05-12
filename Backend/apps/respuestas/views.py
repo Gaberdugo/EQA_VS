@@ -587,7 +587,7 @@ class GenerarReporte1APIIew(APIView):
             <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
             """
 
-            subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b></b>"
+            subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
             descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}</b>"
             
             # Insertar en elementos
