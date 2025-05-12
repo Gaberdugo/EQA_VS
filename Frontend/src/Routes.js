@@ -21,6 +21,7 @@ import ValDelete from 'containers/pages/valDelete';
 import ValForm from 'containers/pages/ValForm';
 import ValCorr from 'containers/pages/ValCorr';
 import ValInsti from 'containers/pages/valInsti';
+import ValPassword from 'containers/pages/ValPassword';
 import TerPage from 'containers/pages/TerPage';
 import TerPrueba from 'containers/pages/TerPrueba';
 import TerReport from 'containers/pages/TerReport';
@@ -183,6 +184,15 @@ function AnimatedRoutes() {
                         element={
                             <PrivateRoute requiredRole="val">
                                 <ValDelete />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/valPassword' 
+                        element={
+                            <PrivateRoute requiredRole="val">
+                                <ValPassword />
                             </PrivateRoute>
                         } 
                     />

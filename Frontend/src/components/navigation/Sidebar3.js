@@ -9,6 +9,7 @@ import {
   ArrowUturnUpIcon,
   WalletIcon,
   ChartPieIcon,
+  WindowIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 
@@ -31,6 +32,7 @@ function Sidebar3(){
       { name: 'Digitar', href: '/valForm', icon: PencilIcon, current: location.pathname==='/valForm' ? true:false },
       { name: 'Corregir', href: '/valCorr', icon: ArrowUturnUpIcon, current: location.pathname==='/valCorr' ? true:false },
       { name: 'Eliminar', href: '/valDelete', icon: TrashIcon, current: location.pathname==='/valDelete' ? true:false },
+      { name: 'Contraseña', href: '/valPassword', icon: WindowIcon, current: location.pathname==='/valPassword' ? true:false },
   ]
 
   return(
