@@ -2663,7 +2663,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -2824,7 +2824,7 @@ class GenerarReporte2APIIew(APIView):
                 ],
             ]
 
-            tabla_niveles = Table(niveles_data, colWidths=[180, 300])
+            tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -2908,7 +2908,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -3068,7 +3068,7 @@ class GenerarReporte2APIIew(APIView):
                 ],
             ]
 
-            tabla_niveles = Table(niveles_data, colWidths=[180, 300])
+            tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -3120,7 +3120,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 80, 80, 60, 80, 60, 60])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -3300,7 +3300,7 @@ class GenerarReporte2APIIew(APIView):
                 ],
             ]
 
-            tabla_niveles = Table(niveles_data, colWidths=[180, 300])
+            tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
