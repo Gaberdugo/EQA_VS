@@ -563,6 +563,18 @@ class GenerarReporte1APIIew(APIView):
                 rightIndent=10,
             )
 
+            parrafo_estilo4 = ParagraphStyle(
+                name='IntroCentradoVerde',
+                fontName='Helvetica',
+                fontSize=10.5,
+                leading=14,
+                textColor=HexColor("#ffffff"),  # Color verde personalizado
+                alignment=TA_CENTER,            # Texto centrado
+                spaceAfter=20,
+                leftIndent=10,
+                rightIndent=10,
+            )
+
             descripcion_izq_style = ParagraphStyle(
                 name="DescripcionIzquierda",
                 alignment=TA_LEFT,
@@ -593,7 +605,7 @@ class GenerarReporte1APIIew(APIView):
             # Insertar en elementos
             elements.append(Spacer(1, 200))  # Centrar verticalmente
             elements.append(Paragraph(titulo_texto, titulo_style))
-            elements.append(Spacer(1, 12))
+            elements.append(Spacer(1, 10))
             elements.append(PageBreak())
             elements.append(Paragraph(subtitulo_texto, subtitulo_style))
             elements.append(Paragraph(descripcion_texto, descripcion_style))
@@ -633,9 +645,9 @@ class GenerarReporte1APIIew(APIView):
             ]))
 
             # Añádelo a la lista de elementos
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 5))
             elements.append(recuadro_tabla)
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 5))
             
             descripcion_texto = '<b>1. Datos de identificación de la institución educativa</b>'
 
@@ -654,7 +666,7 @@ class GenerarReporte1APIIew(APIView):
             ]
 
             # Crear tabla de resumen
-            tabla_resumen = Table(resumen_data, colWidths=[100, 200])
+            tabla_resumen = Table(resumen_data, colWidths=[130, 220])
             tabla_resumen.setStyle(TableStyle([
                 ('TEXTCOLOR', (0, 0), (0, -1), HexColor("#1B8830")),  # columna izquierda verde
                 ('TEXTCOLOR', (1, 0), (1, -1), colors.black),         # columna derecha negra
@@ -669,7 +681,7 @@ class GenerarReporte1APIIew(APIView):
 
             # Añadir a los elementos después del texto introductorio
             elements.append(tabla_resumen)
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 5))
 
             descripcion_texto = '<b>2. Ficha técnica: número de estudiantes matriculados y evaluados</b>'
 
@@ -988,8 +1000,8 @@ class GenerarReporte1APIIew(APIView):
             
             tabla_datos = [
                 ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+                ["Instución educativa", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Agregado del municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
             ]
 
             # Crear la tabla
@@ -1193,8 +1205,8 @@ class GenerarReporte1APIIew(APIView):
             
             tabla_datos = [
                 ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+                ["Instución educativa", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Agregado del municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
             ]
             
 
@@ -1279,7 +1291,7 @@ class GenerarReporte1APIIew(APIView):
                     Paragraph("Descripción", parrafo_estilo3)
                 ],
                 [
-                    Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo2),
                     Paragraph("""
                             <b>Los estudiantes ubicados en este nivel de desempeño:</b><br/><br/>
                             • Resuelven problemas rutinarios con apoyo, aplicando algoritmos de forma
@@ -1289,10 +1301,10 @@ class GenerarReporte1APIIew(APIView):
                             razonamiento presenta limitaciones.<br/>
                             • Siguen patrones mecánicos, cometen errores frecuentes y requieren
                             reforzar la argumentación y la conexión entre ideas matemáticas.
-                            """, parrafo_estilo)
+                            """, parrafo_estilo2)
                 ],
                 [
-                    Paragraph("<b>Medio<br/>(entre 7 y 13 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Medio<br/>(entre 7 y 13 puntos)</b>", parrafo_estilo2),
                     Paragraph("""
                             <b>Además de lo descrito en el nivel anterior, los estudiantes ubicados en
                             este nivel:</b><br/><br/>
@@ -1305,10 +1317,10 @@ class GenerarReporte1APIIew(APIView):
                             • Determinan áreas mediante patrones de recubrimiento.<br/>
                             • Identifican patrones de cambio.<br/>
                             • Estiman probabilidades simples.
-                            """, parrafo_estilo)
+                            """, parrafo_estilo2)
                 ],
                 [
-                    Paragraph("<b>Alto<br/>(entre 14 y 20 puntos)</b>", parrafo_estilo),
+                    Paragraph("<b>Alto<br/>(entre 14 y 20 puntos)</b>", parrafo_estilo2),
                     Paragraph("""
                             <b>Además de lo descrito en los niveles anteriores, los estudiantes ubicados
                             en este nivel:</b><br/><br/>
@@ -1319,7 +1331,7 @@ class GenerarReporte1APIIew(APIView):
                             • Resuelven problemas con transformaciones.<br/>
                             • Analizan frecuencias y toman decisiones fundamentadas en medidas
                             estadísticas como la moda.<br/>
-                            """, parrafo_estilo)
+                            """, parrafo_estilo2)
                 ],
             ]
 
@@ -1365,8 +1377,8 @@ class GenerarReporte1APIIew(APIView):
 
             tabla_datos = [
                 ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
-                ["Institución", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
-                ["Municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
+                ["Instución educativa", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
+                ["Agregado del municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
             ]
 
             # Crear la tabla
@@ -1537,7 +1549,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(PageBreak())
             parrafo_titulo = Paragraph(
                 "<b><font color='#1B8830'>Anexos</font></b>",
-                parrafo_estilo
+                titulo_style
             )
             parrafo_intro = Paragraph(
                 "Tablas con las descripciones completas de los niveles de desempeño en cada área y grado.",
@@ -1549,18 +1561,18 @@ class GenerarReporte1APIIew(APIView):
                 parrafo_estilo
             )
 
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 5))
             elements.append(parrafo_titulo)
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 5))
             elements.append(parrafo_intro)
-            elements.append(Spacer(1, 10))
+            elements.append(Spacer(1, 5))
             elements.append(parrafo_anexo)
 
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo3),
-                    Paragraph("Descripción", parrafo_estilo3)
+                    Paragraph("Nivel", parrafo_estilo4),
+                    Paragraph("Descripción", parrafo_estilo4)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo2),
@@ -1643,8 +1655,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo3),
-                    Paragraph("Descripción", parrafo_estilo3)
+                    Paragraph("Nivel", parrafo_estilo4),
+                    Paragraph("Descripción", parrafo_estilo4)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo2),
@@ -1725,8 +1737,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo3),
-                    Paragraph("Descripción", parrafo_estilo3)
+                    Paragraph("Nivel", parrafo_estilo4),
+                    Paragraph("Descripción", parrafo_estilo4)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo2),
@@ -1800,8 +1812,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo3),
-                    Paragraph("Descripción", parrafo_estilo3)
+                    Paragraph("Nivel", parrafo_estilo4),
+                    Paragraph("Descripción", parrafo_estilo4)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 5 puntos)</b>", parrafo_estilo2),
