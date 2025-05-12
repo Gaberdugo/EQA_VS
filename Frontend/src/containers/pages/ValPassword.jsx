@@ -1,120 +1,96 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout4 from "hocs/Layouts/Layout4";
 import axios from "axios";
 
 function ValPassword() {
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [usuarios, setUsuarios] = useState([]);
+  const [emailSeleccionado, setEmailSeleccionado] = useState("");
+  const [nuevaContrasena, setNuevaContrasena] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChangePassword = async () => {
-    if (!currentPassword || !newPassword) {
-      setMensaje("Por favor, completa ambos campos.");
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/usuarios/listar/`);
+        const filtrados = res.data.filter(user => !user.is_admin);
+        setUsuarios(filtrados);
+      } catch (error) {
+        console.error("Error al obtener usuarios:", error);
+      }
+    };
+
+    fetchUsuarios();
+  }, []);
+
+  const handleCambio = async () => {
+    if (!emailSeleccionado || !nuevaContrasena) {
+      setMensaje("Completa todos los campos.");
       return;
     }
+
+    const confirm = window.confirm("¿Estás seguro que deseas cambiar la contraseña?");
+    if (!confirm) return;
 
     setLoading(true);
     setMensaje("");
 
     try {
-      const token = localStorage.getItem("access");
-
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/change-password/`,
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/auth/admin/change-user-password/`,
         {
-          current_password: currentPassword,
-          new_password: newPassword,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          email: emailSeleccionado,
+          new_password: nuevaContrasena,
         }
       );
 
-      setMensaje("Contraseña cambiada con éxito.");
-    } catch (error) {
-      const data = error.response?.data;
-      setMensaje(
-        data?.detail ||
-        data?.current_password?.[0] ||
-        data?.new_password?.[0] ||
-        "Ocurrió un error al cambiar la contraseña."
-      );
+      setMensaje(res.data.message || "Contraseña cambiada.");
+    } catch (err) {
+      setMensaje(err.response?.data?.error || "Error al cambiar la contraseña.");
     } finally {
       setLoading(false);
-      setCurrentPassword("");
-      setNewPassword("");
     }
-  };
-
-  const containerStyle = {
-    maxWidth: "600px",
-    margin: "50px auto",
-    padding: "20px",
-    borderRadius: "10px",
-    backgroundColor: "#f9f9f9",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    textAlign: "center",
-  };
-
-  const titleStyle = {
-    fontSize: "24px",
-    marginBottom: "20px",
-    color: "#333",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ddd",
-    fontSize: "16px",
-    marginBottom: "20px",
-  };
-
-  const buttonStyle = {
-    padding: "10px 20px",
-    backgroundColor: "#33A652",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    fontSize: "16px",
-  };
-
-  const mensajeStyle = {
-    marginTop: "20px",
-    color: mensaje.includes("éxito") ? "green" : "red",
   };
 
   return (
     <Layout4>
-      <div style={containerStyle}>
-        <h2 style={titleStyle}>Cambiar Contraseña</h2>
-        <input
-          type="password"
-          placeholder="Contraseña actual"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          style={inputStyle}
-        />
+      <div style={{ maxWidth: "600px", margin: "50px auto", padding: "20px", borderRadius: "10px", backgroundColor: "#f9f9f9", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", textAlign: "center" }}>
+        <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>Cambiar Contraseña</h2>
+
+        <select
+          value={emailSeleccionado}
+          onChange={(e) => setEmailSeleccionado(e.target.value)}
+          style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
+        >
+          <option value="">Seleccione un usuario</option>
+          {usuarios.map((u) => (
+            <option key={u.email} value={u.email}>
+              {u.email}
+            </option>
+          ))}
+        </select>
+
         <input
           type="password"
           placeholder="Nueva contraseña"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          style={inputStyle}
+          value={nuevaContrasena}
+          onChange={(e) => setNuevaContrasena(e.target.value)}
+          style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
         />
+
         <button
-          onClick={handleChangePassword}
-          style={buttonStyle}
+          onClick={handleCambio}
           disabled={loading}
+          style={{ padding: "10px 20px", backgroundColor: "#33A652", color: "#fff", border: "none", borderRadius: "5px" }}
         >
           {loading ? "Cambiando..." : "Cambiar Contraseña"}
         </button>
-        {mensaje && <p style={mensajeStyle}>{mensaje}</p>}
+
+        {mensaje && (
+          <p style={{ marginTop: "20px", color: mensaje.includes("correctamente") ? "green" : "red" }}>
+            {mensaje}
+          </p>
+        )}
       </div>
     </Layout4>
   );
