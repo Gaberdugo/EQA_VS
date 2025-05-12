@@ -18,6 +18,8 @@ from reportlab.pdfgen import canvas
 from traceback import format_exc
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 from rest_framework import permissions
 from django.http import HttpResponse
@@ -1911,20 +1913,17 @@ class GenerarReporte1APIIew(APIView):
         width, height = letter
         canvas_obj.saveState()
 
-        # Logo Terpel
-        logo_superior = "LogoFundacionTerpel.jpg"  # Cambia por la ruta real
+        logo_superior = os.path.join(BASE_DIR, "LogoFundacionTerpel.jpg")
         canvas_obj.drawImage(logo_superior, x=40, y=height - 80, width=120, height=60, preserveAspectRatio=True, mask='auto')
 
-        # Logo Visión social
-        logo_inferior = "LogoVisionSocial.png"  # Cambia por la ruta real
+        logo_inferior = os.path.join(BASE_DIR, "LogoVisionSocial.png")
         canvas_obj.drawImage(logo_inferior, x=40, y=40, width=120, height=60, preserveAspectRatio=True, mask='auto')
 
-        # Texto en la parte inferior derecha
         canvas_obj.setFont("Helvetica", 8)
         canvas_obj.setFillColor(colors.black)
         canvas_obj.drawRightString(
             width - 40,
-            60,  # Altura respecto al borde inferior
+            60,
             "El programa Escuelas que Aprenden® es propiedad de la Fundación Terpel"
         )
 
