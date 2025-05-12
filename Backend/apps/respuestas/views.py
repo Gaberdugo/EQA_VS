@@ -1912,7 +1912,7 @@ class GenerarReporte1APIIew(APIView):
         canvas_obj.saveState()
 
         # Logo Terpel
-        logo_superior = "LogoFubdacionTerpel.jpg"  # Cambia por la ruta real
+        logo_superior = "LogoFundacionTerpel.jpg"  # Cambia por la ruta real
         canvas_obj.drawImage(logo_superior, x=40, y=height - 80, width=120, height=60, preserveAspectRatio=True, mask='auto')
 
         # Logo Visión social
