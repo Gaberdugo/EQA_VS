@@ -1919,7 +1919,7 @@ class GenerarReporte1APIIew(APIView):
         logo_inferior = os.path.join(BASE_DIR, "LogoVisionSocial.png")
         canvas_obj.drawImage(logo_inferior, x=40, y=40, width=120, height=60, preserveAspectRatio=True, mask='auto')
 
-        canvas_obj.setFont("Helvetica", 8)
+        canvas_obj.setFont("Helvetica", 10)
         canvas_obj.setFillColor(colors.black)
         canvas_obj.drawRightString(
             width - 40,
