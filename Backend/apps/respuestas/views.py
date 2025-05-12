@@ -1891,7 +1891,7 @@ class GenerarReporte1APIIew(APIView):
             #-----------------------------------------------------------------------------------------------------------------------
 
             # Crear documento base
-            doc.build(elements, onFirstPage=self.agregar_marca_agua, onLaterPages=self.agregar_numero_pagina)
+            doc.build(elements, onFirstPage=self.portada_con_logo, onLaterPages=self.agregar_numero_pagina)
 
             buffer.seek(0)
             response = HttpResponse(buffer, content_type='application/pdf')
@@ -1907,15 +1907,29 @@ class GenerarReporte1APIIew(APIView):
                 "detalle": str(e)
             }, status=500)
 
-    def agregar_marca_agua(self, canvas_obj, doc):
+    def portada_con_logo(self, canvas_obj, doc):
         width, height = letter
         canvas_obj.saveState()
-        canvas_obj.setFont("Helvetica-Bold", 80)
-        canvas_obj.setFillColorRGB(1, 1, 1)
-        canvas_obj.translate(width / 2, height / 2)
-        canvas_obj.rotate(45)
-        canvas_obj.drawCentredString(0, 0, "CONFIDENCIAL")
+
+        # Logo Terpel
+        logo_superior = "LogoFubdacionTerpel.jpg"  # Cambia por la ruta real
+        canvas_obj.drawImage(logo_superior, x=40, y=height - 80, width=120, height=60, preserveAspectRatio=True, mask='auto')
+
+        # Logo Visión social
+        logo_inferior = "LogoVisionSocial.png"  # Cambia por la ruta real
+        canvas_obj.drawImage(logo_inferior, x=40, y=40, width=120, height=60, preserveAspectRatio=True, mask='auto')
+
+        # Texto en la parte inferior derecha
+        canvas_obj.setFont("Helvetica", 8)
+        canvas_obj.setFillColor(colors.black)
+        canvas_obj.drawRightString(
+            width - 40,
+            60,  # Altura respecto al borde inferior
+            "El programa Escuelas que Aprenden® es propiedad de la Fundación Terpel"
+        )
+
         canvas_obj.restoreState()
+
 
     def tabla(self, modo, institucion, aplicacion, proyecto, grado, materia):
         
@@ -2141,6 +2155,42 @@ class GenerarReporte2APIIew(APIView):
                 leading=14,
                 textColor=colors.black,
                 alignment=4,  # Justificado
+                spaceAfter=20,
+                leftIndent=10,
+                rightIndent=10,
+            )
+
+            parrafo_estilo2 = ParagraphStyle(
+                name='IntroIzquierda',
+                fontName='Helvetica',
+                fontSize=10.5,
+                leading=14,
+                textColor=colors.black,
+                alignment=TA_LEFT,
+                spaceAfter=20,
+                leftIndent=10,
+                rightIndent=10,
+            )
+
+            parrafo_estilo3 = ParagraphStyle(
+                name='IntroCentradoVerde',
+                fontName='Helvetica',
+                fontSize=10.5,
+                leading=14,
+                textColor=HexColor("#33A652"),  # Color verde personalizado
+                alignment=TA_CENTER,            # Texto centrado
+                spaceAfter=20,
+                leftIndent=10,
+                rightIndent=10,
+            )
+
+            parrafo_estilo4 = ParagraphStyle(
+                name='IntroCentradoVerde',
+                fontName='Helvetica',
+                fontSize=10.5,
+                leading=14,
+                textColor=HexColor("#ffffff"),  # Color verde personalizado
+                alignment=TA_CENTER,            # Texto centrado
                 spaceAfter=20,
                 leftIndent=10,
                 rightIndent=10,
