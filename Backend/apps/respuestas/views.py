@@ -1154,7 +1154,8 @@ class GenerarReporte1APIIew(APIView):
             )
 
             elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro) 
+            elements.append(parrafo_intro)
+            elements.append(PageBreak()) 
 
             #-----------------------------------------------------------------------------------------------------------------------
             
@@ -1558,7 +1559,7 @@ class GenerarReporte1APIIew(APIView):
 
             parrafo_anexo = Paragraph(
                 "<font color='#1B8830'>Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado</font>",
-                parrafo_estilo
+                parrafo_estilo2
             )
 
             elements.append(Spacer(1, 5))
@@ -1647,7 +1648,7 @@ class GenerarReporte1APIIew(APIView):
 
             parrafo_anexo = Paragraph(
                 "<font color='#1B8830'>Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado</font>",
-                parrafo_estilo
+                parrafo_estilo2
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -1730,7 +1731,7 @@ class GenerarReporte1APIIew(APIView):
 
             parrafo_anexo = Paragraph(
                 "<font color='#1B8830'>Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado</font>",
-                parrafo_estilo
+                parrafo_estilo2
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -1806,7 +1807,7 @@ class GenerarReporte1APIIew(APIView):
 
             parrafo_anexo = Paragraph(
                 "<font color='#1B8830'>Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado</font>",
-                parrafo_estilo
+                parrafo_estilo2
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
