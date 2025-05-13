@@ -6,7 +6,7 @@ import {
   TrashIcon,
   AcademicCapIcon,
   PencilIcon,
-  ArrowUturnUpIcon,
+  ArrowPathIcon,
   WalletIcon,
   ChartPieIcon,
   WindowIcon,
@@ -30,7 +30,7 @@ function Sidebar3(){
       { name: 'Instituciones', href: '/valInsti', icon: AcademicCapIcon, current: location.pathname==='/valInsti' ? true:false },
       /*{ name: 'Digitadores', href: '/valDigi', icon: UsersIcon, current: location.pathname==='/valDigi' ? true:false },*/
       { name: 'Digitar', href: '/valForm', icon: PencilIcon, current: location.pathname==='/valForm' ? true:false },
-      { name: 'Corregir', href: '/valCorr', icon: ArrowUturnUpIcon, current: location.pathname==='/valCorr' ? true:false },
+      { name: 'Corregir', href: '/valCorr', icon: ArrowPathIcon, current: location.pathname==='/valCorr' ? true:false },
       { name: 'Eliminar', href: '/valDelete', icon: TrashIcon, current: location.pathname==='/valDelete' ? true:false },
       { name: 'Contraseña', href: '/valPassword', icon: WindowIcon, current: location.pathname==='/valPassword' ? true:false },
   ]
