@@ -12,11 +12,20 @@ function ValPassword() {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/digitadores/`);
-        const filtrados = res.data.filter(user => !user.is_admin);
+        const token = localStorage.getItem("access");
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/auth/digitadores/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const filtrados = res.data.filter((user) => !user.is_admin);
         setUsuarios(filtrados);
       } catch (error) {
         console.error("Error al obtener usuarios:", error);
+        setMensaje("No se pudo obtener la lista de usuarios.");
       }
     };
 
@@ -25,28 +34,41 @@ function ValPassword() {
 
   const handleCambio = async () => {
     if (!emailSeleccionado || !nuevaContrasena) {
-      setMensaje("Completa todos los campos.");
+      setMensaje("⚠️ Completa todos los campos.");
       return;
     }
 
-    const confirm = window.confirm("¿Estás seguro que deseas cambiar la contraseña?");
-    if (!confirm) return;
+    const confirmacion = window.confirm(
+      `¿Estás seguro que deseas cambiar la contraseña de ${emailSeleccionado}?`
+    );
+    if (!confirmacion) return;
 
     setLoading(true);
     setMensaje("");
 
     try {
+      const token = localStorage.getItem("access");
+
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/admin/change-user-password/`,
         {
           email: emailSeleccionado,
           new_password: nuevaContrasena,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
-      setMensaje(res.data.message || "Contraseña cambiada.");
+      setMensaje(res.data.message || "✅ Contraseña cambiada correctamente.");
+      setNuevaContrasena("");
+      setEmailSeleccionado("");
     } catch (err) {
-      setMensaje(err.response?.data?.error || "Error al cambiar la contraseña.");
+      setMensaje(
+        err.response?.data?.error || "❌ Error al cambiar la contraseña."
+      );
     } finally {
       setLoading(false);
     }
@@ -54,17 +76,35 @@ function ValPassword() {
 
   return (
     <Layout4>
-      <div style={{ maxWidth: "600px", margin: "50px auto", padding: "20px", borderRadius: "10px", backgroundColor: "#f9f9f9", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", textAlign: "center" }}>
-        <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>Cambiar Contraseña</h2>
+      <div
+        style={{
+          maxWidth: "600px",
+          margin: "50px auto",
+          padding: "20px",
+          borderRadius: "10px",
+          backgroundColor: "#f9f9f9",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
+          Cambiar Contraseña de Usuario
+        </h2>
 
         <select
           value={emailSeleccionado}
           onChange={(e) => setEmailSeleccionado(e.target.value)}
-          style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
         >
           <option value="">Seleccione un usuario</option>
           {usuarios.map((u) => (
-            <option key={u.email} value={u.email}>
+            <option key={u.id} value={u.email}>
               {u.email}
             </option>
           ))}
@@ -75,19 +115,38 @@ function ValPassword() {
           placeholder="Nueva contraseña"
           value={nuevaContrasena}
           onChange={(e) => setNuevaContrasena(e.target.value)}
-          style={{ width: "100%", padding: "10px", marginBottom: "20px" }}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
         />
 
         <button
           onClick={handleCambio}
           disabled={loading}
-          style={{ padding: "10px 20px", backgroundColor: "#33A652", color: "#fff", border: "none", borderRadius: "5px" }}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#33A652",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            fontSize: "16px",
+            cursor: loading ? "not-allowed" : "pointer",
+          }}
         >
           {loading ? "Cambiando..." : "Cambiar Contraseña"}
         </button>
 
         {mensaje && (
-          <p style={{ marginTop: "20px", color: mensaje.includes("correctamente") ? "green" : "red" }}>
+          <p
+            style={{
+              marginTop: "20px",
+              color: mensaje.includes("✅") ? "green" : "red",
+            }}
+          >
             {mensaje}
           </p>
         )}
