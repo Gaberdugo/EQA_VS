@@ -76,7 +76,7 @@ function ValPassword() {
         }}
       >
         <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
-          Cambiar Contraseña de Usuario
+          Cambio de Contraseña
         </h2>
 
         <select
@@ -100,7 +100,7 @@ function ValPassword() {
 
         <input
           type="password"
-          placeholder="Tu contraseña actual"
+          placeholder="Contraseña actual"
           value={contrasenaActual}
           onChange={(e) => setContrasenaActual(e.target.value)}
           style={{
