@@ -5,6 +5,7 @@ import axios from "axios";
 function ValPassword() {
   const [usuarios, setUsuarios] = useState([]);
   const [emailSeleccionado, setEmailSeleccionado] = useState("");
+  const [contrasenaActual, setContrasenaActual] = useState("");
   const [nuevaContrasena, setNuevaContrasena] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
@@ -12,15 +13,7 @@ function ValPassword() {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const token = localStorage.getItem("access");
-        const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}/auth/digitadores/`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/digitadores/`);
         const filtrados = res.data.filter((user) => !user.is_admin);
         setUsuarios(filtrados);
       } catch (error) {
@@ -33,7 +26,7 @@ function ValPassword() {
   }, []);
 
   const handleCambio = async () => {
-    if (!emailSeleccionado || !nuevaContrasena) {
+    if (!emailSeleccionado || !nuevaContrasena || !contrasenaActual) {
       setMensaje("⚠️ Completa todos los campos.");
       return;
     }
@@ -47,24 +40,19 @@ function ValPassword() {
     setMensaje("");
 
     try {
-      const token = localStorage.getItem("access");
-
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/auth/admin/change-user-password/`,
         {
           email: emailSeleccionado,
           new_password: nuevaContrasena,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          current_password: contrasenaActual,
         }
       );
 
       setMensaje(res.data.message || "✅ Contraseña cambiada correctamente.");
-      setNuevaContrasena("");
       setEmailSeleccionado("");
+      setNuevaContrasena("");
+      setContrasenaActual("");
     } catch (err) {
       setMensaje(
         err.response?.data?.error || "❌ Error al cambiar la contraseña."
@@ -112,7 +100,21 @@ function ValPassword() {
 
         <input
           type="password"
-          placeholder="Nueva contraseña"
+          placeholder="Tu contraseña actual"
+          value={contrasenaActual}
+          onChange={(e) => setContrasenaActual(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        />
+
+        <input
+          type="password"
+          placeholder="Nueva contraseña del usuario"
           value={nuevaContrasena}
           onChange={(e) => setNuevaContrasena(e.target.value)}
           style={{
