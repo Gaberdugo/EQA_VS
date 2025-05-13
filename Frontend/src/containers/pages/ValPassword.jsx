@@ -12,7 +12,7 @@ function ValPassword() {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/usuarios/listar/`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/digitadores/`);
         const filtrados = res.data.filter(user => !user.is_admin);
         setUsuarios(filtrados);
       } catch (error) {
