@@ -103,8 +103,8 @@ class ChangePasswordView(APIView):
         current_password = request.data.get("current_password")
         new_password = request.data.get("new_password")
 
-        if not current_password or not new_password:
-            return Response({"error": "Debes enviar la contraseña actual y la nueva."}, status=status.HTTP_400_BAD_REQUEST)
+        if not new_password:
+            return Response({"error": "Debes enviar la contraseña la nueva."}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(current_password):
             return Response({"error": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
