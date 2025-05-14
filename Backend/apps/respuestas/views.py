@@ -1230,6 +1230,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
+            elements.append(PageBreak())
             
             descripcion_texto = 'b. Niveles de desempeño'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))  
@@ -1401,6 +1402,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
+            elements.append(PageBreak())
             
 
             descripcion_texto = '<b>b. Niveles de desempeño</b>'
@@ -2688,6 +2690,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
+            elements.append(PageBreak())
             descripcion_texto = '<b>b. Niveles de desempeño</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -2933,6 +2936,8 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
+            elements.append(PageBreak())
+
             descripcion_texto = '<b>b. Niveles de desempeño</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
@@ -3096,15 +3101,7 @@ class GenerarReporte2APIIew(APIView):
             #-----------------------------------------------------------------------------------------------------------------------
 
             descripcion_texto = '<b>4.2.	Quinto grado</b><br/><b>a. Puntaje</b>'
-            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
-
-            parrafo_intro = Paragraph(
-                "Espacio estático para incluir un texto, pendiente de construir, para explicar que el puntaje se presenta en una escala de 0 a 20 puntos, qué es el promedio y la desviación estándar (dos párrafos cortos como máximo).",
-                parrafo_estilo
-            )
-
-            elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
             
             t = self.tabla(0, institucion, 'entrada',proyecto, 5, 'M')
             c = self.tabla(1, ciudad, 'entrada',proyecto, 5, 'M')
@@ -3145,16 +3142,10 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
+            elements.append(PageBreak())
+
             descripcion_texto = '<b>b. Niveles de desempeño</b>'
-            elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
-
-            parrafo_intro = Paragraph(
-                "Espacio estático para incluir un texto, pendiente de construir, para explicar qué es y cómo interpretar los niveles de desempeño (dos párrafos cortos como máximo).",
-                parrafo_estilo
-            )
-
-            elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro)   
+            elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
