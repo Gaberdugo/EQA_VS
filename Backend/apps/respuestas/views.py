@@ -2303,7 +2303,7 @@ class GenerarReporte2APIIew(APIView):
             # Añadir a los elementos después del texto introductorio
             elements.append(tabla_resumen)
             elements.append(Spacer(1, 20))
-
+            elements.append(PageBreak())
             descripcion_texto = '<b>2. Ficha técnica: número de estudiantes matriculados y evaluados</b>'
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
