@@ -5,7 +5,6 @@ import axios from "axios";
 function ValPassword() {
   const [usuarios, setUsuarios] = useState([]);
   const [emailSeleccionado, setEmailSeleccionado] = useState("");
-  const [contrasenaActual, setContrasenaActual] = useState("");
   const [nuevaContrasena, setNuevaContrasena] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,7 +44,6 @@ function ValPassword() {
         {
           email: emailSeleccionado,
           new_password: nuevaContrasena,
-          current_password: contrasenaActual,
         }
       );
 
@@ -97,20 +95,6 @@ function ValPassword() {
             </option>
           ))}
         </select>
-
-        <input
-          type="password"
-          placeholder="Contraseña actual"
-          value={contrasenaActual}
-          onChange={(e) => setContrasenaActual(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "20px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
-        />
 
         <input
           type="password"

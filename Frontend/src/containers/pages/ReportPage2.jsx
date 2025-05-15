@@ -99,7 +99,7 @@ function ReportPage2() {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `reporte_${selectedInstitution}_${selectedProject}.pdf`);
+            link.setAttribute('download', `reporte_comparativo_${selectedInstitution}_${selectedProject}.pdf`);
             document.body.appendChild(link);
             link.click();
             link.remove();
