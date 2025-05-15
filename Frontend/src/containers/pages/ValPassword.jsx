@@ -56,6 +56,9 @@ function ValPassword() {
         setMensaje(res.data.message || "✅ Contraseña actualizada correctamente.");
         setNuevaContrasena("");
         setEmailSeleccionado("");
+        setTimeout(() => {
+          setMensaje("");
+        }, 2000);
       } else {
         setMensaje("❌ Algo salió mal.");
       }
