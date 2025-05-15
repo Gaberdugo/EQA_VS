@@ -99,12 +99,13 @@ class ChangePasswordView(APIView):
     permission_classes = (permissions.AllowAny,) 
 
     def post(self, request):
-        user = request.user
+        email = request.data.get('email')
         new_password = request.data.get("new_password")
 
         if not new_password:
-            return Response({"error": "Debes enviar la contraseña la nueva."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Debes enviar la contraseña nueva."}, status=status.HTTP_400_BAD_REQUEST)
 
+        user = UserAccount.objects.get(email=email)
         user.set_password(new_password)
         user.save()
         return Response({"message": "Contraseña actualizada correctamente."}, status=status.HTTP_200_OK)
