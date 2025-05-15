@@ -25,8 +25,8 @@ function ValPassword() {
   }, []);
 
   const handleCambio = async () => {
-    if (!emailSeleccionado || !nuevaContrasena || !contrasenaActual) {
-      setMensaje("⚠️ Completa todos los campos.");
+    if (!emailSeleccionado || !nuevaContrasena) {
+      setMensaje("Completa todos los campos.");
       return;
     }
 
