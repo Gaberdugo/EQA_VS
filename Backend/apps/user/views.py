@@ -103,7 +103,7 @@ class ChangePasswordView(APIView):
         new_password = request.data.get("new_password")
 
         if not new_password:
-            return Response({"error": "Debes enviar la contraseña nueva."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": f"Debes enviar la contraseña nueva. {new_password}"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = UserAccount.objects.get(email=email)
         user.set_password(new_password)
