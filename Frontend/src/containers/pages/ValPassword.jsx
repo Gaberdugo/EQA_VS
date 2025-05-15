@@ -55,6 +55,7 @@ function ValPassword() {
       console.log("Datos que se envían:", {
         email: emailSeleccionado,
         new_password: nuevaContrasena,
+        error: res,
       });
 
       setMensaje(res.data.message || "✅ Contraseña cambiada correctamente.");
