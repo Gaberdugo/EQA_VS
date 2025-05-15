@@ -40,7 +40,7 @@ function ValPassword() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/admin/change-user-password/`,
+        `${process.env.REACT_APP_API_URL}/auth/change-password/`,
         {
           email: emailSeleccionado,
           new_password: nuevaContrasena,
