@@ -51,24 +51,24 @@ function ValPassword() {
           },
         }
       );
-
-      console.log("Datos que se envían:", {
-        email: emailSeleccionado,
-        new_password: nuevaContrasena,
-        error: res,
-      });
-
-      setMensaje(res.data.message || "✅ Contraseña cambiada correctamente.");
-      setEmailSeleccionado("");
-      setNuevaContrasena("");
-      setContrasenaActual("");
+    
+      if (res.status === 200) {
+        setMensaje(res.data.message || "✅ Contraseña actualizada correctamente.");
+        setNuevaContrasena("");
+        setEmailSeleccionado("");
+      } else {
+        setMensaje("❌ Algo salió mal.");
+      }
     } catch (err) {
-      setMensaje(
-        err.response?.data?.error || "❌ Error al cambiar la contraseña."
-      );
-    } finally {
-      setLoading(false);
+      if (err.response) {
+        console.error("Error del servidor:", err.response.data);
+        setMensaje(err.response.data.error || "❌ Error del servidor.");
+      } else {
+        setMensaje("❌ Error de red.");
+        console.error("Error desconocido:", err);
+      }
     }
+
   };
 
   return (
