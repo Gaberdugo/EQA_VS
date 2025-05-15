@@ -44,6 +44,11 @@ function ValPassword() {
         {
           email: emailSeleccionado,
           new_password: nuevaContrasena,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
