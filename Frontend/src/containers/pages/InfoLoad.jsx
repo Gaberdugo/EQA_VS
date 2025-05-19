@@ -1,12 +1,8 @@
 import Layout3 from "hocs/Layouts/Layout3";
 import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import { getProyectos, postProyecto } from 'redux/actions/info/info';
 import axios from "axios";
 
-function InfoLoad({ 
-  getProyectos, proyectos, loading, error, postProyecto 
-}) {
+function InfoLoad() {
   const [formData, setFormData] = useState({
     responsable: '',
     nombreProyecto: '',
@@ -20,53 +16,36 @@ function InfoLoad({
     nombreEstudiante: '',
     tiEstudiante: '',
     grado: '',
-    genero: '', 
+    genero: '',
     edad: '',
     fecha_carge: '',
     respuestas: Array(20).fill(''),
   });
 
+  const [proyectos, setProyectos] = useState([]);
   const [ciudades, setCiudades] = useState([]);
   const [cuadernillos, setCuadernillos] = useState([]);
   const [mensajeExito, setMensajeExito] = useState('');
 
   useEffect(() => {
-    getProyectos();
+    axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`)
+      .then(response => {
+        setProyectos(response.data);
+      })
+      .catch(() => {
+        alert('Error al cargar los proyectos');
+      });
 
-    const info = localStorage.getItem('proyectos');
-    const proyectos = info ? JSON.parse(info) : [];
-
-    if (proyectos.length > 0 && !formData.nombreProyecto) {
-      setFormData(prevState => ({
-        ...prevState,
-        nombreProyecto: '',
-      }));
-    }
-
-    const fetchCuadernillos = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/cuader/`);
+    axios.get(`${process.env.REACT_APP_API_URL}/res/cuader/`)
+      .then(response => {
         const data = Array.isArray(response.data) ? response.data : [];
         setCuadernillos(data);
-      } catch (error) {
-        console.error("Error al obtener los cuadernillos:", error);
+      })
+      .catch(() => {
+        alert("Error al obtener los cuadernillos");
         setCuadernillos([]);
-      }
-    };
-
-    fetchCuadernillos();
-  }, [getProyectos]);
-
-  function formatDateToSQL(isoString) {
-    const date = new Date(isoString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
+      });
+  }, []);
 
   useEffect(() => {
     if (formData.nombreProyecto) {
@@ -79,59 +58,57 @@ function InfoLoad({
     }
   }, [formData.nombreProyecto, proyectos]);
 
+  const formatDateToSQL = (isoString) => {
+    const date = new Date(isoString);
+    return date.toISOString().slice(0, 19).replace('T', ' ');
+  };
+
   const isFormComplete = () => {
-    const fields = [
+    const requiredFields = [
       'nombreProyecto', 'ciudad', 'departamento', 'fechaAplicacion',
       'apli', 'prueba', 'nombreInstitucion', 'numeroCuadernillo',
       'nombreEstudiante', 'grado', 'genero'
     ];
-
-    for (let field of fields) {
+    for (let field of requiredFields) {
       if (!formData[field]) return false;
     }
-
     for (let respuesta of formData.respuestas) {
       if (!respuesta) return false;
     }
-
     return true;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name.startsWith('respuesta')) {
       const index = parseInt(name.replace('respuesta', ''), 10);
-      setFormData(prevState => {
-        const newRespuestas = [...prevState.respuestas];
-        newRespuestas[index] = value;
-        return { ...prevState, respuestas: newRespuestas };
+      setFormData(prev => {
+        const nuevas = [...prev.respuestas];
+        nuevas[index] = value;
+        return { ...prev, respuestas: nuevas };
       });
     } else {
-      setFormData(prevState => {
-        const newFormData = { ...prevState, [name]: value };
-
+      setFormData(prev => {
+        const nuevoForm = { ...prev, [name]: value };
         if (name === 'ciudad') {
           const ciudadSeleccionada = ciudades.find(c => c.nombre === value);
-          newFormData.departamento = ciudadSeleccionada ? ciudadSeleccionada.departamento : '';
+          nuevoForm.departamento = ciudadSeleccionada ? ciudadSeleccionada.departamento : '';
         }
-
-        return newFormData;
+        return nuevoForm;
       });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     const isoDate = new Date();
     const formattedDate = formatDateToSQL(isoDate);
     const correo = localStorage.getItem('correo');
     const documentoEstudiante = Math.floor(Math.random() * 10_000_000_001).toString();
 
     const respuestasObj = {};
-    formData.respuestas.forEach((respuesta, index) => {
-      respuestasObj[`respuesta_${index + 1}`] = respuesta;
+    formData.respuestas.forEach((r, i) => {
+      respuestasObj[`respuesta_${i + 1}`] = r;
     });
 
     const proyectoData = {
@@ -153,50 +130,29 @@ function InfoLoad({
       ...respuestasObj,
     };
 
-    postProyecto(proyectoData)
-      .then(() => {
-        setMensajeExito('La información fue cargada correctamente.');
-        setTimeout(() => {
-          setFormData(prevState => ({
-            ...prevState,
-            numeroCuadernillo: '',
-            nombreEstudiante: '',
-            tiEstudiante: '',
-            grado: '',
-            genero: '',
-            edad: '',
-            respuestas: Array(20).fill(''),
-          }));
-          setMensajeExito('');
-        }, 2000);
-      })
-      .catch(error => {
-        if (error.response) {
-          alert(`Error al cargar la encuesta: ${error.response.data.error}`);
-        } else {
-          alert('Error de conexión o servidor');
-        }
-      });
-  };
-
-  const buttonStyle = {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#1B8830',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: isFormComplete() ? 'pointer' : 'not-allowed',
-    transition: 'background-color 0.3s',
-  };
-
-  const formContainerStyle = {
-    maxHeight: '100vh',
-    overflowY: 'auto',
-    padding: '15px',
-    backgroundColor: '#A4D7B2',
-    borderRadius: '8px',
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/auth/proyecto/`, proyectoData);
+      setMensajeExito('La información fue cargada correctamente.');
+      setTimeout(() => {
+        setFormData(prev => ({
+          ...prev,
+          numeroCuadernillo: '',
+          nombreEstudiante: '',
+          tiEstudiante: '',
+          grado: '',
+          genero: '',
+          edad: '',
+          respuestas: Array(20).fill(''),
+        }));
+        setMensajeExito('');
+      }, 2000);
+    } catch (error) {
+      if (error.response) {
+        alert(`Error: ${error.response.data.error}`);
+      } else {
+        alert('Error de conexión o del servidor');
+      }
+    }
   };
 
   return (
@@ -436,15 +392,4 @@ function InfoLoad({
   );
 }
 
-const mapStateToProps = (state) => ({
-  proyectos: state.proyectos.data || [],
-  loading: state.proyectos.loading,
-  error: state.proyectos.error,
-});
-
-const mapDispatchToProps = {
-  getProyectos,
-  postProyecto
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(InfoLoad);
+export default InfoLoad;
