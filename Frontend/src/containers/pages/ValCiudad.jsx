@@ -13,7 +13,7 @@ function ValCiudad() {
   useEffect(() => {
     const fetchDepartamentos = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}auth/api/departamentos/`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/api/departamentos/`);
         // Solo dejamos id y nombre
         const dataLimpia = res.data.map(dep => ({
           id: dep.id,
@@ -41,7 +41,7 @@ function ValCiudad() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}auth/api/ciudades/`,
+        `${process.env.REACT_APP_API_URL}/auth/api/ciudades/`,
         {
           nombre: nombreCiudad,
           departamento: parseInt(departamentoSeleccionado), // Asegura que sea un número
