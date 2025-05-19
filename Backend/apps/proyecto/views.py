@@ -21,6 +21,7 @@ class CiudadViewSet(viewsets.ModelViewSet):
 
 class ProyectoViewSet(APIView):
     permission_classes = [AllowAny]
+    
     def get(self, request):
         # Obtenemos todos los proyectos
         proyectos = Proyecto.objects.all()
@@ -30,3 +31,10 @@ class ProyectoViewSet(APIView):
         
         # Devolvemos la respuesta con los proyectos serializados
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = ProyectoSerializer(data=request.data)
+        if serializer.is_valid():
+            proyecto = serializer.save()
+            return Response(ProyectoSerializer(proyecto).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
