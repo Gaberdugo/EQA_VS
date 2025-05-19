@@ -23,6 +23,7 @@ import ValCorr from 'containers/pages/ValCorr';
 import ValInsti from 'containers/pages/valInsti';
 import ValPassword from 'containers/pages/ValPassword';
 import ValCiudad from 'containers/pages/ValCiudad';
+import ValProyecto from 'containers/pages/ValProyecto';
 import TerPage from 'containers/pages/TerPage';
 import TerPrueba from 'containers/pages/TerPrueba';
 import TerReport from 'containers/pages/TerReport';
@@ -204,6 +205,15 @@ function AnimatedRoutes() {
                         element={
                             <PrivateRoute requiredRole="val">
                                 <ValCiudad />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/valProyecto' 
+                        element={
+                            <PrivateRoute requiredRole="val">
+                                <ValProyecto />
                             </PrivateRoute>
                         } 
                     />

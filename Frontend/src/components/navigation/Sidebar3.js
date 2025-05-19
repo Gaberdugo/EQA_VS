@@ -2,7 +2,6 @@ import {
   ChartBarIcon,
   HomeIcon,
   RssIcon,
-  UsersIcon,
   TrashIcon,
   AcademicCapIcon,
   PencilIcon,
@@ -11,6 +10,7 @@ import {
   ChartPieIcon,
   WindowIcon,
   BuildingLibraryIcon,
+  FolderIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 
@@ -34,7 +34,9 @@ function Sidebar3(){
       { name: 'Corregir', href: '/valCorr', icon: ArrowPathIcon, current: location.pathname==='/valCorr' ? true:false },
       { name: 'Eliminar', href: '/valDelete', icon: TrashIcon, current: location.pathname==='/valDelete' ? true:false },
       { name: 'Contraseña', href: '/valPassword', icon: WindowIcon, current: location.pathname==='/valPassword' ? true:false },
-      { name: 'Ciudad', href: '/valCiudad', icon: BuildingLibraryIcon, current: location.pathname==='/valCiudad' ? true:false },
+      { name: 'Municipio', href: '/valCiudad', icon: BuildingLibraryIcon, current: location.pathname==='/valCiudad' ? true:false },
+      { name: 'Proyecto', href: '/valProyecto', icon: FolderIcon, current: location.pathname==='/valProyecto' ? true:false },
+
   ]
 
   return(

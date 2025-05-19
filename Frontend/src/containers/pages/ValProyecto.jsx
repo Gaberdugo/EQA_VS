@@ -2,76 +2,83 @@ import React, { useState, useEffect } from "react";
 import Layout4 from "hocs/Layouts/Layout4";
 import axios from "axios";
 
-function ValPassword() {
-  const [usuarios, setUsuarios] = useState([]);
-  const [emailSeleccionado, setEmailSeleccionado] = useState("");
-  const [nuevaContrasena, setNuevaContrasena] = useState("");
+function ValProyecto() {
+  const [nombreProyecto, setNombreProyecto] = useState("");
+  const [departamentos, setDepartamentos] = useState([]);
+  const [ciudadesFiltradas, setCiudadesFiltradas] = useState([]);
+  const [ciudadesSeleccionadas, setCiudadesSeleccionadas] = useState([]);
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchUsuarios = async () => {
+    const fetchDepartamentos = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/`);
-        const filtrados = res.data.filter((user) => !user.is_admin);
-        setUsuarios(filtrados);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/api/departamentos/`);
+        setDepartamentos(res.data);
       } catch (error) {
-        console.error("Error al obtener usuarios:", error);
-        setMensaje("No se pudo obtener la lista de usuarios.");
+        console.error("Error al obtener departamentos:", error);
+        setMensaje("❌ No se pudo obtener la lista de departamentos.");
       }
     };
 
-    fetchUsuarios();
+    fetchDepartamentos();
   }, []);
 
-  const handleCambio = async () => {
-    if (!emailSeleccionado || !nuevaContrasena) {
-      setMensaje("Completa todos los campos.");
+  const handleDepartamentoChange = (e) => {
+    const id = e.target.value;
+    setDepartamentoSeleccionado(id);
+    const departamento = departamentos.find((d) => d.id.toString() === id);
+    setCiudadesFiltradas(departamento?.ciudades || []);
+  };
+
+  const toggleCiudadSeleccionada = (id) => {
+    setCiudadesSeleccionadas((prev) =>
+      prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id]
+    );
+  };
+
+  const handleGuardarProyecto = async () => {
+    if (!nombreProyecto.trim() || ciudadesSeleccionadas.length === 0) {
+      setMensaje("⚠️ Completa todos los campos.");
       return;
     }
-
-    const confirmacion = window.confirm(
-      `¿Estás seguro que deseas cambiar la contraseña de ${emailSeleccionado}?`
-    );
-    if (!confirmacion) return;
 
     setLoading(true);
     setMensaje("");
 
     try {
+      const token = localStorage.getItem("access");
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/change-password/`,
+        `${process.env.REACT_APP_API_URL}/auth/api/proyectos/`,
         {
-          email: emailSeleccionado,
-          new_password: nuevaContrasena,
+          nombre: nombreProyecto,
+          ciudades: ciudadesSeleccionadas,
         },
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-    
-      if (res.status === 200) {
-        setMensaje(res.data.message || "✅ Contraseña actualizada correctamente.");
-        setNuevaContrasena("");
-        setEmailSeleccionado("");
+
+      if (res.status === 201 || res.status === 200) {
+        setMensaje("✅ Proyecto creado correctamente.");
+        setNombreProyecto("");
+        setDepartamentoSeleccionado("");
+        setCiudadesSeleccionadas([]);
+        setCiudadesFiltradas([]);
         setTimeout(() => {
           setMensaje("");
         }, 2000);
-      } else {
-        setMensaje("❌ Algo salió mal.");
       }
     } catch (err) {
-      if (err.response) {
-        console.error("Error del servidor:", err.response.data);
-        setMensaje(err.response.data.error || "❌ Error del servidor.");
-      } else {
-        setMensaje("❌ Error de red.");
-        console.error("Error desconocido:", err);
-      }
+      console.error("Error al crear proyecto:", err);
+      setMensaje("❌ Error al crear el proyecto.");
+    } finally {
+      setLoading(false);
     }
-
   };
 
   return (
@@ -88,33 +95,14 @@ function ValPassword() {
         }}
       >
         <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
-          Cambio de Contraseña
+          Crear Nuevo Proyecto
         </h2>
 
-        <select
-          value={emailSeleccionado}
-          onChange={(e) => setEmailSeleccionado(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "20px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
-        >
-          <option value="">Seleccione un usuario</option>
-          {usuarios.map((u) => (
-            <option key={u.id} value={u.email}>
-              {u.email}
-            </option>
-          ))}
-        </select>
-
         <input
-          type="password"
-          placeholder="Nueva contraseña del usuario"
-          value={nuevaContrasena}
-          onChange={(e) => setNuevaContrasena(e.target.value)}
+          type="text"
+          placeholder="Nombre del proyecto"
+          value={nombreProyecto}
+          onChange={(e) => setNombreProyecto(e.target.value)}
           style={{
             width: "100%",
             padding: "10px",
@@ -124,12 +112,54 @@ function ValPassword() {
           }}
         />
 
+        <select
+          value={departamentoSeleccionado}
+          onChange={handleDepartamentoChange}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        >
+          <option value="">Seleccione un departamento</option>
+          {departamentos.map((d) => (
+            <option key={d.id} value={d.id}>
+              {d.nombre}
+            </option>
+          ))}
+        </select>
+
+        <div
+          style={{
+            textAlign: "left",
+            marginBottom: "20px",
+          }}
+        >
+          <strong>Ciudades:</strong>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {ciudadesFiltradas.map((c) => (
+              <li key={c.id}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={ciudadesSeleccionadas.includes(c.id)}
+                    onChange={() => toggleCiudadSeleccionada(c.id)}
+                  />{" "}
+                  {c.nombre}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <button
-          onClick={handleCambio}
+          onClick={handleGuardarProyecto}
           disabled={loading}
           style={{
             padding: "10px 20px",
-            backgroundColor: "#33A652",
+            backgroundColor: "#007bff",
             color: "#fff",
             border: "none",
             borderRadius: "5px",
@@ -137,7 +167,7 @@ function ValPassword() {
             cursor: loading ? "not-allowed" : "pointer",
           }}
         >
-          {loading ? "Cambiando..." : "Cambiar Contraseña"}
+          {loading ? "Guardando..." : "Guardar Proyecto"}
         </button>
 
         {mensaje && (
@@ -155,4 +185,4 @@ function ValPassword() {
   );
 }
 
-export default ValPassword;
+export default ValProyecto;

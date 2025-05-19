@@ -83,7 +83,7 @@ function ValCiudad() {
         }}
       >
         <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
-          Crear Nueva Ciudad
+          Crear Nuevo Municipio
         </h2>
 
         <select
@@ -107,7 +107,7 @@ function ValCiudad() {
 
         <input
           type="text"
-          placeholder="Nombre de la ciudad"
+          placeholder="Nombre del municipio"
           value={nombreCiudad}
           onChange={(e) => setNombreCiudad(e.target.value)}
           style={{
@@ -124,7 +124,7 @@ function ValCiudad() {
           disabled={loading}
           style={{
             padding: "10px 20px",
-            backgroundColor: loading ? "#6c757d" : "#007bff",
+            backgroundColor: "#33A652",
             color: "#fff",
             border: "none",
             borderRadius: "5px",
@@ -132,7 +132,7 @@ function ValCiudad() {
             cursor: loading ? "not-allowed" : "pointer",
           }}
         >
-          {loading ? "Guardando..." : "Guardar Ciudad"}
+          {loading ? "Guardando..." : "Guardar Municipio"}
         </button>
 
         {mensaje && (
