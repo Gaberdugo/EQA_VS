@@ -19,7 +19,6 @@ function Sidebar(){
         { name: 'Admin', href: '/admin', icon: HomeIcon, current: location.pathname==='/admin' ? true:false },
         { name: 'Usuarios', href: '/adminDigi', icon: UsersIcon, current: location.pathname==='/adminDigi' ? true:false },
         { name: 'Preguntas', href: '/adminPre', icon: QuestionMarkCircleIcon, current: location.pathname==='/adminPre' ? true:false },
-        { name: 'Cuadernillos', href: '/adminCua', icon: BookOpenIcon, current: location.pathname==='/adminCua' ? true:false },
     ]
 
     return(
