@@ -22,12 +22,14 @@ import ValForm from 'containers/pages/ValForm';
 import ValCorr from 'containers/pages/ValCorr';
 import ValInsti from 'containers/pages/valInsti';
 import ValPassword from 'containers/pages/ValPassword';
+import ValCiudad from 'containers/pages/ValCiudad';
 import TerPage from 'containers/pages/TerPage';
 import TerPrueba from 'containers/pages/TerPrueba';
 import TerReport from 'containers/pages/TerReport';
 
 import PrivateRoute from './components/PrivateRoute';
 import { AnimatePresence } from 'framer-motion';
+
 
 
 function AnimatedRoutes() {
@@ -193,6 +195,15 @@ function AnimatedRoutes() {
                         element={
                             <PrivateRoute requiredRole="val">
                                 <ValPassword />
+                            </PrivateRoute>
+                        } 
+                    />
+
+                    <Route 
+                        path='/valCiudad' 
+                        element={
+                            <PrivateRoute requiredRole="val">
+                                <ValCiudad />
                             </PrivateRoute>
                         } 
                     />

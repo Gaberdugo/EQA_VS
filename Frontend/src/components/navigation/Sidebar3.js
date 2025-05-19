@@ -10,6 +10,7 @@ import {
   WalletIcon,
   ChartPieIcon,
   WindowIcon,
+  BuildingLibraryIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, useLocation } from 'react-router-dom'
 
@@ -25,7 +26,7 @@ function Sidebar3(){
       { name: 'Validador', href: '/valPage', icon: HomeIcon, current: location.pathname==='/valPage' ? true:false },
       { name: 'Pruebas', href: '/pruebaPage', icon: RssIcon, current: location.pathname==='/pruebaPage' ? true:false },
       { name: 'TAB - CAL', href: '/reportPage', icon: WalletIcon, current: location.pathname==='/reportPage' ? true:false },
-      { name: 'Reporte Insti', href: '/reportPage1', icon: ChartBarIcon, current: location.pathname==='/reportPage1' ? true:false },
+      { name: 'Informe I.E.', href: '/reportPage1', icon: ChartBarIcon, current: location.pathname==='/reportPage1' ? true:false },
       { name: 'Reporte Comparativo', href: '/reportPage2', icon: ChartPieIcon, current: location.pathname==='/reportPage2' ? true:false },
       { name: 'Instituciones', href: '/valInsti', icon: AcademicCapIcon, current: location.pathname==='/valInsti' ? true:false },
       /*{ name: 'Digitadores', href: '/valDigi', icon: UsersIcon, current: location.pathname==='/valDigi' ? true:false },*/
@@ -33,6 +34,7 @@ function Sidebar3(){
       { name: 'Corregir', href: '/valCorr', icon: ArrowPathIcon, current: location.pathname==='/valCorr' ? true:false },
       { name: 'Eliminar', href: '/valDelete', icon: TrashIcon, current: location.pathname==='/valDelete' ? true:false },
       { name: 'Contraseña', href: '/valPassword', icon: WindowIcon, current: location.pathname==='/valPassword' ? true:false },
+      { name: 'Ciudad', href: '/valCiudad', icon: BuildingLibraryIcon, current: location.pathname==='/valCiudad' ? true:false },
   ]
 
   return(
