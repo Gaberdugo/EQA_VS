@@ -14,7 +14,7 @@ class DepartamentoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Departamento
-        fields = ['nombre']
+        fields = ['id','nombre']
 
 class ProyectoSerializer(serializers.ModelSerializer):
     ciudades = CiudadSerializer(many=True, read_only=True)
