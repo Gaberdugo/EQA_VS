@@ -30,7 +30,7 @@ function InfoLoad() {
   useEffect(() => {
     const fetchProyectos = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/info/proyectos/`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`);
         setProyectos(res.data);
       } catch (error) {
         console.error("Error al cargar proyectos:", error);
