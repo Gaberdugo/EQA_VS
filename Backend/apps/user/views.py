@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from .models import UserAccount
 from .serializers import UserAccountSerializer
 
@@ -84,13 +85,27 @@ class CreateUserAccountView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class ListDigitadoresView(APIView):
-    permission_classes = (permissions.AllowAny,)  # Ajusta según tu necesidad
+    permission_classes = (permissions.AllowAny,) 
 
     def get(self, request):
         try:
             # Filtra usuarios con is_digi=True
             digitadores = UserAccount.objects.filter(is_digi=True)
             serializer = UserAccountSerializer(digitadores, many=True)  # Serializa los resultados
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+class ListUsersView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request):
+        try:
+            # Usuarios que tengan al menos uno de los tres campos en True
+            users = UserAccount.objects.filter(
+                Q(is_digi=True) | Q(is_admin=True) | Q(is_terpel=True)
+            )
+            serializer = UserAccountSerializer(users, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
