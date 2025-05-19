@@ -9,11 +9,17 @@ function ValCiudad() {
   const [mensaje, setMensaje] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Cargar departamentos al montar el componente
   useEffect(() => {
     const fetchDepartamentos = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}auth/departamentos/`);
-        setDepartamentos(res.data);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}auth/api/departamentos/`);
+        // Solo dejamos id y nombre
+        const dataLimpia = res.data.map(dep => ({
+          id: dep.id,
+          nombre: dep.nombre
+        }));
+        setDepartamentos(dataLimpia);
       } catch (error) {
         console.error("Error al obtener departamentos:", error);
         setMensaje("❌ No se pudo obtener la lista de departamentos.");
@@ -23,6 +29,7 @@ function ValCiudad() {
     fetchDepartamentos();
   }, []);
 
+  // Guardar ciudad
   const handleGuardarCiudad = async () => {
     if (!departamentoSeleccionado || !nombreCiudad.trim()) {
       setMensaje("⚠️ Completa todos los campos.");
@@ -34,10 +41,10 @@ function ValCiudad() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}auth/ciudades/`,
+        `${process.env.REACT_APP_API_URL}auth/api/ciudades/`,
         {
           nombre: nombreCiudad,
-          departamento: departamentoSeleccionado,
+          departamento: parseInt(departamentoSeleccionado), // Asegura que sea un número
         },
         {
           headers: {
@@ -117,7 +124,7 @@ function ValCiudad() {
           disabled={loading}
           style={{
             padding: "10px 20px",
-            backgroundColor: "#007bff",
+            backgroundColor: loading ? "#6c757d" : "#007bff",
             color: "#fff",
             border: "none",
             borderRadius: "5px",
