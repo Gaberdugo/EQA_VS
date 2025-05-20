@@ -717,8 +717,8 @@ class GenerarReporte1APIIew(APIView):
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
             Las pruebas abordan tres niveles de comprensión textual:.<br/><br/>
-            •  <b>Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
-            •  <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
+            • <b> Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
+            • <b> Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
             • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
             """
 
