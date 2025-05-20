@@ -585,12 +585,12 @@ class GenerarReporte1APIIew(APIView):
 
             # Contenido
             titulo_texto = f"""
-            <b>Reporte de resultados para la instutución</b><br/>
+            <b>Reporte de resultados para la</b><br/>
             <b>{institucion} - Aplicación: {str(aplicacion).title()}</b>
             """
 
             subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
-            descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}</b>"
+            descripcion_texto = f"<b>Reporte de resultados de la {institucion} en las pruebas de Lenguaje y Matemáticas – aplicación de {aplicacion}</b>"
             
             # Insertar en elementos
             elements.append(Spacer(1, 200))  # Centrar verticalmente
@@ -658,14 +658,14 @@ class GenerarReporte1APIIew(APIView):
             # Crear tabla de resumen
             tabla_resumen = Table(resumen_data, colWidths=[130, 220])
             tabla_resumen.setStyle(TableStyle([
-                ('TEXTCOLOR', (0, 0), (0, -1), HexColor("#1B8830")),  # columna izquierda verde
+                ('TEXTCOLOR', (0, 0), (0, -1), colors.white),  # columna izquierda verde
+                ('BACKGROUND', (0, 0), (0, -1), HexColor("#1B8830")),
                 ('TEXTCOLOR', (1, 0), (1, -1), colors.black),         # columna derecha negra
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
                 ('FONTSIZE', (0, 0), (-1, -1), 11),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 4),
-                # Optional borders:
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
             ]))
 
@@ -719,7 +719,7 @@ class GenerarReporte1APIIew(APIView):
             Las pruebas abordan tres niveles de comprensión textual:.<br/><br/>
             • <b>Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
             • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
-            • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
+            •<b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
             """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
