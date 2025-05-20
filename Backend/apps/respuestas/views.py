@@ -1585,8 +1585,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo4),
-                    Paragraph("Descripción", parrafo_estilo4)
+                    Paragraph("Nivel", parrafo_estilo3),
+                    Paragraph("Descripción", parrafo_estilo3)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo2),
@@ -1674,8 +1674,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo4),
-                    Paragraph("Descripción", parrafo_estilo4)
+                    Paragraph("Nivel", parrafo_estilo3),
+                    Paragraph("Descripción", parrafo_estilo3)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo2),
@@ -1761,8 +1761,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo4),
-                    Paragraph("Descripción", parrafo_estilo4)
+                    Paragraph("Nivel", parrafo_estilo3),
+                    Paragraph("Descripción", parrafo_estilo3)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 6 puntos)</b>", parrafo_estilo2),
@@ -1841,8 +1841,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo4),
-                    Paragraph("Descripción", parrafo_estilo4)
+                    Paragraph("Nivel", parrafo_estilo3),
+                    Paragraph("Descripción", parrafo_estilo3)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 5 puntos)</b>", parrafo_estilo2),
@@ -1898,7 +1898,7 @@ class GenerarReporte1APIIew(APIView):
                 # Fondo verde para la primera fila
                 ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
-                
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
