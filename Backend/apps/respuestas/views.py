@@ -565,18 +565,6 @@ class GenerarReporte1APIIew(APIView):
                 rightIndent=10,
             )
 
-            parrafo_estilo4 = ParagraphStyle(
-                name='IntroCentradoVerde',
-                fontName='Helvetica',
-                fontSize=10.5,
-                leading=14,
-                textColor=HexColor("#ffffff"),  # Color verde personalizado
-                alignment=TA_CENTER,            # Texto centrado
-                spaceAfter=20,
-                leftIndent=10,
-                rightIndent=10,
-            )
-
             descripcion_izq_style = ParagraphStyle(
                 name="DescripcionIzquierda",
                 alignment=TA_LEFT,
@@ -1654,8 +1642,6 @@ class GenerarReporte1APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
@@ -1741,8 +1727,6 @@ class GenerarReporte1APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
@@ -1821,8 +1805,6 @@ class GenerarReporte1APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
@@ -1909,8 +1891,6 @@ class GenerarReporte1APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
