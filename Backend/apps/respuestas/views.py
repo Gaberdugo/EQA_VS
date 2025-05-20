@@ -1240,7 +1240,7 @@ class GenerarReporte1APIIew(APIView):
 
             elements.append(PageBreak())
             
-            descripcion_texto = 'b. Niveles de desempeño'
+            descripcion_texto = '<b>b. Niveles de desempeño</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))  
 
             # Datos del gráfico
@@ -1571,8 +1571,8 @@ class GenerarReporte1APIIew(APIView):
             )
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado</font>",
-                parrafo_estilo2
+                "<b>Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado</b>",
+                descripcion_izq_style
             )
 
             elements.append(Spacer(1, 5))
@@ -1660,8 +1660,8 @@ class GenerarReporte1APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado</font>",
-                parrafo_estilo2
+                "<b>Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado</b>",
+                descripcion_izq_style
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -1743,8 +1743,8 @@ class GenerarReporte1APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado</font>",
-                parrafo_estilo2
+                "<b>Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado</b>",
+                descripcion_izq_style
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -1819,8 +1819,8 @@ class GenerarReporte1APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado</font>",
-                parrafo_estilo2
+                "<b>Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado</b>",
+                descripcion_izq_style
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
