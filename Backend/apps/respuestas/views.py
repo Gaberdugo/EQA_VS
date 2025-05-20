@@ -2228,14 +2228,22 @@ class GenerarReporte2APIIew(APIView):
                 textColor=colors.black,
             )
 
+            recuadro_style2 = ParagraphStyle(
+                name="RecuadroJustificado",
+                fontSize=10.5,
+                leading=14,
+                alignment=TA_LEFT,
+                textColor=colors.black,
+            )
+
             # Contenido
             titulo_texto = f"""
             <b>Reporte de resultados para la</b><br/>
-            <b>{institucion} - Comparativo de las aplicaciones de entrada y de salida</b>
+            <b>{institucion} - Comparativo entrada y salida</b>
             """
 
             subtitulo_texto = "<b>Programa Escuelas que Aprenden®</b>"
-            descripcion_texto = f"<b>Reporte de resultados de la institución educativa {institucion} en las pruebas de Lenguaje y Matemáticas – comparación de resultados entrada y de salida</b>"
+            descripcion_texto = f"<b>Reporte de resultados de la {institucion} en las pruebas de Lenguaje y Matemáticas – comparativo entrada y salida</b>"
             
             # Insertar en elementos
             elements.append(Spacer(1, 200))  # Centrar verticalmente
@@ -2302,7 +2310,9 @@ class GenerarReporte2APIIew(APIView):
             # Crear tabla de resumen
             tabla_resumen = Table(resumen_data, colWidths=[200, 300])
             tabla_resumen.setStyle(TableStyle([
-                ('TEXTCOLOR', (0, 0), (0, -1), HexColor("#1B8830")),  # columna izquierda verde
+                ('TEXTCOLOR', (0, 0), (0, -1), colors.white),  # columna izquierda verde
+                ('BACKGROUND', (0, 0), (0, -1), HexColor("#1B8830")),
+
                 ('TEXTCOLOR', (1, 0), (1, -1), colors.black),         # columna derecha negra
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
                 ('FONTSIZE', (0, 0), (-1, -1), 11),
@@ -2371,7 +2381,7 @@ class GenerarReporte2APIIew(APIView):
             • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
             """
 
-            contenido_parrafo = Paragraph(contenido, recuadro_style)
+            contenido_parrafo = Paragraph(contenido, recuadro_style2)
 
             recuadro_tabla = Table([[contenido_parrafo]], colWidths=[460])
 
@@ -2577,7 +2587,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_graficos)
             elements.append(Spacer(1, 20))
 
-
+            elements.append(PageBreak())
 
             descripcion_texto = '<b>Significado de los niveles de desempeño – Lenguaje, tercer grado</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style)) 
@@ -3360,7 +3370,7 @@ class GenerarReporte2APIIew(APIView):
             )
 
             parrafo_anexo = Paragraph(
-                "Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado",
+                "<b>Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado</b>",
                 descripcion_izq_style
             )
 
@@ -3451,7 +3461,7 @@ class GenerarReporte2APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado",
+                "<b>Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado</b>",
                 descripcion_izq_style
             )
             elements.append(PageBreak())
@@ -3536,7 +3546,7 @@ class GenerarReporte2APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado",
+                "<b>Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado</b>",
                 descripcion_izq_style
             )
             elements.append(PageBreak())
@@ -3614,7 +3624,7 @@ class GenerarReporte2APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado",
+                "<b>Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado</b>",
                 descripcion_izq_style
             )
             elements.append(PageBreak())
