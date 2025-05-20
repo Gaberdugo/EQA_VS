@@ -2630,9 +2630,11 @@ class GenerarReporte2APIIew(APIView):
                 # Fondo verde para la primera fila
                 ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+                ('ALIGN', (0, 0), (-1, 0), 'CENTER'),  # Centrar la primera fila
 
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
                 ('FONTSIZE', (0, 0), (-1, -1), 10.5),
                 ('LEFTPADDING', (0, 0), (-1, -1), 6),
