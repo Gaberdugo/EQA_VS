@@ -1043,8 +1043,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Crear gráfico
             plt.figure(figsize=(6, 5))
-            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#A4D7B2')
+            bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width*2, label='Institución', color='#1B8830')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width*2, label='Ciudad', color='#A4D7B2')
 
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
