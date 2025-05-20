@@ -716,10 +716,10 @@ class GenerarReporte1APIIew(APIView):
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
-            Las pruebas abordan tres niveles de comprensión textual:.<br/><br/>
-            • <b> Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
-            • <b> Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
-            • <b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
+            Las pruebas abordan tres niveles de comprensión textual:<br/><br/>
+            <b>• Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
+            <b>• Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
+            <b>• Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
             """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
