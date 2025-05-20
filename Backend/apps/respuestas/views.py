@@ -1174,15 +1174,15 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
+            <b>Qué se evalúa:</b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
             estándares básicos de competencias del Ministerio de Educación Nacional:.<br/><br/>
-            <b><font color='#1B8830'>Competencias:</font></b><br/><br/>
-            • <b><font color='#1B8830'>Comunicación, modelación y representación:</font></b>implica comprender cómo se presenta una información matemática y elaborar representaciones que permitan hacer comprensible dicha información a otros.<br/>
-            • <b><font color='#1B8830'>Planteamiento y resolución de problemas:</font></b>implica comprender la utilidad del conocimiento disponible.<br/>
-            • <b><font color='#1B8830'>Razonamiento y argumentación:</font></b>implica hacer una valoración sobre la adecuación de unos pasos realizados o para establecer la veracidad de lo que se afirma, entre otros.<br/><br/>
-            <b><font color='#1B8830'>Componentes:</font></b><br/><br/>
+            <b>Competencias:</b><br/><br/>
+            • <b>Comunicación, modelación y representación:</b>implica comprender cómo se presenta una información matemática y elaborar representaciones que permitan hacer comprensible dicha información a otros.<br/>
+            • <b>Planteamiento y resolución de problemas:</b>implica comprender la utilidad del conocimiento disponible.<br/>
+            • <b>Razonamiento y argumentación:</b>implica hacer una valoración sobre la adecuación de unos pasos realizados o para establecer la veracidad de lo que se afirma, entre otros.<br/><br/>
+            <b>Componentes:</b><br/><br/>
             • Númerico - variacional<br/>
             • Espacial - métrico<br/>
             • Aleatorio<br/><br/>
@@ -1215,7 +1215,7 @@ class GenerarReporte1APIIew(APIView):
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'M')
             
             tabla_datos = [
-                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Instución educativa", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ["Agregado del municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
             ]
@@ -1255,20 +1255,20 @@ class GenerarReporte1APIIew(APIView):
             # Crear gráfico
             plt.figure(figsize=(6, 5))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#A4D7B2')
 
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=12)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=12)
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño\n')
+            plt.title('')
             plt.legend()
             plt.tight_layout()
 
@@ -1286,7 +1286,7 @@ class GenerarReporte1APIIew(APIView):
             img_buffer.seek(0)
 
             # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            grafico = RLImage(img_buffer, width=260, height=200)
             elements.append(Spacer(1, 12))
             elements.append(grafico)
             elements.append(Spacer(1, 20))
@@ -1349,6 +1349,10 @@ class GenerarReporte1APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+                
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
