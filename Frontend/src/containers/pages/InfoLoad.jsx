@@ -280,7 +280,7 @@ function InfoLoad() {
                     <td key={colIndex} style={{ padding: '5px', border: '1px solid #ccc' }}>
                       <label>
                         Respuesta {index + 1}:
-                        <select name={`respuesta${index}`} value={formData.respuestas[index]} onChange={handleChange} style={{ width: '100%' }}>
+                        <select className="notranslate" name={`respuesta${index}`} value={formData.respuestas[index]} onChange={handleChange} style={{ width: '100%' }}>
                           <option value="">Seleccione</option>
                           <option value="A">A</option>
                           <option value="B">B</option>
