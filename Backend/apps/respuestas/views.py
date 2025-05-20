@@ -871,7 +871,7 @@ class GenerarReporte1APIIew(APIView):
             # Crear gráfico
             plt.figure(figsize=(6, 5))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#33A652')
 
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
@@ -884,7 +884,7 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño\n')
+            plt.title('')
             plt.legend()
             plt.tight_layout()
 
