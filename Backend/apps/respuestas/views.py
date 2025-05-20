@@ -719,7 +719,7 @@ class GenerarReporte1APIIew(APIView):
             Las pruebas abordan tres niveles de comprensión textual:.<br/><br/>
             • <b>Literal:</b> implica reconocer el significado explícito dentro de un texto.<br/>
             • <b>Inferencial:</b> implica reconocer el significado implícito de los contenidos en un texto.<br/>
-            •<b>Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
+            •<b> Crítica:</b> implica evaluar los contenidos y las formas de los textos, así como hacer una valoración de argumentos.<br/>
             """
 
             contenido_parrafo = Paragraph(contenido, recuadro_style)
