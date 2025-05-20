@@ -1,4 +1,4 @@
-import Layout3 from "hocs/Layouts/Layout4";
+import Layout4 from "hocs/Layouts/Layout4";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
