@@ -724,7 +724,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
+            <b>Qué se evalúa:</b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
