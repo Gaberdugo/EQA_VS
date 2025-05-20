@@ -558,7 +558,7 @@ class GenerarReporte1APIIew(APIView):
                 fontName='Helvetica',
                 fontSize=10.5,
                 leading=14,
-                textColor=HexColor("#33A652"),  # Color verde personalizado
+                textColor=colors.white,  # Color verde personalizado
                 alignment=TA_CENTER,            # Texto centrado
                 spaceAfter=20,
                 leftIndent=10,
@@ -876,11 +876,11 @@ class GenerarReporte1APIIew(APIView):
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=10)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t[i]}%', ha='center', va='bottom', fontsize=12)
 
             for i, bar in enumerate(bars2):
                 height = bar.get_height()
-                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=10)
+                plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c[i]}%', ha='center', va='bottom', fontsize=12)
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
@@ -915,8 +915,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo2),
-                    Paragraph("Descripción", parrafo_estilo2)
+                    Paragraph("Nivel", parrafo_estilo3),
+                    Paragraph("Descripción", parrafo_estilo3)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo2),
@@ -966,6 +966,10 @@ class GenerarReporte1APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -974,6 +978,7 @@ class GenerarReporte1APIIew(APIView):
                 ('RIGHTPADDING', (0, 0), (-1, -1), 6),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
+                
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey)
             ]))
