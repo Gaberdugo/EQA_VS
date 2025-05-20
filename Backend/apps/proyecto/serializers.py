@@ -32,7 +32,14 @@ class ProyectoSerializer(serializers.ModelSerializer):
         fields = ['id', 'nombre', 'ciudades', 'ciudades_ids']
 
     def get_ciudades(self, obj):
-        return [{'id': ciudad.id, 'nombre': ciudad.nombre, 'departamento': ciudad.departamento} for ciudad in obj.ciudades.all()]
+        return [
+            {
+                'id': ciudad.id,
+                'nombre': ciudad.nombre,
+                'departamento': ciudad.departamento.nombre if ciudad.departamento else ''
+            }
+            for ciudad in obj.ciudades.all()
+        ]
 
     def create(self, validated_data):
         ciudades_ids = validated_data.pop('ciudades_ids', [])
