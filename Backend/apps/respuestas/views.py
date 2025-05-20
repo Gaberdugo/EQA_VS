@@ -2456,7 +2456,8 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
-            
+            elements.append(PageBreak())
+
             descripcion_texto = '<b>b. Niveles de desempeño</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
@@ -2652,7 +2653,8 @@ class GenerarReporte2APIIew(APIView):
             )
 
             elements.append(Spacer(1, 12))
-            elements.append(parrafo_intro) 
+            elements.append(parrafo_intro)
+            elements.append(PageBreak()) 
 
             #-----------------------------------------------------------------------------------------------------------------------
 
@@ -2699,7 +2701,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
 
-            elements.append(PageBreak())
+
             descripcion_texto = '<b>b. Niveles de desempeño</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
