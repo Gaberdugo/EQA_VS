@@ -2381,6 +2381,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(recuadro_tabla)
             elements.append(Spacer(1, 20))
+            elements.append(PageBreak())
 
             #-----------------------------------------------------------------------------------------------------------------------
 
@@ -2575,8 +2576,8 @@ class GenerarReporte2APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo3),
-                    Paragraph("Descripción", parrafo_estilo3)
+                    "Nivel",
+                    "Descripción"
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo2),
