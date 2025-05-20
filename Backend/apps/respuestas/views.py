@@ -871,7 +871,7 @@ class GenerarReporte1APIIew(APIView):
             # Crear gráfico
             plt.figure(figsize=(6, 5))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#33A652')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#A4D7B2')
 
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
@@ -902,7 +902,7 @@ class GenerarReporte1APIIew(APIView):
             img_buffer.seek(0)
 
             # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            grafico = RLImage(img_buffer, width=260, height=200)
             elements.append(Spacer(1, 12))
             elements.append(grafico)
             elements.append(Spacer(1, 20))
@@ -915,8 +915,8 @@ class GenerarReporte1APIIew(APIView):
             # Tabla descriptiva de niveles de desempeño
             niveles_data = [
                 [
-                    Paragraph("Nivel", parrafo_estilo3),
-                    Paragraph("Descripción", parrafo_estilo3)
+                    Paragraph("Nivel", parrafo_estilo2),
+                    Paragraph("Descripción", parrafo_estilo2)
                 ],
                 [
                     Paragraph("<b>Bajo<br/>(entre 1 y 4 puntos)</b>", parrafo_estilo2),
