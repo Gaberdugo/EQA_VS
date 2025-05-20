@@ -671,7 +671,7 @@ class GenerarReporte1APIIew(APIView):
             tabla_resumen = Table(resumen_data, colWidths=[130, 220])
             tabla_resumen.setStyle(TableStyle([
                 ('TEXTCOLOR', (0, 0), (0, -1), HexColor("#1B8830")),  # columna izquierda verde
-                ('TEXTCOLOR', (1, 0), (1, -1), colors.black),         # columna derecha negra
+                ('TEXTCOLOR', (1, 0), (1, -1), colors.black),        
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
                 ('FONTSIZE', (0, 0), (-1, -1), 11),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -725,7 +725,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
+            <b>Qué se evalúa:</b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
@@ -741,7 +741,7 @@ class GenerarReporte1APIIew(APIView):
             # Estilos de la tabla
             recuadro_tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
-                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  # Borde más delgado y color personalizado
+                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  
                 ('LEFTPADDING', (0, 0), (0, 0), 10),
                 ('RIGHTPADDING', (0, 0), (0, 0), 10),
                 ('TOPPADDING', (0, 0), (0, 0), 6),
@@ -800,7 +800,7 @@ class GenerarReporte1APIIew(APIView):
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
             
             tabla_datos = [
-                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Institución educativa", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ["Agregado del municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
             ]
@@ -872,7 +872,7 @@ class GenerarReporte1APIIew(APIView):
             # Crear gráfico
             plt.figure(figsize=(6, 5))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#33A652')
 
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
@@ -885,7 +885,7 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño\n')
+            plt.title()
             plt.legend()
             plt.tight_layout()
 
@@ -903,7 +903,7 @@ class GenerarReporte1APIIew(APIView):
             img_buffer.seek(0)
 
             # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=400, height=300)
+            grafico = RLImage(img_buffer, width=260, height=200)
             elements.append(Spacer(1, 12))
             elements.append(grafico)
             elements.append(Spacer(1, 20))
@@ -967,6 +967,8 @@ class GenerarReporte1APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
