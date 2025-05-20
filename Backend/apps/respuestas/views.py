@@ -2345,7 +2345,6 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Spacer(1, 12))
             elements.append(tabla_estadistica)
             elements.append(Spacer(1, 20))
-            elements.append(PageBreak())  #Inicia nueva página para la tabla
 
             #----------------------------------------------------------------------------------------------------------------------------
 
@@ -2354,7 +2353,7 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
+            <b>Qué se evalúa:</b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
@@ -2424,7 +2423,7 @@ class GenerarReporte2APIIew(APIView):
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'L')
             
             tabla_datos = [
-                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "Aplicación", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Instución educativa", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
                 ["Agregado del municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
@@ -2432,7 +2431,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 60, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -2503,7 +2502,7 @@ class GenerarReporte2APIIew(APIView):
 
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x],  t, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -2514,7 +2513,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Institución\n')
+            plt.title('Distribución por Institución\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2534,7 +2533,7 @@ class GenerarReporte2APIIew(APIView):
             # ================== GRÁFICO SALIDA ==================
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x],  c, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -2545,7 +2544,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
+            plt.title('Distribución por Municipio\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2627,6 +2626,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -2662,7 +2665,7 @@ class GenerarReporte2APIIew(APIView):
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'L')
             
             tabla_datos = [
-                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "Aplicación", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Instución educativa", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
                 ["Agregado del municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
@@ -2670,7 +2673,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 60, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -2712,7 +2715,7 @@ class GenerarReporte2APIIew(APIView):
 
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -2723,7 +2726,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Institución\n')
+            plt.title('Distribución por Institución\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2743,7 +2746,7 @@ class GenerarReporte2APIIew(APIView):
             # ================== GRÁFICO CIUDAD ==================
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], c, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -2754,7 +2757,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=8)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
+            plt.title('Distribución por Municipio\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2834,6 +2837,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+                
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -2865,15 +2872,15 @@ class GenerarReporte2APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
+            <b>Qué se evalúa:</b><br/><br/>
             Las pruebas de Matemáticas evalúan las habilidades de los estudiantes de tercero y quinto grados para plantear y resolver 
             diferentes tipos de problemas matemáticos teniendo en cuenta las siguientes competencias y componentes, establecidos en los 
             estándares básicos de competencias del Ministerio de Educación Nacional:.<br/><br/>
-            <b><font color='#1B8830'>Competencias:</font></b><br/><br/>
-            • <b><font color='#1B8830'>Comunicación, modelación y representación:</font></b>implica comprender cómo se presenta una información matemática y elaborar representaciones que permitan hacer comprensible dicha información a otros.<br/>
-            • <b><font color='#1B8830'>Planteamiento y resolución de problemas:</font></b>implica comprender la utilidad del conocimiento disponible.<br/>
-            • <b><font color='#1B8830'>Razonamiento y argumentación:</font></b>implica hacer una valoración sobre la adecuación de unos pasos realizados o para establecer la veracidad de lo que se afirma, entre otros.<br/><br/>
-            <b><font color='#1B8830'>Componentes:</font></b><br/><br/>
+            <b>Competencias:</b><br/><br/>
+            • <b>Comunicación, modelación y representación:</b>implica comprender cómo se presenta una información matemática y elaborar representaciones que permitan hacer comprensible dicha información a otros.<br/>
+            • <b>Planteamiento y resolución de problemas:</b>implica comprender la utilidad del conocimiento disponible.<br/>
+            • <b>Razonamiento y argumentación:</b>implica hacer una valoración sobre la adecuación de unos pasos realizados o para establecer la veracidad de lo que se afirma, entre otros.<br/><br/>
+            <b>Componentes:</b><br/><br/>
             • Númerico - variacional<br/>
             • Espacial - métrico<br/>
             • Aleatorio<br/><br/>
@@ -2908,7 +2915,7 @@ class GenerarReporte2APIIew(APIView):
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 3, 'M')
             
             tabla_datos = [
-                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "Aplicación", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Instución educativa", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
                 ["Agregado del municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
@@ -2916,7 +2923,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 60, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -2959,7 +2966,7 @@ class GenerarReporte2APIIew(APIView):
 
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -2970,7 +2977,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Institución\n')
+            plt.title('Distribución por Institución\n')
             plt.legend()
             plt.tight_layout()
 
@@ -2990,7 +2997,7 @@ class GenerarReporte2APIIew(APIView):
             # ================== GRÁFICO CIUDAD ==================
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], c, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -3001,7 +3008,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{c2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
+            plt.title('Distribución por Municipio\n')
             plt.legend()
             plt.tight_layout()
 
@@ -3080,6 +3087,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -3114,7 +3125,7 @@ class GenerarReporte2APIIew(APIView):
             c2 = self.tabla(1, ciudad, 'salida',proyecto, 5, 'M')
             
             tabla_datos = [
-                ["", "Aplicación", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "Aplicación", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Instución educativa", "Entrada",t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ['', "Salida",t2[0], self.comma_dot(t2[1]), self.comma_dot(t2[2]), t2[3], t2[4]],  # Fila 2
                 ["Agregado del municipio", "Entrada",c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 3
@@ -3122,7 +3133,7 @@ class GenerarReporte2APIIew(APIView):
             ]
 
             # Crear la tabla
-            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 50, 70, 50, 50])
+            tabla_estadistica = Table(tabla_datos, colWidths=[130, 70, 60, 70, 50, 50])
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados
@@ -3165,7 +3176,7 @@ class GenerarReporte2APIIew(APIView):
 
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], t2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -3176,7 +3187,7 @@ class GenerarReporte2APIIew(APIView):
                 plt.text(bar.get_x() + bar.get_width() / 2, height + 1, f'{t2[i]}%', ha='center', va='bottom', fontsize=10)
 
             plt.xticks(x, niveles)
-            plt.title('Distribución por Niveles de Desempeño - Institución\n')
+            plt.title('Distribución por Institución\n')
             plt.legend()
             plt.tight_layout()
 
@@ -3196,7 +3207,7 @@ class GenerarReporte2APIIew(APIView):
             # ================== GRÁFICO SALIDA ==================
             plt.figure(figsize=(5, 4))
             bars1 = plt.bar([i - bar_width/2 for i in x], c, width=bar_width, label='Entrada', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#6FBF73')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c2, width=bar_width, label='Salida', color='#A4D7B2')
 
             for i, bar in enumerate(bars1):
                 height = bar.get_height()
@@ -3208,7 +3219,7 @@ class GenerarReporte2APIIew(APIView):
 
             plt.xticks(x, niveles)
             plt.ylabel('')
-            plt.title('Distribución por Niveles de Desempeño - Ciudad\n')
+            plt.title('Distribución por Municipio\n')
             plt.legend()
             plt.tight_layout()
 
@@ -3298,6 +3309,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -3333,8 +3348,8 @@ class GenerarReporte2APIIew(APIView):
             )
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado</font>",
-                parrafo_estilo2
+                "Anexo 1. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, tercer grado",
+                descripcion_izq_style
             )
 
             elements.append(Spacer(1, 5))
@@ -3402,6 +3417,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -3412,8 +3431,6 @@ class GenerarReporte2APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
@@ -3422,8 +3439,8 @@ class GenerarReporte2APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado</font>",
-                parrafo_estilo2
+                "Anexo 2. Descripción detallada de los niveles de desempeño en la prueba de Lenguaje, quinto grado",
+                descripcion_izq_style
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -3485,6 +3502,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -3495,8 +3516,6 @@ class GenerarReporte2APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
@@ -3505,8 +3524,8 @@ class GenerarReporte2APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado</font>",
-                parrafo_estilo2
+                "Anexo 3. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, tercer grado",
+                descripcion_izq_style
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -3561,6 +3580,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -3571,8 +3594,6 @@ class GenerarReporte2APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
@@ -3581,8 +3602,8 @@ class GenerarReporte2APIIew(APIView):
 
 
             parrafo_anexo = Paragraph(
-                "<font color='#1B8830'>Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado</font>",
-                parrafo_estilo2
+                "Anexo 4. Descripción detallada de los niveles de desempeño en la prueba de Matemáticas, quinto grado",
+                descripcion_izq_style
             )
             elements.append(PageBreak())
             elements.append(Spacer(1, 10))
@@ -3645,6 +3666,10 @@ class GenerarReporte2APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
+                # Fondo verde para la primera fila
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1B8830')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto blanco en la fila verde
+
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
@@ -3655,8 +3680,6 @@ class GenerarReporte2APIIew(APIView):
                 ('TOPPADDING', (0, 0), (-1, -1), 6),
                 ('LINEBELOW', (0, 0), (-1, -2), 0.25, colors.grey),
                 ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor('#33A652')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ]))
 
