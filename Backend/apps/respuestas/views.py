@@ -671,7 +671,7 @@ class GenerarReporte1APIIew(APIView):
             tabla_resumen = Table(resumen_data, colWidths=[130, 220])
             tabla_resumen.setStyle(TableStyle([
                 ('TEXTCOLOR', (0, 0), (0, -1), HexColor("#1B8830")),  # columna izquierda verde
-                ('TEXTCOLOR', (1, 0), (1, -1), colors.black),        
+                ('TEXTCOLOR', (1, 0), (1, -1), colors.black),         # columna derecha negra
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
                 ('FONTSIZE', (0, 0), (-1, -1), 11),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -741,7 +741,7 @@ class GenerarReporte1APIIew(APIView):
             # Estilos de la tabla
             recuadro_tabla.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (0, 0), colors.HexColor("#A4D7B2")),
-                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  
+                ('BOX', (0, 0), (0, 0), 0.5, colors.HexColor("#1B8830")),  # Borde más delgado y color personalizado
                 ('LEFTPADDING', (0, 0), (0, 0), 10),
                 ('RIGHTPADDING', (0, 0), (0, 0), 10),
                 ('TOPPADDING', (0, 0), (0, 0), 6),
@@ -885,7 +885,6 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
-            plt.title()
             plt.legend()
             plt.tight_layout()
 
@@ -903,7 +902,7 @@ class GenerarReporte1APIIew(APIView):
             img_buffer.seek(0)
 
             # Insertar imagen en el PDF (usando ReportLab Image)
-            grafico = RLImage(img_buffer, width=260, height=200)
+            grafico = RLImage(img_buffer, width=400, height=300)
             elements.append(Spacer(1, 12))
             elements.append(grafico)
             elements.append(Spacer(1, 20))
@@ -967,8 +966,6 @@ class GenerarReporte1APIIew(APIView):
 
             tabla_niveles = Table(niveles_data, colWidths=[80, 400])
             tabla_niveles.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),  # Fondo verde para encabezados
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),          # Texto blanco en encabezados 
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
