@@ -704,7 +704,6 @@ class GenerarReporte1APIIew(APIView):
             tabla_estadistica.setStyle(TableStyle([
                 ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1B8830")),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-
                 ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                 ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
                 ('FONTSIZE', (0, 0), (-1, -1), 10),
@@ -725,7 +724,7 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
             contenido = """
-            <b>Qué se evalúa:</b><br/><br/>
+            <b><font color='#1B8830'>Qué se evalúa:</font></b><br/><br/>
             Las pruebas de Lenguaje evalúan las habilidades de los estudiantes de tercero y quinto grados para interpretar y comprender diversos tipos y formatos de textos orientados a diferentes propósitos.<br/><br/>
             Los tipos de textos evaluados son los siguientes: narrativos, descriptivos, dialogales, explicativos y argumentativos.<br/><br/>
             Los formatos de textos evaluados son los siguientes: continuos (organizados en forma de párrafos) y discontinuos (organizados de manera gráfica y no lineal).<br/><br/>
@@ -800,7 +799,7 @@ class GenerarReporte1APIIew(APIView):
             c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
             
             tabla_datos = [
-                ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
+                ["", "# evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
                 ["Institución educativa", t[0], self.comma_dot(t[1]), self.comma_dot(t[2]), t[3], t[4]],  # Fila 1
                 ["Agregado del municipio", c[0], self.comma_dot(c[1]), self.comma_dot(c[2]), c[3], c[4]],  # Fila 2 
             ]
@@ -872,7 +871,7 @@ class GenerarReporte1APIIew(APIView):
             # Crear gráfico
             plt.figure(figsize=(6, 5))
             bars1 = plt.bar([i - bar_width/2 for i in x], t, width=bar_width, label='Institución', color='#1B8830')
-            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#33A652')
+            bars2 = plt.bar([i + bar_width/2 for i in x], c, width=bar_width, label='Ciudad', color='#6FBF73')
 
             # Agregar etiquetas encima de las barras
             for i, bar in enumerate(bars1):
@@ -885,6 +884,7 @@ class GenerarReporte1APIIew(APIView):
 
             # Ajustes del gráfico
             plt.xticks(x, niveles)
+            plt.title('Distribución por Niveles de Desempeño\n')
             plt.legend()
             plt.tight_layout()
 
