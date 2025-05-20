@@ -1,12 +1,8 @@
-import Layout4 from "hocs/Layouts/Layout4";
+import Layout3 from "hocs/Layouts/Layout4";
 import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import { getProyectos, postProyecto } from 'redux/actions/info/info';
 import axios from "axios";
 
-function ValForm({ 
-  getProyectos, proyectos, loading, error, postProyecto 
-}) {
+function ValForm() {
   const [formData, setFormData] = useState({
     responsable: '',
     nombreProyecto: '',
@@ -20,75 +16,57 @@ function ValForm({
     nombreEstudiante: '',
     tiEstudiante: '',
     grado: '',
-    genero: '', 
+    genero: '',
     edad: '',
     fecha_carge: '',
-    respuestas: Array(20).fill(''), // Respuestas independientes
+    respuestas: Array(20).fill(''),
   });
 
-  const [ciudades, setCiudades] = useState([]);  // Estado para almacenar las ciudades
-  const [cuadernillos, setCuadernillos] = useState([]); // Estado para almacenar los cuadernillos
-  const [mensajeExito, setMensajeExito] = useState(''); // Estado para mostrar mensaje de éxito
+  const [proyectos, setProyectos] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
+  const [cuadernillos, setCuadernillos] = useState([]);
+  const [mensajeExito, setMensajeExito] = useState('');
 
-  // Llamada para obtener proyectos cuando se monta el componente
   useEffect(() => {
-    getProyectos(); // Llamamos a la acción para obtener los proyectos de la API
-
-    // Verificamos si hay proyectos en localStorage y si es así, actualizamos el estado
-    const info = localStorage.getItem('proyectos');
-    const proyectos = info ? JSON.parse(info) : [];
-
-    if (proyectos.length > 0 && !formData.nombreProyecto) {
-      // Si hay proyectos y el nombre del proyecto aún no se ha seleccionado
-      setFormData(prevState => ({
-        ...prevState,
-        nombreProyecto: '',  // Asegúrate de que el valor inicial sea vacío para mostrar la opción predeterminada
-      }));
-    }
-
-    // Llamada para obtener cuadernillos
-    const fetchCuadernillos = async () => {
+    const fetchProyectos = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/cuader/`); // Endpoint para los cuadernillos
-        console.log("Datos recibidos:", response.data);
-        const data = Array.isArray(response.data) ? response.data : []; // Asegúrate de que sea un arreglo
-        setCuadernillos(data); // Guardar los nombres de cuadernillos
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/proyecto/`);
+        setProyectos(res.data);
       } catch (error) {
-        console.error("Error al obtener los cuadernillos:", error);
-        setCuadernillos([]); // Asegúrate de manejar errores
+        console.error("Error al cargar proyectos:", error);
       }
     };
 
-    fetchCuadernillos();
-  }, [getProyectos]);
+    const fetchCuadernillos = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/res/cuader/`);
+        const data = Array.isArray(response.data) ? response.data : [];
+        setCuadernillos(data);
+      } catch (error) {
+        console.error("Error al obtener los cuadernillos:", error);
+        setCuadernillos([]);
+      }
+    };
 
-  function formatDateToSQL(isoString) {
-    const date = new Date(isoString);
-  
-    // Obtenemos los componentes de la fecha
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses son de 0 a 11
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-  
-    // Construimos el formato deseado
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  }
-  // Este useEffect se activa cuando el nombre del proyecto cambia
+    fetchProyectos();
+    fetchCuadernillos();
+  }, []);
+
   useEffect(() => {
     if (formData.nombreProyecto) {
-      // Buscar el proyecto seleccionado
-      const proyectoSeleccionado = proyectos.find(proyecto => proyecto.nombre === formData.nombreProyecto);
-
+      const proyectoSeleccionado = proyectos.find(p => p.nombre === formData.nombreProyecto);
       if (proyectoSeleccionado) {
-        setCiudades(proyectoSeleccionado.ciudades); // Actualizamos las ciudades con las del proyecto
+        setCiudades(proyectoSeleccionado.ciudades);
       }
     } else {
-      setCiudades([]);  // Si no hay proyecto seleccionado, limpiamos las ciudades
+      setCiudades([]);
     }
   }, [formData.nombreProyecto, proyectos]);
+
+  const formatDateToSQL = (isoString) => {
+    const date = new Date(isoString);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+  };
 
   const isFormComplete = () => {
     const fields = [
@@ -96,70 +74,45 @@ function ValForm({
       'apli', 'prueba', 'nombreInstitucion', 'numeroCuadernillo',
       'nombreEstudiante', 'grado', 'genero'
     ];
-
-    // Verificar que todos los campos de texto estén llenos
     for (let field of fields) {
       if (!formData[field]) return false;
     }
-
-    // Verificar que todas las respuestas estén seleccionadas
     for (let respuesta of formData.respuestas) {
       if (!respuesta) return false;
     }
-
     return true;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Si el nombre del campo es uno de los select de respuestas (respuesta0, respuesta1, etc.)
     if (name.startsWith('respuesta')) {
-      const index = parseInt(name.replace('respuesta', ''), 10);  // Extraemos el índice de la respuesta (ej. respuesta0 -> 0)
-
-      // Actualizamos solo el campo de respuestas
-      setFormData(prevState => {
-        const newRespuestas = [...prevState.respuestas];  // Copiamos el array de respuestas
-        newRespuestas[index] = value;  // Actualizamos la respuesta correspondiente en el índice
-        return { ...prevState, respuestas: newRespuestas };  // Retornamos el nuevo estado con las respuestas actualizadas
+      const index = parseInt(name.replace('respuesta', ''), 10);
+      setFormData(prev => {
+        const newRespuestas = [...prev.respuestas];
+        newRespuestas[index] = value;
+        return { ...prev, respuestas: newRespuestas };
       });
     } else {
-      // Para los demás campos, como ciudad, departamento, etc.
-      setFormData(prevState => {
-        const newFormData = {
-          ...prevState,
-          [name]: value,  // Actualizamos el valor del campo correspondiente
-        };
-
-        // Si se selecciona una ciudad, actualizamos el departamento
+      setFormData(prev => {
+        const updated = { ...prev, [name]: value };
         if (name === 'ciudad') {
-          const ciudadSeleccionada = ciudades.find(ciudad => ciudad.nombreProyecto === value);
-          // Asignamos el departamento de la ciudad seleccionada
-          newFormData.departamento = ciudadSeleccionada ? ciudadSeleccionada.departamento : '';
+          const ciudadSeleccionada = ciudades.find(c => c.nombre === value);
+          updated.departamento = ciudadSeleccionada ? ciudadSeleccionada.departamento : '';
         }
-
-        return newFormData;
+        return updated;
       });
     }
   };
 
-  // Manejador de envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const isoDate = new Date();
-    const formattedDate = formatDateToSQL(isoDate);
-
-    console.log(formattedDate);
-
-    // Crear un objeto para almacenar las respuestas transformadas
+    const formattedDate = formatDateToSQL(new Date());
     const respuestasObj = {};
-    formData.respuestas.forEach((respuesta, index) => {
-      respuestasObj[`respuesta_${index + 1}`] = respuesta;
+    formData.respuestas.forEach((r, i) => {
+      respuestasObj[`respuesta_${i + 1}`] = r;
     });
 
     const correo = localStorage.getItem('correo');
-    // Crear un objeto con todos los datos del formulario, incluyendo las respuestas
     formData.tiEstudiante = Math.floor(Math.random() * 10_000_000_001).toString();
 
     const proyectoData = {
@@ -181,38 +134,28 @@ function ValForm({
       ...respuestasObj,
     };
 
-    // Enviar los datos al backend
-    postProyecto(proyectoData)
-      .then(response => {
-        setMensajeExito('La información fue cargada correctamente.');
-        setTimeout(() => {
-          // Reiniciar campos específicos
-          setFormData(prevState => ({
-            ...prevState,
-            numeroCuadernillo: '',
-            nombreEstudiante: '',
-            tiEstudiante: '',
-            grado: '',
-            genero: '',  // Reiniciar 'genero'
-            edad: '',
-            respuestas: Array(20).fill(''), // Reiniciar las respuestas
-          }));
-          // Limpiar el mensaje de éxito después de 3 segundos
-          setMensajeExito('');
-        }, 2000);
-      })
-      .catch(error => {
-        if (error.response) {
-          // Error del backend
-          alert(`Error al cargar la encuesta: ${error.response.data.error}`);
-        } else {
-          // Error en la red o no respuesta
-          alert('Error de conexión o servidor');
-        }
-      });
-};
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/info/proyectos/`, proyectoData);
+      setMensajeExito('La información fue cargada correctamente.');
+      setTimeout(() => {
+        setFormData(prev => ({
+          ...prev,
+          numeroCuadernillo: '',
+          nombreEstudiante: '',
+          tiEstudiante: '',
+          grado: '',
+          genero: '',
+          edad: '',
+          respuestas: Array(20).fill(''),
+        }));
+        setMensajeExito('');
+      }, 2000);
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      alert('Error al cargar la encuesta. Intente nuevamente.');
+    }
+  };
 
-  // Estilos del botón
   const buttonStyle = {
     width: '100%',
     padding: '10px',
@@ -221,13 +164,13 @@ function ValForm({
     border: 'none',
     borderRadius: '4px',
     fontSize: '16px',
-    cursor: isFormComplete() ? 'pointer' : 'not-allowed',  // Cambiar el cursor según la validez del formulario
-    transition: 'background-color 0.3s',  // Añadir transición para suavizar el cambio de color
+    cursor: isFormComplete() ? 'pointer' : 'not-allowed',
+    transition: 'background-color 0.3s',
   };
 
   const formContainerStyle = {
-    maxHeight: '100vh', // Define la altura máxima de la ventana visible
-    overflowY: 'auto', // Habilita el scroll vertical
+    maxHeight: '100vh',
+    overflowY: 'auto',
     padding: '15px',
     backgroundColor: '#A4D7B2',
     borderRadius: '8px',
@@ -237,93 +180,47 @@ function ValForm({
     <Layout4>
       <form onSubmit={handleSubmit} style={formContainerStyle}>
         <h1 style={{ color: '#666666' }}>Cargue Prueba EQA</h1>
-
-        {/* Si el formulario fue enviado correctamente, mostrar el mensaje de éxito */}
         {mensajeExito && (
           <div style={{ color: 'green', marginBottom: '15px' }}>
             <strong>{mensajeExito}</strong>
           </div>
         )}
 
+        {/* Sección Proyecto y Fecha */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <select
-            name="nombreProyecto"
-            value={formData.nombreProyecto}
-            onChange={handleChange}
-            style={{ flex: '1', marginRight: '10px' }}
-          >
+          <select name="nombreProyecto" value={formData.nombreProyecto} onChange={handleChange} style={{ flex: '1', marginRight: '10px' }}>
             <option value="">Seleccione un proyecto</option>
-            {proyectos.length > 0 && proyectos.map(proyecto => (
-              <option key={proyecto.id} value={proyecto.nombre}>
-                {proyecto.nombre}
-              </option>
-            ))}
+            {proyectos.map(p => <option key={p.id} value={p.nombre}>{p.nombre}</option>)}
           </select>
 
-          <input
-            type="date"
-            name="fechaAplicacion"
-            value={formData.fechaAplicacion}
-            onChange={handleChange}
-            onInput={(e) => {
-              const input = e.target.value;
-              const year = input.split("-")[0]; // Extrae el año
-              if (year.length > 4) {
-                e.target.value = input.slice(0, 4) + input.slice(5); // Limita el año a 4 caracteres
-              }
-            }}
-            style={{ flex: '1' }}
-          />
+          <input type="date" name="fechaAplicacion" value={formData.fechaAplicacion} onChange={handleChange} style={{ flex: '1' }} />
         </div>
 
+        {/* Ciudad y Departamento */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <select
-            name="ciudad"
-            value={formData.ciudad}
-            onChange={handleChange}
-            style={{ flex: '1', marginRight: '10px' }}
-            disabled={ciudades.length === 0}
-          >
+          <select name="ciudad" value={formData.ciudad} onChange={handleChange} disabled={!ciudades.length} style={{ flex: '1', marginRight: '10px' }}>
             <option value="">Seleccione una ciudad</option>
-            {ciudades.length > 0 && ciudades.map((ciudad, index) => (
-              <option key={index} value={ciudad.nombreProyecto}> {/* Cambié 'nombre' por 'nombreProyecto' */}
-                {ciudad.nombreProyecto}
-              </option>
+            {ciudades.map((c, i) => (
+              <option key={i} value={c.nombre}>{c.nombre}</option>
             ))}
           </select>
 
-          <input
-            type="text"
-            placeholder="Departamento"
-            name="departamento"
-            value={formData.departamento}
-            readOnly
-            style={{ flex: '1', marginRight: '10px' }}
-          />
+          <input type="text" name="departamento" placeholder="Departamento" value={formData.departamento} readOnly style={{ flex: '1' }} />
         </div>
 
+        {/* Aplicación y Prueba */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
           <label style={{ marginRight: '10px', flex: '1' }}>
             Aplicación:
-            <select
-              name="apli"
-              value={formData.apli}
-              onChange={handleChange}
-              style={{ marginLeft: '5px', width: '100%' }}
-            >
+            <select name="apli" value={formData.apli} onChange={handleChange} style={{ width: '100%' }}>
               <option value="">Seleccione</option>
               <option value="entrada">Entrada</option>
               <option value="salida">Salida</option>
             </select>
           </label>
-          <label style={{ marginRight: '10px', flex: '1' }}>
+          <label style={{ flex: '1' }}>
             Prueba:
-            <select
-              name="prueba"
-              value={formData.prueba}
-              onChange={handleChange}
-              style={{ marginLeft: '5px', width: '100%' }}
-            >
+            <select name="prueba" value={formData.prueba} onChange={handleChange} style={{ width: '100%' }}>
               <option value="">Seleccione</option>
               <option value="Matemáticas">Matemáticas</option>
               <option value="Lenguaje">Lenguaje</option>
@@ -331,119 +228,66 @@ function ValForm({
           </label>
         </div>
 
+        {/* Institución y Cuadernillo */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <input
-            type="text"
-            placeholder="Nombre Institución Educativa"
-            name="nombreInstitucion"
-            value={formData.nombreInstitucion}
-            onChange={handleChange}
-            style={{ flex: '1', marginRight: '10px' }}
-          />
-          <select
-            name="numeroCuadernillo"
-            value={formData.numeroCuadernillo}
-            onChange={handleChange}
-            style={{ flex: '1' }}
-          >
+          <input type="text" placeholder="Nombre Institución Educativa" name="nombreInstitucion" value={formData.nombreInstitucion} onChange={handleChange} style={{ flex: '1', marginRight: '10px' }} />
+          <select name="numeroCuadernillo" value={formData.numeroCuadernillo} onChange={handleChange} style={{ flex: '1' }}>
             <option value="">Seleccione un cuadernillo</option>
-            {cuadernillos.map((nombre, index) => (
-              <option key={index} value={nombre}>
-                {nombre}
-              </option>
-            ))}
+            {cuadernillos.map((c, i) => <option key={i} value={c}>{c}</option>)}
           </select>
         </div>
 
+        {/* Estudiante */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <input
-            type="text"
-            placeholder="Nombre del Estudiante"
-            name="nombreEstudiante"
-            value={formData.nombreEstudiante}
-            onChange={handleChange}
-            style={{ flex: '1', marginRight: '10px' }}
-          /> 
-          <input
-            type="text"
-            placeholder="Documento del Estudiante"
-            name="tiEstudiante"
-            value={formData.tiEstudiante}
-            onChange={handleChange}
-            style={{ flex: '1' }}
-          />
+          <input type="text" placeholder="Nombre del Estudiante" name="nombreEstudiante" value={formData.nombreEstudiante} onChange={handleChange} style={{ flex: '1', marginRight: '10px' }} />
+          <input type="text" placeholder="Documento del Estudiante" name="tiEstudiante" value={formData.tiEstudiante} onChange={handleChange} style={{ flex: '1' }} />
         </div>
+
+        {/* Grado, Género, Edad */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <label style={{ marginRight: '10px', flex: '1' }}>
+          <label style={{ flex: '1', marginRight: '10px' }}>
             Grado:
-            <select
-              name="grado"
-              value={formData.grado}
-              onChange={handleChange}
-              style={{ marginLeft: '5px', width: '100%' }}
-            >
+            <select name="grado" value={formData.grado} onChange={handleChange} style={{ width: '100%' }}>
               <option value="">Seleccione</option>
               <option value="Tercero">Tercero</option>
               <option value="Quinto">Quinto</option>
             </select>
           </label>
-          <label style={{ marginRight: '10px', flex: '1' }}>
+          <label style={{ flex: '1', marginRight: '10px' }}>
             Género:
-            <select
-              name="genero"
-              value={formData.genero}  
-              onChange={handleChange}
-              style={{ marginLeft: '5px', width: '100%' }}
-            >
+            <select name="genero" value={formData.genero} onChange={handleChange} style={{ width: '100%' }}>
               <option value="">Seleccione</option>
               <option value="Masculino">Masculino</option>
               <option value="Femenino">Femenino</option>
               <option value="No responde">No responde</option>
             </select>
           </label>
-          <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <label style={{ flex: '1' }}>
             Fecha de nacimiento:
-            <input
-              type="date"
-              name="edad"
-              value={formData.edad}
-              onChange={handleChange}
-              onInput={(e) => {
-                const input = e.target.value;
-                const year = input.split("-")[0]; // Extrae el año
-                if (year.length > 4) {
-                  e.target.value = input.slice(0, 4) + input.slice(5); // Limita el año a 4 caracteres
-                }
-              }}
-              style={{ flex: '1' }}
-            />
+            <input type="date" name="edad" value={formData.edad} onChange={handleChange} style={{ width: '100%' }} />
           </label>
         </div>
 
+        {/* Tabla de Respuestas */}
         <h2 style={{ color: '#B3B3B3' }}>Respuestas</h2>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <tbody>
             {Array.from({ length: 5 }, (_, rowIndex) => (
               <tr key={rowIndex}>
                 {Array.from({ length: 4 }, (_, colIndex) => {
-                  const index = rowIndex * 4 + colIndex; // Calcular el índice de la respuesta
+                  const index = rowIndex * 4 + colIndex;
                   return (
                     <td key={colIndex} style={{ padding: '5px', border: '1px solid #ccc' }}>
                       <label>
                         Respuesta {index + 1}:
-                        <select
-                          name={`respuesta${index}`}
-                          value={formData.respuestas[index]}
-                          onChange={handleChange}
-                          style={{ width: '100%' }}
-                        >
+                        <select name={`respuesta${index}`} value={formData.respuestas[index]} onChange={handleChange} style={{ width: '100%' }}>
                           <option value="">Seleccione</option>
-                          <option value="A" translate="no">A</option>
-                          <option value="B" translate="no">B</option>
-                          <option value="C" translate="no">C</option>
-                          <option value="D" translate="no">D</option>
-                          <option value="Blanco" translate="no">Blanco</option>
-                          <option value="Multi Marca" translate="no">Multi Marca</option>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                          <option value="C">C</option>
+                          <option value="D">D</option>
+                          <option value="Blanco">Blanco</option>
+                          <option value="Multi Marca">Multi Marca</option>
                         </select>
                       </label>
                     </td>
@@ -454,11 +298,7 @@ function ValForm({
           </tbody>
         </table>
 
-        <button
-          type="submit"
-          style={buttonStyle}
-          disabled={!isFormComplete()} // Deshabilitar si el formulario no está completo
-        >
+        <button type="submit" style={buttonStyle} disabled={!isFormComplete()}>
           Enviar
         </button>
 
@@ -470,15 +310,4 @@ function ValForm({
   );
 }
 
-const mapStateToProps = (state) => ({
-  proyectos: state.proyectos.data || [],  // Asegúrate de que proyectos nunca sea undefined
-  loading: state.proyectos.loading,
-  error: state.proyectos.error,
-});
-
-const mapDispatchToProps = {
-  getProyectos,
-  postProyecto    
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ValForm);
+export default ValForm;
