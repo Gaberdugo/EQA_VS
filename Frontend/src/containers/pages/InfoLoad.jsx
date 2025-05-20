@@ -96,7 +96,7 @@ function InfoLoad() {
       setFormData(prev => {
         const updated = { ...prev, [name]: value };
         if (name === 'ciudad') {
-          const ciudadSeleccionada = ciudades.find(c => c.nombreProyecto === value);
+          const ciudadSeleccionada = ciudades.find(c => c.nombre === value);
           updated.departamento = ciudadSeleccionada ? ciudadSeleccionada.departamento : '';
         }
         return updated;
@@ -201,7 +201,7 @@ function InfoLoad() {
           <select name="ciudad" value={formData.ciudad} onChange={handleChange} disabled={!ciudades.length} style={{ flex: '1', marginRight: '10px' }}>
             <option value="">Seleccione una ciudad</option>
             {ciudades.map((c, i) => (
-              <option key={i} value={c.nombreProyecto}>{c.nombreProyecto}</option>
+              <option key={i} value={c.nombre}>{c.nombre}</option>
             ))}
           </select>
 
