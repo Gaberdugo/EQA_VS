@@ -217,7 +217,7 @@ function InfoLoad() {
             {proyectos.map(p => <option key={p.id} value={p.nombre}>{p.nombre}</option>)}
           </select>
 
-          <input type="date" name="fechaAplicacion" value={formData.fechaAplicacion} onChange={handleChange} style={{ flex: '1' }} />
+          <input type="date" name="fechaAplicacion" value={formData.fechaAplicacion} onChange={handleChange} style={{ flex: '1' }} min="1900-01-01" max="2099-12-31"/>
         </div>
 
         {/* Ciudad y Departamento */}
@@ -293,7 +293,7 @@ function InfoLoad() {
           </label>
           <label style={{ flex: '1' }}>
             Fecha de nacimiento:
-            <input type="date" name="edad" value={formData.edad} onChange={handleChange} style={{ width: '100%' }} />
+            <input type="date" name="edad" value={formData.edad} onChange={handleChange} style={{ width: '100%' }} min="1900-01-01" max="2099-12-31"/>
           </label>
         </div>
 
