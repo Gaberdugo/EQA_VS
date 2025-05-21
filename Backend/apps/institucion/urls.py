@@ -4,5 +4,5 @@ urlpatterns = [
     path('institutos/', CrearInstitucionAPIView.as_view(), name='crear_instituto'),
     path('dane/', ObtenerDANEAPIView.as_view(), name='obtener_dane'),
     path('municipio/', InstitucionesPorMunicipioAPIView.as_view(), name='instituciones_por_municipio'),
-    path('instiExcel/', InstitucionesExcelAPIView.as_view(), name='excel_instituciones'),   
+    path('instiexcel/', InstitucionesExcelAPIView.as_view(), name='excel_instituciones'),   
 ]
