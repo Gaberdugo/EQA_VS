@@ -49,6 +49,10 @@ class InstitucionesExcelAPIView(APIView):
     def get(self, request):
         
         instituciones = Instituto.objects.all()
+
+        # Si no hay encuestas para el proyecto proporcionado
+        if not instituciones:
+            return Response({"error": "No se encontraron encuestas para el proyecto proporcionado."}, status=404)
         
         data = []
         for instituto in instituciones:
