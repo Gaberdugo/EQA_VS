@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Instituto
-from .serializers import InstitutoSerializer
+from .serializers import InstitutoSerializer, InstitutoNombreSerializer
 from rest_framework.permissions import AllowAny
 
 class CrearInstitucionAPIView(APIView):
@@ -31,3 +31,15 @@ class ObtenerDANEAPIView(APIView):
             return Response({"DANE": institucion.DANE}, status=status.HTTP_200_OK)
         else:
             return Response({"DANE": 9999}, status=status.HTTP_200_OK)
+
+class InstitucionesPorMunicipioAPIView(APIView):
+    def get(self, request):
+        municipio = request.GET.get('municipio')
+
+        if not municipio:
+            return Response({"error": "El parámetro 'municipio' es requerido."}, status=status.HTTP_400_BAD_REQUEST)
+
+        instituciones = Instituto.objects.filter(municipio=municipio)
+        serializer = InstitutoNombreSerializer(instituciones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+

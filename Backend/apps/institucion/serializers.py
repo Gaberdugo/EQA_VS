@@ -5,3 +5,8 @@ class InstitutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instituto
         fields = ['id', 'nombre', 'municipio', 'departamento', 'DANE', 'terpel']  # Especificamos los campos que queremos incluir en el serializer
+
+class InstitutoNombreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Instituto
+        fields = ['id', 'nombre']
