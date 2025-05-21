@@ -46,7 +46,7 @@ class InstitucionesPorMunicipioAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class InstitucionesExcelAPIView(APIView):
-    def get(self):
+    def get(self, request):
         
         instituciones = Instituto.objects.all()
         
