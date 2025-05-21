@@ -9,4 +9,4 @@ class InstitutoSerializer(serializers.ModelSerializer):
 class InstitutoNombreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instituto
-        fields = ['id', 'nombre']
+        fields = ['nombre']
