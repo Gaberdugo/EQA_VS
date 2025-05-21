@@ -8,6 +8,8 @@ from .models import Instituto
 from .serializers import InstitutoSerializer, InstitutoNombreSerializer
 from rest_framework.permissions import AllowAny
 
+import pandas as pd
+
 class CrearInstitucionAPIView(APIView):
     permission_classes = [AllowAny]
     
@@ -43,3 +45,32 @@ class InstitucionesPorMunicipioAPIView(APIView):
         serializer = InstitutoNombreSerializer(instituciones, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class InstitucionesExcelAPIView(APIView):
+    def get(self):
+        
+        instituciones = Instituto.objects.all()
+        
+        data = []
+        for instituto in instituciones:
+            try:
+                data.append({
+                        'Instituto' : instituto.nombre,
+                        'Municipio' : instituto.municipio,
+                        'Departamento' : instituto.departamento,
+                        'DANE' : instituto.DANE
+                })
+            except :
+                pass
+
+        # Crear un DataFrame de pandas con los datos
+        df = pd.DataFrame(data)
+
+        # Crear la respuesta HTTP para descargar el archivo Excel
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=institutos.xlsx'
+
+        # Escribir el DataFrame a un archivo Excel en la respuesta
+        with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
+            df.to_excel(writer, index=False)
+
+        return response
