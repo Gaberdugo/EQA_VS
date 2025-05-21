@@ -61,7 +61,7 @@ class InstitucionesExcelAPIView(APIView):
                         'Instituto' : instituto.nombre,
                         'Municipio' : instituto.municipio,
                         'Departamento' : instituto.departamento,
-                        'DANE' : instituto.DANE
+                        'DANE' : str(instituto.DANE)
                 })
             except :
                 pass
