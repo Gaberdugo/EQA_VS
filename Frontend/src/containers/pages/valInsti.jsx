@@ -12,6 +12,10 @@ function ValInsti() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const handleDownloadExcel = () => {
+        window.open(`${process.env.REACT_APP_API_URL}/ins/instiexcel/`, '_blank');
+    };    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -98,6 +102,11 @@ function ValInsti() {
 
                 {mensaje && <p style={styles.success}>{mensaje}</p>}
                 {error && <p style={styles.error}>{error}</p>}
+            
+                <button onClick={handleDownloadExcel} style={{ ...styles.button, marginTop: '20px' }}>
+                    Descargar Excel de Instituciones
+                </button>
+
             </div>
         </Layout4>
     );
