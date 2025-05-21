@@ -106,6 +106,7 @@ class EncuestaView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class EncuestaExportView(APIView):
+    permission_classes = [AllowAny]  # Permitir acceso sin autenticación
     def get(self, request):
         # Obtener el nombre del proyecto desde los parámetros de la URL
         nombre_proyecto = request.GET.get('nombre_proyecto')
