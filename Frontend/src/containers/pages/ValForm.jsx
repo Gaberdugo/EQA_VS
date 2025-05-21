@@ -26,6 +26,7 @@ function ValForm() {
   const [ciudades, setCiudades] = useState([]);
   const [cuadernillos, setCuadernillos] = useState([]);
   const [mensajeExito, setMensajeExito] = useState('');
+  const [instituciones, setInstituciones] = useState([]);
 
   useEffect(() => {
     const fetchProyectos = async () => {
@@ -62,6 +63,29 @@ function ValForm() {
       setCiudades([]);
     }
   }, [formData.nombreProyecto, proyectos]);
+
+  useEffect(() => {
+    const fetchInstituciones = async () => {
+      if (!formData.ciudad) {
+        setInstituciones([]);
+        return;
+      }
+  
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/ins/municipio/`, {
+          params: { municipio: formData.ciudad }
+        });
+  
+        const data = Array.isArray(response.data) ? response.data : [];
+        setInstituciones(data);
+      } catch (error) {
+        console.error("Error al obtener instituciones:", error);
+        setInstituciones([]);
+      }
+    };
+  
+    fetchInstituciones();
+  }, [formData.ciudad]);  
 
   const formatDateToSQL = (isoString) => {
     const date = new Date(isoString);
@@ -230,7 +254,12 @@ function ValForm() {
 
         {/* Institución y Cuadernillo */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <input type="text" placeholder="Nombre Institución Educativa" name="nombreInstitucion" value={formData.nombreInstitucion} onChange={handleChange} style={{ flex: '1', marginRight: '10px' }} />
+          <select name="nombreInstitucion" value={formData.nombreInstitucion} onChange={handleChange} style={{ flex: '1', marginRight: '10px' }}>
+            <option value="">Seleccione una institución</option>
+            {instituciones.map((inst, index) => (
+              <option key={index} value={inst.nombre}>{inst.nombre}</option>
+            ))}
+          </select>
           <select name="numeroCuadernillo" value={formData.numeroCuadernillo} onChange={handleChange} style={{ flex: '1' }}>
             <option value="">Seleccione un cuadernillo</option>
             {cuadernillos.map((c, i) => <option key={i} value={c}>{c}</option>)}
