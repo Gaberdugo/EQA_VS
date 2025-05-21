@@ -158,6 +158,8 @@ function InfoLoad() {
       ...respuestasObj,
     };
 
+    console.log(proyectoData.nombre_institucion);
+
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/info/proyectos/`, proyectoData);
       setMensajeExito('La información fue cargada correctamente.');
