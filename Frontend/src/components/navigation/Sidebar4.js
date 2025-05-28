@@ -20,7 +20,7 @@ function Sidebar4(){
     const navigation = [
         { name: 'Terpel', href: '/terPage', icon: HomeIcon, current: location.pathname==='/terPage' ? true:false },
         { name: 'Pruebas', href: '/terPrueba', icon: RssIcon, current: location.pathname==='/terPueba' ? true:false },
-        { name: 'Reporte', href: '/terReport', icon: ChartBarIcon, current: location.pathname==='/terReport' ? true:false },
+        { name: 'TAB-CAL', href: '/terReport', icon: ChartBarIcon, current: location.pathname==='/terReport' ? true:false },
     ]
 
     return(
