@@ -158,6 +158,27 @@ function ValProyecto() {
             {mensaje}
           </p>
         )}
+
+        <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
+          Ver Proyectos
+        </h2>
+
+        <button
+          onClick={() => window.open(`${process.env.REACT_APP_API_URL}/auth/excelPro/`, '_blank')}
+          style={{
+            marginTop: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#33A652F",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          Descargar Excel de Proyectos
+        </button>        
+
       </div>
     </Layout4>
   );
