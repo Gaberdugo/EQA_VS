@@ -55,6 +55,7 @@ class ProyectoExcelSet(APIView):
             for ciudad in proyecto.ciudades.all():
                 try:
                     data.append({
+                            'ID Proyecto' : proyecto.id,
                             'Proyecto' : proyecto.nombre,
                             'Municipio' : ciudad.nombre,
                             'Departamento': ciudad.departamento.nombre if ciudad.departamento else ''
