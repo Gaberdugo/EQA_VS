@@ -159,7 +159,7 @@ function ValProyecto() {
           </p>
         )}
 
-        <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
+        <h2 style={{ fontSize: "24px", marginBottom: "20px", marginTop: "40px",color: "#333" }}>
           Ver Proyectos
         </h2>
 
@@ -168,7 +168,7 @@ function ValProyecto() {
           style={{
             marginTop: "20px",
             padding: "10px 20px",
-            backgroundColor: "#33A652F",
+            backgroundColor: "#33A652",
             color: "#fff",
             border: "none",
             borderRadius: "5px",
