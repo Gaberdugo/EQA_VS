@@ -49,7 +49,7 @@ class ProyectoDetailView(APIView):
         try:
             proyecto = Proyecto.objects.get(pk=pk)
             proyecto.delete()
-            return Response({"message": "✅ Proyecto eliminado correctamente."}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message": "✅ Proyecto eliminado correctamente."}, status=status.HTTP_200_OK)
         except Proyecto.DoesNotExist:
             return Response({"error": "❌ Proyecto no encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
