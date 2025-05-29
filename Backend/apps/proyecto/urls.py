@@ -11,5 +11,6 @@ router.register(r'departamentos', DepartamentoViewSet, basename='departamento')
 urlpatterns = [
     path('api/', include(router.urls)),  # Incluimos las URLs generadas por el router
     path('proyecto/', ProyectoViewSet.as_view(), name='proyecto'),
+    path('proyecto/<int:pk>/', ProyectoViewSet.as_view(), name='proyecto-detail'),
     path('excelPro/', ProyectoExcelSet.as_view(), name='Excel_proyecto')
 ]

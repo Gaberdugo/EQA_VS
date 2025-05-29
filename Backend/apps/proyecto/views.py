@@ -41,6 +41,14 @@ class ProyectoViewSet(APIView):
             proyecto = serializer.save()
             return Response(ProyectoSerializer(proyecto).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        try:
+            proyecto = Proyecto.objects.get(pk=pk)
+            proyecto.delete()
+            return Response({"message": "✅ Proyecto eliminado correctamente."}, status=status.HTTP_204_NO_CONTENT)
+        except Proyecto.DoesNotExist:
+            return Response({"error": "❌ Proyecto no encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
 class ProyectoExcelSet(APIView):
     permission_classes = [AllowAny]
