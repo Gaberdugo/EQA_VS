@@ -7,6 +7,7 @@ function ValProyecto() {
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState([]);
   const [ciudadesSeleccionadas, setCiudadesSeleccionadas] = useState([]);
   const [mensaje, setMensaje] = useState("");
+  const [idAEliminar, setIdAEliminar] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -177,7 +178,59 @@ function ValProyecto() {
           }}
         >
           Descargar Excel de Proyectos
-        </button>        
+        </button>
+
+        <h2 style={{ fontSize: "24px", marginBottom: "20px", marginTop: "40px", color: "#333" }}>
+          Eliminar Proyecto
+        </h2>
+
+        <input
+          type="text"
+          placeholder="ID del proyecto"
+          value={idAEliminar}
+          onChange={(e) => setIdAEliminar(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "20px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        />
+
+        <button
+          onClick={async () => {
+            if (!idAEliminar.trim()) {
+              setMensaje("⚠️ Ingresa un ID válido.");
+              return;
+            }
+
+            const confirmacion = window.confirm(`¿Estás seguro de eliminar el proyecto con ID ${idAEliminar}?`);
+            if (!confirmacion) return;
+
+            try {
+              await axios.delete(`${process.env.REACT_APP_API_URL}/auth/proyecto/${idAEliminar}/`);
+              setMensaje("✅ Proyecto eliminado correctamente.");
+              setIdAEliminar(""); // limpiar el input
+            } catch (error) {
+              console.error("Error al eliminar proyecto:", error);
+              setMensaje("❌ No se pudo eliminar el proyecto.");
+            }
+          }}
+          style={{
+            marginTop: "20px",
+            padding: "10px 20px",
+            backgroundColor: "#FF1E0A",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          Eliminar proyecto
+        </button>
+
 
       </div>
     </Layout4>
