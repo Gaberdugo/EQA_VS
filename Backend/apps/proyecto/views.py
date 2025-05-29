@@ -57,6 +57,7 @@ class ProyectoExcelSet(APIView):
                     data.append({
                             'Proyecto' : proyecto.nombre,
                             'Municipio' : ciudad.nombre,
+                            'Departamento': ciudad.departamento.nombre if ciudad.departamento else ''
                     })
                 except :
                     pass
