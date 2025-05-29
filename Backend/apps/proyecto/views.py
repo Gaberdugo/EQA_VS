@@ -52,7 +52,7 @@ class ProyectoExcelSet(APIView):
         data = []
 
         for proyecto in proyectos:
-            for ciudad in proyecto.ciudades:
+            for ciudad in proyecto.ciudades.all():
                 try:
                     data.append({
                             'Proyecto' : proyecto.nombre,
