@@ -42,6 +42,9 @@ class ProyectoViewSet(APIView):
             return Response(ProyectoSerializer(proyecto).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class ProyectoDetailView(APIView):
+    permission_classes = [AllowAny]
+
     def delete(self, request, pk):
         try:
             proyecto = Proyecto.objects.get(pk=pk)
@@ -49,7 +52,7 @@ class ProyectoViewSet(APIView):
             return Response({"message": "✅ Proyecto eliminado correctamente."}, status=status.HTTP_204_NO_CONTENT)
         except Proyecto.DoesNotExist:
             return Response({"error": "❌ Proyecto no encontrado."}, status=status.HTTP_404_NOT_FOUND)
-
+        
 class ProyectoExcelSet(APIView):
     permission_classes = [AllowAny]
     
@@ -77,7 +80,7 @@ class ProyectoExcelSet(APIView):
 
         # Crear la respuesta HTTP para descargar el archivo Excel
         response = HttpResponse(content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=institutos.xlsx'
+        response['Content-Disposition'] = 'attachment; filename=proyectos.xlsx'
 
         # Escribir el DataFrame a un archivo Excel en la respuesta
         with pd.ExcelWriter(response, engine='xlsxwriter') as writer:
