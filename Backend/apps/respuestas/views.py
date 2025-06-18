@@ -687,13 +687,13 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
             
             
-            c = self.tabla_inicial(tercero_entrada, len(ter), quinto_entrada, len(quin))
+            c = self.tabla_inicial(tercero_entrada, len(ter)//2, quinto_entrada, len(quin)//2)
 
             tabla_datos = [
                 ["Grado", "Total matriculados", "Total evaluados", "%"], # Encabezados
-                ["Tercero", tercero_entrada, len(ter), f"{self.comma_dot(c[0])}%"],  # Fila 1
-                ["Quinto ", quinto_entrada, len(quin), f"{self.comma_dot(c[1])}%"],  # Fila 2
-                ["Total", tercero_entrada+quinto_entrada , len(ter)+len(quin), f"{self.comma_dot(c[2])}%"],  # Fila 3
+                ["Tercero", tercero_entrada, len(ter)//2, f"{self.comma_dot(c[0])}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin)//2, f"{self.comma_dot(c[1])}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , len(ter)//2+len(quin)//2, f"{self.comma_dot(c[2])}%"],  # Fila 3
             ]
 
             # Crear la tabla
@@ -2332,14 +2332,14 @@ class GenerarReporte2APIIew(APIView):
 
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            c = self.tabla_inicial(tercero_entrada, len(ter1), tercero_salida, len(ter2), quinto_entrada, len(quin1), quinto_salida, len(quin2))
+            c = self.tabla_inicial(tercero_entrada, len(ter1)//2, tercero_salida, len(ter2)//2, quinto_entrada, len(quin1)//2, quinto_salida, len(quin2)//2)
 
             tabla_datos = [
                 ["Grado", "Entrada", "", "", "Salida", "", ""],  # Encabezados
                 ["", "Total\nmatriculados", "Total\nevaluados", "%", "Total\nmatriculados", "Total\nevaluados", "%"], # Encabezados 2
-                ["Tercero", tercero_entrada, len(ter1), f"{self.comma_dot(c[0])}%", tercero_salida, len(ter2), f"{self.comma_dot(c[3])}%"],  # Fila 1
-                ["Quinto ", quinto_entrada, len(quin1), f"{self.comma_dot(c[1])}%", quinto_salida, len(quin2), f"{self.comma_dot(c[4])}%"],  # Fila 2
-                ["Total", tercero_entrada+quinto_entrada , len(ter1)+len(quin1), f"{self.comma_dot(c[2])}%", tercero_salida+quinto_salida, len(ter2)+len(quin2), f"{self.comma_dot(c[5])}%"],  # Fila 3
+                ["Tercero", tercero_entrada, len(ter1)//2, f"{self.comma_dot(c[0])}%", tercero_salida, len(ter2)//2, f"{self.comma_dot(c[3])}%"],  # Fila 1
+                ["Quinto ", quinto_entrada, len(quin1)//2, f"{self.comma_dot(c[1])}%", quinto_salida, len(quin2)//2, f"{self.comma_dot(c[4])}%"],  # Fila 2
+                ["Total", tercero_entrada+quinto_entrada , (len(ter1)+len(quin1))//2, f"{self.comma_dot(c[2])}%", tercero_salida+quinto_salida, (len(ter2)+len(quin2))//2, f"{self.comma_dot(c[5])}%"],  # Fila 3
             ]
 
             # Crear la tabla
