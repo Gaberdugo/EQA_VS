@@ -136,8 +136,9 @@ function ValForm() {
       respuestasObj[`respuesta_${i + 1}`] = r;
     });
 
-    const correo = localStorage.getItem('correo');
-    formData.tiEstudiante = Math.floor(Math.random() * 10_000_000_001).toString();
+    if (!formData.tiEstudiante || formData.tiEstudiante.trim() === "") {
+      formData.tiEstudiante = "0";
+    }
 
     const proyectoData = {
       responsable: correo,
