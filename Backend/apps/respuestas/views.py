@@ -80,7 +80,7 @@ class EncuestaView(APIView):
         respuesta['responsable'] = request.data['responsable']
 
         # Modulo para calcular la edad
-        if len(request.data['edad']) == 0:
+        if len(str(request.data['edad'])) == 0:
             edad = 0
         else:
             edad = request.data['edad'] 
