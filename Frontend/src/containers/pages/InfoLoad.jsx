@@ -292,8 +292,8 @@ function InfoLoad() {
             </select>
           </label>
           <label style={{ flex: '1' }}>
-            Fecha de nacimiento:
-            <input type="date" name="edad" value={formData.edad} onChange={handleChange} style={{ width: '100%' }} min="1900-01-01" max="2099-12-31"/>
+            Edad:
+            <input type="number" name="edad" value={formData.edad} onChange={handleChange} style={{ width: '100%' }} min="0" max="120"/>
           </label>
         </div>
 
