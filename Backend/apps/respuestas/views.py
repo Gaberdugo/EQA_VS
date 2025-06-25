@@ -82,15 +82,8 @@ class EncuestaView(APIView):
         # Modulo para calcular la edad
         if len(request.data['edad']) == 0:
             edad = 0
-        elif int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) < 0:
-            edad = int(request.data['fecha'].split('-')[0]) - int(request.data['edad'].split('-')[0]) - 1
-        elif int(request.data['fecha'].split('-')[1]) - int(request.data['edad'].split('-')[1]) == 0:
-            if int(request.data['fecha'].split('-')[2]) - int(request.data['edad'].split('-')[2]) < 0:
-                edad = int(request.data['fecha'].split('-')[0]) - int(request.data['edad'].split('-')[0]) - 1
-            else:
-                edad = int(request.data['fecha'].split('-')[0]) - int(request.data['edad'].split('-')[0])
         else:
-            edad = int(request.data['fecha'].split('-')[0]) - int(request.data['edad'].split('-')[0]) 
+            edad = request.data['edad'] 
         
         respuesta['edad'] = edad
 
@@ -139,6 +132,7 @@ class EncuestaExportView(APIView):
                     'Departamento': encuesta.departamento,
                     'Colegio': encuesta.nombre_institucion,
                     'Nombre': encuesta.nombre_estudiante,
+                    'Documento Estudiante': encuesta.documento_estudiante,
                     'Prueba': encuesta.prueba,
                     'Grado': encuesta.grado,
                     'Edad': encuesta.edad,
