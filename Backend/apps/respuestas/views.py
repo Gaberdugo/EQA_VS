@@ -457,6 +457,7 @@ class GenerarReporte1APIIew(APIView):
             institucion = request.GET.get('institucion')
             proyecto = request.GET.get('proyecto')
             aplicacion = request.GET.get('aplicacion')
+            municipio = request.GET.get('municipio')
             tercero_entrada = int(request.GET.get('matriculados_tercero'))
             quinto_entrada = int(request.GET.get('matriculados_quinto'))
             res = request.GET.get('dane')
@@ -786,8 +787,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Spacer(1, 20))
 
 
-            t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'L')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'L')
+            t = self.tabla(0, institucion, aplicacion, municipio, proyecto, 3, 'L')
+            c = self.tabla(1, institucion, aplicacion, municipio, proyecto, 3, 'L')
             
             tabla_datos = [
                 ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
@@ -852,8 +853,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'L', 5, 13)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'L', 5, 13)
+            t = self.desempeño(0, institucion, aplicacion, municipio, proyecto, 3, 'L', 5, 13)
+            c = self.desempeño(1, institucion, aplicacion, municipio, proyecto, 3, 'L', 5, 13)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -992,8 +993,8 @@ class GenerarReporte1APIIew(APIView):
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
               
-            t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'L')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'L')
+            t = self.tabla(0, institucion, aplicacion, municipio, proyecto, 5, 'L')
+            c = self.tabla(1, institucion, aplicacion, municipio, proyecto, 5, 'L')
             
             tabla_datos = [
                 ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
@@ -1025,8 +1026,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'L', 7, 14)
+            t = self.desempeño(0, institucion, aplicacion, municipio, proyecto, 5, 'L', 7, 14)
+            c = self.desempeño(1, institucion, aplicacion, municipio, proyecto, 5, 'L', 7, 14)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -1202,8 +1203,8 @@ class GenerarReporte1APIIew(APIView):
             descripcion_texto = '<b>4.1. Tercer grado</b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
   
-            t = self.tabla(0, institucion, aplicacion, proyecto, 3, 'M')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 3, 'M')
+            t = self.tabla(0, institucion, aplicacion, municipio, proyecto, 3, 'M')
+            c = self.tabla(1, institucion, aplicacion, municipio, proyecto, 3, 'M')
             
             tabla_datos = [
                 ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
@@ -1236,8 +1237,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 3, 'M', 7, 14)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 3, 'M', 7, 14)
+            t = self.desempeño(0, institucion, aplicacion, municipio, proyecto, 3, 'M', 7, 14)
+            c = self.desempeño(1, institucion, aplicacion, municipio, proyecto, 3, 'M', 7, 14)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -1372,8 +1373,8 @@ class GenerarReporte1APIIew(APIView):
             descripcion_texto = '<b>4.2. Quinto grado </b><br/><b>a. Puntaje</b>'
             elements.append(Paragraph(descripcion_texto, descripcion_izq_style))
 
-            t = self.tabla(0, institucion, aplicacion, proyecto, 5, 'M')
-            c = self.tabla(1, institucion, aplicacion, proyecto, 5, 'M')
+            t = self.tabla(0, institucion, aplicacion, municipio, proyecto, 5, 'M')
+            c = self.tabla(1, institucion, aplicacion, municipio, proyecto, 5, 'M')
 
             tabla_datos = [
                 ["", "# Evaluados", "Media", "Desv. est.", "Mínimo", "Máximo"],  # Encabezados
@@ -1408,8 +1409,8 @@ class GenerarReporte1APIIew(APIView):
 
             # Datos del gráfico
             niveles = ['Bajo', 'Medio', 'Alto']
-            t = self.desempeño(0, institucion, aplicacion, proyecto, 5, 'M', 6, 12)
-            c = self.desempeño(1, institucion, aplicacion, proyecto, 5, 'M', 6, 12)
+            t = self.desempeño(0, institucion, aplicacion, municipio, proyecto, 5, 'M', 6, 12)
+            c = self.desempeño(1, institucion, aplicacion, municipio, proyecto, 5, 'M', 6, 12)
 
             # Posiciones para barras
             x = range(len(niveles))
@@ -1940,7 +1941,7 @@ class GenerarReporte1APIIew(APIView):
         canvas_obj.restoreState()
 
 
-    def tabla(self, modo, institucion, aplicacion, proyecto, grado, materia):
+    def tabla(self, modo, institucion, aplicacion, municipio, proyecto, grado, materia):
         
         if grado == 3:
             grado_str = 'Tercero'
@@ -1965,7 +1966,8 @@ class GenerarReporte1APIIew(APIView):
                 aplicacion=aplicacion,
                 nombre=proyecto,
                 grado=grado_str,
-                prueba=prueba
+                prueba=prueba,
+                ciudad=municipio
             )
 
         data = []
@@ -1996,7 +1998,7 @@ class GenerarReporte1APIIew(APIView):
             maxi
         ]
     
-    def desempeño(self, modo, institucion, aplicacion, proyecto, grado, materia, a, b):
+    def desempeño(self, modo, institucion, aplicacion, municipio, proyecto, grado, materia, a, b):
         bajo = 0
         medio = 0
         alto = 0
@@ -2023,7 +2025,8 @@ class GenerarReporte1APIIew(APIView):
                 aplicacion=aplicacion,
                 nombre=proyecto,
                 grado=grado_str,
-                prueba=prueba
+                prueba=prueba,
+                ciudad=municipio
             )
         
         total = encuestas.count()
