@@ -84,11 +84,12 @@ function ReportPage1() {
             const dane = daneResponse.data?.DANE || 9999;
 
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&aplicacion=${encodeURIComponent(applicationType)}&matriculados_quinto=${encodeURIComponent(matriculadosQuinto)}&matriculados_tercero=${encodeURIComponent(matriculadosTercero)}&dane=${dane}`,
+                `${process.env.REACT_APP_API_URL}/res/pdf/?institucion=${encodeURIComponent(selectedInstitution)}&proyecto=${encodeURIComponent(selectedProject)}&municipio=${encodeURIComponent(selectedMunicipality)}&aplicacion=${encodeURIComponent(applicationType)}&matriculados_quinto=${encodeURIComponent(matriculadosQuinto)}&matriculados_tercero=${encodeURIComponent(matriculadosTercero)}&dane=${dane}`,
                 {
                     responseType: 'blob',
                 }
             );
+
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
