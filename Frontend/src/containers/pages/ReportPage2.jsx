@@ -175,7 +175,7 @@ function ReportPage2() {
                 {/* Campos de matrícula */}
                 {selectedInstitution && (
                     <div style={styles.selectContainer}>
-                        <label style={styles.selectLabel}>Matriculados Tercero Entrada</label>
+                        <label style={styles.selectLabel} translate="no">Matriculados Tercero Entrada</label>
                         <input
                             type="number"
                             value={matriculadosTerceroEntrada}
@@ -183,7 +183,7 @@ function ReportPage2() {
                             style={styles.select}
                         />
 
-                        <label style={styles.selectLabel}>Matriculados Quinto Entrada</label>
+                        <label style={styles.selectLabel} translate="no">Matriculados Quinto Entrada</label>
                         <input
                             type="number"
                             value={matriculadosQuintoEntrada}
@@ -191,7 +191,7 @@ function ReportPage2() {
                             style={styles.select}
                         />
 
-                        <label style={styles.selectLabel}>Matriculados Tercero Salida</label>
+                        <label style={styles.selectLabel} translate="no">Matriculados Tercero Salida</label>
                         <input
                             type="number"
                             value={matriculadosTerceroSalida}
@@ -199,7 +199,7 @@ function ReportPage2() {
                             style={styles.select}
                         />
 
-                        <label style={styles.selectLabel}>Matriculados Quinto Salida</label>
+                        <label style={styles.selectLabel} translate="no">Matriculados Quinto Salida</label>
                         <input
                             type="number"
                             value={matriculadosQuintoSalida}
