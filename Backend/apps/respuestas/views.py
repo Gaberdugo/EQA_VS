@@ -3867,16 +3867,19 @@ class GenerarReporte2APIIew(APIView):
 
 
     def tabla_inicial(self, M3_E, E3_E, M3_S, E3_S, M5_E, E5_E, M5_S, E5_S):
-        p = []
+        try:
+            p = []
 
-        p.append(round(float((E3_E/M3_E)*100), 1))
-        p.append(round(float((E5_E/M5_E)*100), 1))
-        p.append(round(float(((E3_E + E5_E)/(M3_E + M5_E))*100), 1))
-        p.append(round(float((E3_S/M3_S)*100), 1))
-        p.append(round(float((E5_S/M5_S)*100), 1))
-        p.append(round(float(((E3_S + E5_S)/(M3_S + M5_S))*100), 1))
+            p.append(round(float((E3_E/M3_E)*100), 1))
+            p.append(round(float((E5_E/M5_E)*100), 1))
+            p.append(round(float(((E3_E + E5_E)/(M3_E + M5_E))*100), 1))
+            p.append(round(float((E3_S/M3_S)*100), 1))
+            p.append(round(float((E5_S/M5_S)*100), 1))
+            p.append(round(float(((E3_S + E5_S)/(M3_S + M5_S))*100), 1))
 
-        return p
+            return p
+        except:
+            return [0, 0, 0, 0, 0, 0]
     
     def comma_dot(self, x):
         res = str(x)
