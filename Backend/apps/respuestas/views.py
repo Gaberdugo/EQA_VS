@@ -3744,107 +3744,112 @@ class GenerarReporte2APIIew(APIView):
         canvas_obj.restoreState()
 
     def tabla(self, modo, institucion, aplicacion, proyecto, grado, materia):
-        
-        if grado == 3:
-            grado_str = 'Tercero'
-        else:
-            grado_str = 'Quinto'
-        
-        if materia == 'M':
-            prueba = 'Matemáticas'
-        else:
-            prueba = 'Lenguaje'
+        try:
+            if grado == 3:
+                grado_str = 'Tercero'
+            else:
+                grado_str = 'Quinto'
+            
+            if materia == 'M':
+                prueba = 'Matemáticas'
+            else:
+                prueba = 'Lenguaje'
 
-        if modo == 0:   
-            encuestas = Encuesta.objects.filter(
-                aplicacion=aplicacion,
-                nombre_institucion=institucion,
-                nombre=proyecto,
-                grado=grado_str,
-                prueba=prueba
-            )
-        else:
-            encuestas = Encuesta.objects.filter(
-                aplicacion=aplicacion,
-                nombre=proyecto,
-                grado=grado_str,
-                prueba=prueba
-            )
+            if modo == 0:   
+                encuestas = Encuesta.objects.filter(
+                    aplicacion=aplicacion,
+                    nombre_institucion=institucion,
+                    nombre=proyecto,
+                    grado=grado_str,
+                    prueba=prueba
+                )
+            else:
+                encuestas = Encuesta.objects.filter(
+                    aplicacion=aplicacion,
+                    nombre=proyecto,
+                    grado=grado_str,
+                    prueba=prueba
+                )
 
-        data = []
-        maxi = 0
-        mini = 20
-        for encuesta in encuestas:
-            if maxi < encuesta.correctos:
-                maxi = encuesta.correctos
-            if mini > encuesta.correctos:
-                mini = encuesta.correctos
-            data.append(encuesta.correctos)
+            data = []
+            maxi = 0
+            mini = 20
+            for encuesta in encuestas:
+                if maxi < encuesta.correctos:
+                    maxi = encuesta.correctos
+                if mini > encuesta.correctos:
+                    mini = encuesta.correctos
+                data.append(encuesta.correctos)
 
-        if not data:
+            if not data:
+                return [0, 0, 0, 0, 0]
+
+            media = sum(data)/len(data)
+
+            suma_cuadrados = sum((x - media) ** 2 for x in data)
+            desviacion_estandar = math.sqrt(suma_cuadrados / (len(data) - 1))
+
+            return [
+                len(data),
+                round(float(media), 1),
+                round(float(desviacion_estandar), 1),
+                mini,
+                maxi
+            ]
+        except:
             return [0, 0, 0, 0, 0]
 
-        media = sum(data)/len(data)
-
-        suma_cuadrados = sum((x - media) ** 2 for x in data)
-        desviacion_estandar = math.sqrt(suma_cuadrados / (len(data) - 1))
-
-        return [
-            len(data),
-            round(float(media), 1),
-            round(float(desviacion_estandar), 1),
-            mini,
-            maxi
-        ]
-    
     def desempeño(self, modo, institucion, aplicacion, proyecto, grado, materia, a, b):
-        bajo = 0
-        medio = 0
-        alto = 0
-        if grado == 3:
-            grado_str = 'Tercero'
-        else:
-            grado_str = 'Quinto'
-        
-        if materia == 'M':
-            prueba = 'Matemáticas'
-        else:
-            prueba = 'Lenguaje'
-
-        if modo == 0:   
-            encuestas = Encuesta.objects.filter(
-                aplicacion=aplicacion,
-                nombre_institucion=institucion,
-                nombre=proyecto,
-                grado=grado_str,
-                prueba=prueba
-            )
-        else:
-            encuestas = Encuesta.objects.filter(
-                aplicacion=aplicacion,
-                nombre=proyecto,
-                grado=grado_str,
-                prueba=prueba
-            )
-        
-        total = encuestas.count()
-        if total == 0:
-            return [0, 0, 0]  # Evita división por cero
-
-        for encuesta in encuestas:
-            if encuesta.correctos is None:
-                continue
-            if encuesta.correctos < a:
-                bajo+=1
-            elif encuesta.correctos < b:
-                medio+=1
+        try:
+            bajo = 0
+            medio = 0
+            alto = 0
+            if grado == 3:
+                grado_str = 'Tercero'
             else:
-                alto+=1
-        
-        total = bajo + medio + alto
+                grado_str = 'Quinto'
+            
+            if materia == 'M':
+                prueba = 'Matemáticas'
+            else:
+                prueba = 'Lenguaje'
 
-        return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
-    
+            if modo == 0:   
+                encuestas = Encuesta.objects.filter(
+                    aplicacion=aplicacion,
+                    nombre_institucion=institucion,
+                    nombre=proyecto,
+                    grado=grado_str,
+                    prueba=prueba
+                )
+            else:
+                encuestas = Encuesta.objects.filter(
+                    aplicacion=aplicacion,
+                    nombre=proyecto,
+                    grado=grado_str,
+                    prueba=prueba
+                )
+            
+            total = encuestas.count()
+            if total == 0:
+                return [0, 0, 0]  # Evita división por cero
+
+            for encuesta in encuestas:
+                if encuesta.correctos is None:
+                    continue
+                if encuesta.correctos < a:
+                    bajo+=1
+                elif encuesta.correctos < b:
+                    medio+=1
+                else:
+                    alto+=1
+            
+            total = bajo + medio + alto
+
+            return [int((bajo/total)*100), int((medio/total)*100), int((alto/total)*100)]
+        except:
+            return [0, 0, 0]
+
     def agregar_numero_pagina(self, canvas, doc):
         page_num = canvas.getPageNumber()
         text = f"{page_num}"
